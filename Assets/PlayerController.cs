@@ -4,36 +4,24 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    //アニメーションするためのコンポーネントを入れる
-    private Animator myAnimator;
-    //CapsuleColiderコンポーネントを入れる
-    private CapsuleCollider myCollider;
-    //移動させるコンポーネントを入れる
-    private Rigidbody myRigidbody;
-    //前方向の速度
-    private float velocityZ = 16f;
-    //横方向の速度
-    private float velocityX = 12f;
-    //上方向の速度
-    private float velocityY = 4f;
-    //横方向の移動量
-    private float setpositionX = 2f;
-    //左右の移動できる範囲
-    private float movableRange = 2f;
-    //横方向の現在位置
-    private float nowpositionX = 0f;
-    //横方向の入力による速度
-    private float inputVelocityX = 0;
-    //横移動許可
-    private bool movableX = true;
-    //スライディングのパラメータ
-    private float slidespan = 1.0f;
-    private float slidedelta = 0;
-    //攻撃のパラメータ
-    private float atkspan = 0.5f;
-    private float atkdelta = 0;
-    //BoxColiderコンポーネントを入れる
-    private BoxCollider atkCollider;
+    public enum StateType
+    {
+        Idle = 0,
+        Jump,
+        Sliding,
+        Attack,
+        Damage,
+        Death,
+    }
+
+    private PlayerSetting Setting;
+
+    private Dictionary<StateType, PlayerState> m_StateMap = new Dictionary<StateType, PlayerState>();
+
+    private PlayerState m_CurrentState;
+
+    private GameObject gamedirector;
+
     //Score
     private GameObject score;
     //Bossオブジェクト
@@ -45,27 +33,39 @@ public class PlayerController : MonoBehaviour
     //ゴール位置
     private float goalpos;
     //boss戦闘中状態
-    public bool bossbattlestate = false; 
+    public bool bossbattlestate = false;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        Setting = new PlayerSetting();
+
+        m_StateMap.Add(StateType.Idle, new PlayerState(Setting));
+        m_StateMap.Add(StateType.Jump, new PlayerStateJump(Setting));
+        m_StateMap.Add(StateType.Sliding, new PlayerStateSliding(Setting));
+        m_StateMap.Add(StateType.Attack, new PlayerStateAttack(Setting));
+        m_StateMap.Add(StateType.Damage, new PlayerStateDamage(Setting));
+        m_StateMap.Add(StateType.Death, new PlayerStateDeath(Setting));
+
+        m_CurrentState = m_StateMap[StateType.Idle];
 
         //アニメータコンポーネントを取得
-        this.myAnimator = GetComponent<Animator>();
+        Setting.myAnimator = GetComponent<Animator>();
 
         //走るアニメーションを開始
-        this.myAnimator.SetFloat("Speed", 1);
+        Setting.myAnimator.SetFloat("Speed", 1);
 
         //Rigidbodyコンポーネントを取得
-        this.myRigidbody = GetComponent<Rigidbody>();
+        Setting.myRigidbody = GetComponent<Rigidbody>();
 
         //CapsuleColiderコンポーネントを取得
-        this.myCollider = GetComponent<CapsuleCollider>();
+        Setting.myCollider = GetComponent<CapsuleCollider>();
 
         //BoxColiderコンポーネントを取得
-        this.atkCollider = GetComponent<BoxCollider>();
+        Setting.atkCollider = GetComponent<BoxCollider>();
+
+        this.gamedirector = GameObject.Find("GameDirector");
 
         //Score
         this.score = GameObject.Find("ScoreDirector");
@@ -78,6 +78,12 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private void ChangeState(StateType state)
+    {
+        m_CurrentState.Release();
+        m_CurrentState = m_StateMap[state];
+        m_CurrentState.Initialize();
+    }
 
     // Update is called once per frame
     void Update()
@@ -87,116 +93,91 @@ public class PlayerController : MonoBehaviour
         float inputVelocityY = 0;
 
         //プレイヤーを矢印キーまたはボタンに応じて左右に移動させる
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && -this.movableRange < this.transform.position.x && movableX == true)
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && -Setting.movableRange < this.transform.position.x && Setting.movableX == true)
         {
-            movableX = false;
-            nowpositionX -= this.setpositionX;
-            inputVelocityX = -this.velocityX;
+            Setting.movableX = false;
+            Setting.nowpositionX -= Setting.setpositionX;
+            Setting.inputVelocityX = -Setting.velocityX;
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow) && this.transform.position.x < this.movableRange && movableX == true)
+        else if (Input.GetKeyDown(KeyCode.RightArrow) && this.transform.position.x < Setting.movableRange && Setting.movableX == true)
         {
-            movableX = false;
-            nowpositionX += this.setpositionX;
-            inputVelocityX = this.velocityX;
+            Setting.movableX = false;
+            Setting.nowpositionX += Setting.setpositionX;
+            Setting.inputVelocityX = Setting.velocityX;
         }
 
         //横方向移動したら停止する（3か所）
-        if(inputVelocityX < 0)
+        if(Setting.inputVelocityX < 0)
         {
-            if (this.transform.position.x <= nowpositionX)
+            if (this.transform.position.x <= Setting.nowpositionX)
             {
-                inputVelocityX = 0;
-                this.transform.position = new Vector3(nowpositionX, this.transform.position.y, this.transform.position.z);
-                movableX = true;
+                Setting.inputVelocityX = 0;
+                this.transform.position = new Vector3(Setting.nowpositionX, this.transform.position.y, this.transform.position.z);
+                Setting.movableX = true;
             }
         }
         else
         {
-            if (this.transform.position.x >= nowpositionX)
+            if (this.transform.position.x >= Setting.nowpositionX)
             {
-                inputVelocityX = 0;
-                this.transform.position = new Vector3(nowpositionX, this.transform.position.y, this.transform.position.z);
-                movableX = true;
+                Setting.inputVelocityX = 0;
+                this.transform.position = new Vector3(Setting.nowpositionX, this.transform.position.y, this.transform.position.z);
+                Setting.movableX = true;
             }
         }
 
+        m_CurrentState.OnUpdate();
 
         //ジャンプ
         if (Input.GetKeyDown(KeyCode.UpArrow) &&
-            (this.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Locomotion") || this.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
+            (Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Locomotion") || Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
         {
-            //ジャンプアニメを再生
-            this.myAnimator.SetBool("Jump", true);
-            //上方向への速度を代入
-            inputVelocityY = this.velocityY;
-        }
-        else
-        {
-            //現在のY軸の速度を代入
-            inputVelocityY = this.myRigidbody.velocity.y;
+            ChangeState(StateType.Jump);
         }
 
         //スライディング
         if (Input.GetKeyDown(KeyCode.DownArrow) &&
-            (this.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Locomotion") || this.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
+            (Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Locomotion") || Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
         {
-            //スライドアニメを再生
-            this.myAnimator.SetBool("Slide", true);
-            myCollider.center = new Vector3(0, 0.35f, 0);
-            myCollider.height = 0.3f;
-            this.slidedelta += Time.deltaTime;
-        }
-        if (this.slidedelta > 0)
-        {
-            this.slidedelta += Time.deltaTime;
-            if(this.slidedelta > this.slidespan)
-            {
-                myCollider.center = new Vector3(0, 0.8f, 0);
-                myCollider.height = 1.5f;
-                this.slidedelta = 0;
-            }
+            ChangeState(StateType.Sliding);
         }
 
         //攻撃
         if (Input.GetKeyDown(KeyCode.Space) && 
-            (this.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Locomotion") || this.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
+            (Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Locomotion") || Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
         {
-            atkCollider.enabled = true;
-            this.atkdelta += Time.deltaTime;
+            ChangeState(StateType.Attack);
         }
-        if (this.atkdelta > 0)
+
+        //ゲームオーバー
+        if (Setting.playerHP <= 0)
         {
-            this.atkdelta += Time.deltaTime;
-            if (this.atkdelta > this.atkspan)
-            {
-                atkCollider.enabled = false;
-                this.atkdelta = 0;
-            }
+            ChangeState(StateType.Death);
         }
 
         //ボス前は停止
         if (this.transform.position.z - goalpos >= -5)
         {
             this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, goalpos - 5);
-            velocityZ = 0;
-            this.myAnimator.SetFloat("Speed", 0);
-            this.bossbattlestate = true;
+            Setting.velocityZ = 0;
+            Setting.myAnimator.SetFloat("Speed", 0);
+            this.score.GetComponent<ScoreController>().isTimeScore = false;
         }
         
 
         //Jumpステートの場合はJumpにfalseをセットする
-        if (this.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+        if (Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
         {
-            this.myAnimator.SetBool("Jump", false);
+            ChangeState(StateType.Idle);
         }
         //Slideステートの場合はSlideにfalseをセットする
-        if (this.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Slide"))
+        if (Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Slide"))
         {
-            this.myAnimator.SetBool("Slide", false);
+            ChangeState(StateType.Idle);
         }
 
         //プレイヤーに速度を与える
-        this.myRigidbody.velocity = new Vector3(inputVelocityX, inputVelocityY, velocityZ);
+        Setting.myRigidbody.velocity = new Vector3(Setting.inputVelocityX, Setting.myRigidbody.velocity.y, Setting.velocityZ);
     }
 
     //攻撃当てたとき
@@ -216,8 +197,20 @@ public class PlayerController : MonoBehaviour
             {
                 this.score.GetComponent<ScoreController>().DefeatBoss();
                 Destroy(other.gameObject);
+                this.gamedirector.GetComponent<GameDirector>().isClear = true;
+
             }
         }
+    }
+
+    //攻撃あたったとき
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.tag == "Cube" || other.gameObject.tag == "enemy1" || other.gameObject.tag == "Boss")
+        {
+            Setting.playerHP -= 1;
+        }
+
     }
 
 }

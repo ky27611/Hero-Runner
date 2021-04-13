@@ -6,25 +6,27 @@ using UnityEngine.UI;
 public class ScoreController : MonoBehaviour
 {
     GameObject scoreText;
-    float time = 0;
-    int timescore = 0;
-    int timescoremagnification = 10;
-    int defeatscore = 0;
-    int score = 0;
-    public GameObject Player;
+    private float time = 0;
+    private int timescore = 0;
+    private int timescoremagnification = 10;
+    private int defeatscore = 0;
+    private int score = 0;
+    private GameObject Player;
+    public bool isTimeScore; 
 
     // Start is called before the first frame update
     void Start()
     {
         this.scoreText = GameObject.Find("Score");
         this.Player = GameObject.Find("unitychan");
+        this.isTimeScore = true;
     }
 
     // Update is called once per frame
     void Update()
     {
         //経過時間スコア
-        if (this.Player.GetComponent<PlayerController>().bossbattlestate == false)
+        if (this.isTimeScore == true)
         {
             this.time += Time.deltaTime;
             this.timescore = timescoremagnification * (int)(time * 10);

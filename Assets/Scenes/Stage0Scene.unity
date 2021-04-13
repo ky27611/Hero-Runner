@@ -345,7 +345,7 @@ GameObject:
   - component: {fileID: 135897001}
   m_Layer: 0
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: Cube
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -891,6 +891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cee52fb844fcb548a7081b54b4f6b12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isClear: 0
 --- !u!4 &818868215
 Transform:
   m_ObjectHideFlags: 0
@@ -934,7 +935,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3139a959da5d45448d4857ac491c940, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
+  isTimeScore: 0
 --- !u!4 &866398867
 Transform:
   m_ObjectHideFlags: 0
@@ -964,7 +965,7 @@ GameObject:
   - component: {fileID: 904829658}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Cube
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
