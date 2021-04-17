@@ -18,7 +18,7 @@ public class PlayerState
 
     public virtual void Release()
     {
-
+        
     }
     
     public virtual void OnUpdate()
@@ -135,11 +135,14 @@ public class PlayerStateDamage : PlayerState
 public class PlayerStateDeath : PlayerState
 {
     private GameObject score;
+    private GameObject gamedirector;
 
     public override void Initialize()
     {
         this.score = GameObject.Find("ScoreDirector");
         this.score.GetComponent<ScoreController>().isTimeScore = false;
+        this.gamedirector = GameObject.Find("GameDirector");
+        this.gamedirector.GetComponent<GameDirector>().isGameOver = true;
         Debug.Log("Death");
     }
 

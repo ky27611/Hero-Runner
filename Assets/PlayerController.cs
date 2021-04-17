@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
         Setting.myAnimator = GetComponent<Animator>();
 
         //走るアニメーションを開始
-        Setting.myAnimator.SetFloat("Speed", 1);
+        //Setting.myAnimator.SetFloat("Speed", 1);
 
         //Rigidbodyコンポーネントを取得
         Setting.myRigidbody = GetComponent<Rigidbody>();
@@ -88,7 +88,102 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (this.gamedirector.GetComponent<GameDirector>().isGameStart == false)
+        {
+            Setting.myAnimator.SetFloat("Speed", 1);
+
+            //横方向の入力による速度
+            float inputVelocityY = 0;
+
+            //プレイヤーを矢印キーまたはボタンに応じて左右に移動させる
+            if (Input.GetKeyDown(KeyCode.LeftArrow) && -Setting.movableRange < this.transform.position.x && Setting.movableX == true)
+            {
+                Setting.movableX = false;
+                Setting.nowpositionX -= Setting.setpositionX;
+                Setting.inputVelocityX = -Setting.velocityX;
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow) && this.transform.position.x < Setting.movableRange && Setting.movableX == true)
+            {
+                Setting.movableX = false;
+                Setting.nowpositionX += Setting.setpositionX;
+                Setting.inputVelocityX = Setting.velocityX;
+            }
+
+            //横方向移動したら停止する（3か所）
+            if (Setting.inputVelocityX < 0)
+            {
+                if (this.transform.position.x <= Setting.nowpositionX)
+                {
+                    Setting.inputVelocityX = 0;
+                    this.transform.position = new Vector3(Setting.nowpositionX, this.transform.position.y, this.transform.position.z);
+                    Setting.movableX = true;
+                }
+            }
+            else
+            {
+                if (this.transform.position.x >= Setting.nowpositionX)
+                {
+                    Setting.inputVelocityX = 0;
+                    this.transform.position = new Vector3(Setting.nowpositionX, this.transform.position.y, this.transform.position.z);
+                    Setting.movableX = true;
+                }
+            }
+
+            m_CurrentState.OnUpdate();
+
+            //ジャンプ
+            if (Input.GetKeyDown(KeyCode.UpArrow) &&
+                (Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Locomotion") || Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
+            {
+                ChangeState(StateType.Jump);
+            }
+
+            //スライディング
+            if (Input.GetKeyDown(KeyCode.DownArrow) &&
+                (Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Locomotion") || Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
+            {
+                ChangeState(StateType.Sliding);
+            }
+
+            //攻撃
+            if (Input.GetKeyDown(KeyCode.Space) &&
+                (Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Locomotion") || Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
+            {
+                ChangeState(StateType.Attack);
+            }
+
+            //力尽きた
+            if (Setting.playerHP <= 0)
+            {
+                ChangeState(StateType.Death);
+            }
+
+            //ボス前は停止
+            if (this.transform.position.z - goalpos >= -5)
+            {
+                this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, goalpos - 5);
+                Setting.velocityZ = 0;
+                Setting.myAnimator.SetFloat("Speed", 0);
+                this.score.GetComponent<ScoreController>().isTimeScore = false;
+            }
+
+
+            //Jumpステートの場合はJumpにfalseをセットする
+            if (Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+            {
+                ChangeState(StateType.Idle);
+            }
+            //Slideステートの場合はSlideにfalseをセットする
+            if (Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Slide"))
+            {
+                ChangeState(StateType.Idle);
+            }
+
+            //プレイヤーに速度を与える
+            Setting.myRigidbody.velocity = new Vector3(Setting.inputVelocityX, Setting.myRigidbody.velocity.y, Setting.velocityZ);
+        }
+
+        /*
         //横方向の入力による速度
         float inputVelocityY = 0;
 
@@ -149,7 +244,7 @@ public class PlayerController : MonoBehaviour
             ChangeState(StateType.Attack);
         }
 
-        //ゲームオーバー
+        //力尽きた
         if (Setting.playerHP <= 0)
         {
             ChangeState(StateType.Death);
@@ -178,6 +273,7 @@ public class PlayerController : MonoBehaviour
 
         //プレイヤーに速度を与える
         Setting.myRigidbody.velocity = new Vector3(Setting.inputVelocityX, Setting.myRigidbody.velocity.y, Setting.velocityZ);
+        */
     }
 
     //攻撃当てたとき

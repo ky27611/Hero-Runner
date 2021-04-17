@@ -11,14 +11,14 @@ public class ScoreController : MonoBehaviour
     private int timescoremagnification = 10;
     private int defeatscore = 0;
     private int score = 0;
-    private GameObject Player;
-    public bool isTimeScore; 
+    public bool isTimeScore;
+    private GameObject gamedirector;
 
     // Start is called before the first frame update
     void Start()
     {
         this.scoreText = GameObject.Find("Score");
-        this.Player = GameObject.Find("unitychan");
+        this.gamedirector = GameObject.Find("GameDirector");
         this.isTimeScore = true;
     }
 
@@ -26,7 +26,7 @@ public class ScoreController : MonoBehaviour
     void Update()
     {
         //経過時間スコア
-        if (this.isTimeScore == true)
+        if (this.isTimeScore == true && this.gamedirector.GetComponent<GameDirector>().isGameStart == false)
         {
             this.time += Time.deltaTime;
             this.timescore = timescoremagnification * (int)(time * 10);
