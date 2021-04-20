@@ -42,6 +42,7 @@ public class EnemyMove
 
 }
 
+// SlimeMoveと言うよりはHorizontalMoveみたいな名前の方が良いかもです！
 public class SlimeMove : EnemyMove
 {
     public override void Initialize()
