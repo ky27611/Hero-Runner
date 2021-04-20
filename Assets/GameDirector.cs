@@ -6,24 +6,31 @@ using UnityEngine.UI;
 
 public class GameDirector : MonoBehaviour
 {
-    GameObject centerText;
+    private GameObject centerText;
+    private GameObject generationText;
+    private GameObject unitychan;
     public bool isGameStart;
     public bool isClear;
     public bool isGameOver;
     private float waittime = 0;
     private float countdowntime = 4;
     private int countdowntimetext;
-    private bool isCountDown;
-    //private bool ischangeText = true;
+    //private bool isCountDown;
+    private static int generationCount;
 
     // Start is called before the first frame update
     void Start()
     {
         this.centerText = GameObject.Find("CenterText");
+        this.generationText = GameObject.Find("GenerationText");
+        this.unitychan = GameObject.Find("unitychan");
         this.isGameStart = true;
         this.isClear = false;
         this.isGameOver = false;
-        this.isCountDown = true;
+        //this.isCountDown = true;
+
+        this.generationText.GetComponent<Text>().text = "Generation:" + generationCount.ToString();
+
     }
 
     // Update is called once per frame
@@ -54,6 +61,7 @@ public class GameDirector : MonoBehaviour
     {
         if (isGameStart == true)
         {
+            unitychan.transform.position = new Vector3(0, 0, -495);
             CountDown();
         }
     }
@@ -73,9 +81,21 @@ public class GameDirector : MonoBehaviour
 
         if (this.waittime >= 5)
         {
+            
             SceneManager.LoadScene("Stage0Scene");
             Debug.Log("stage0");
             this.waittime = 0;
+            generationCount++;
+            this.generationText.GetComponent<Text>().text = "Generation:" + generationCount.ToString();
+
+
+            /*
+            this.generationCount++;
+            this.generationText.GetComponent<Text>().text = "Generation:" + this.generationCount.ToString();
+            this.waittime = 0;
+            this.isGameOver = false;
+            this.isGameStart = true;
+            */
         }
     }
 
@@ -90,7 +110,7 @@ public class GameDirector : MonoBehaviour
         {
             SceneManager.LoadScene("Stage1Scene");
             Debug.Log("stage1");
-            this.waittime = 0;
+            
         }
     }
 
@@ -118,7 +138,7 @@ public class GameDirector : MonoBehaviour
         }
         else if (countdowntime <= 1)//&& countdowntime >= 0)
         {
-            this.centerText.GetComponent<Text>().text = "Start";
+            this.centerText.GetComponent<Text>().text = "Start!";
             this.waittime += Time.deltaTime;
             if (this.waittime >= 1)
             {
