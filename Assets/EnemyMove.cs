@@ -6,25 +6,35 @@ public class EnemyMove
 {
     protected EnemySetting m_Setting;
 
-     //前方向の速度
+    //前方向の速度
     public float velocityZ;
     //横方向の速度
     public float velocityX;
-
-    public bool isMoveX;
-
     //上方向の速度
     public float velocityY;
+
+    public bool isMove;
+
+    public bool isMoveZ;
+    public bool isMoveX;
+    public bool isMoveY;
+
+    
     //横方向の移動量
     public float setpositionX = 2f;
     //左右の移動できる範囲
     public float movableRange = 2f;
 
+    //移動させるコンポーネントを入れる
+    public Rigidbody myRigidbody;
+
+    public float IdleTime;
+
+
     public EnemyMove(EnemySetting setting)
     {
         m_Setting = setting;
     }
-
     public virtual void Initialize()
     {
 
@@ -42,38 +52,52 @@ public class EnemyMove
 
 }
 
-public class SlimeMove : EnemyMove
+public class HorizontalMove : EnemyMove
 {
     public override void Initialize()
     {
-       isMoveX = true;
+        isMoveX = true;
+        IdleTime = 0;
     }
 
     public override void OnUpdate()
     {
-        //myTransform = new Vector3();
 
-        if(isMoveX == true)
+        if (isMove == false)
         {
-            velocityX = 10 * m_Setting.Spd;
+            this.IdleTime += Time.deltaTime;
+            if (IdleTime >= 5)
+            {
+                isMove = true;
+                IdleTime = 0;
+            }
         }
-        else if (isMoveX == false)
+        else if (isMove == true)
         {
-            velocityX = -10 * m_Setting.Spd;
+            if (isMoveX == true)
+            {
+                velocityX = 1 * m_Setting.Spd;
+                isMove = false;
+            }
+            else if (isMoveX == false)
+            {
+                velocityX = -1 * m_Setting.Spd;
+                isMove = false;
+            }
+            
+            if (isMoveX == true)
+            {
+                isMoveX = false;
+            }
+            else if (isMoveX == false)
+            {
+                isMoveX = true;
+            }
+
+            m_Setting.myRigidbody.velocity = new Vector3(velocityX, 0, 0);
+            velocityX = 0;
         }
 
-        
-        if(isMoveX == true)
-        {
-            isMoveX = false;
-        }
-        else if (isMoveX == false)
-        {
-            isMoveX = true;
-        }
-       
-
-        m_Setting.myRigidbody.velocity = new Vector3(velocityX, 0, 0);
     }
 
     public override void Release()
@@ -81,21 +105,57 @@ public class SlimeMove : EnemyMove
        
     }
 
-    public SlimeMove(EnemySetting setting) : base(setting)
+    public HorizontalMove(EnemySetting setting) : base(setting)
     {
     }
 }
 
-public class TurtleMove : EnemyMove
+public class VerticalMove : EnemyMove
 {
     public override void Initialize()
     {
-
+        isMoveY = true;
+        IdleTime = 0;
     }
 
     public override void OnUpdate()
     {
+        if (isMove == false)
+        {
+            this.IdleTime += Time.deltaTime;
+            if (IdleTime >= 1)
+            {
+                isMove = true;
+                IdleTime = 0;
+            }
+        }
+        else if (isMove == true)
+        {
+            if (isMoveY == true)
+            {
+                velocityY = 0.2f * m_Setting.Spd;
+                isMove = false;
 
+            }
+            else if (isMoveY == false)
+            {
+                velocityY = -0.2f * m_Setting.Spd;
+                isMove = false;
+            }
+
+
+            if (isMoveY == true)
+            {
+                isMoveY = false;
+            }
+            else if (isMoveY == false)
+            {
+                isMoveY = true;
+            }
+
+
+            m_Setting.myRigidbody.velocity = new Vector3(0, velocityY, 0);
+        }
     }
 
     public override void Release()
@@ -103,21 +163,55 @@ public class TurtleMove : EnemyMove
 
     }
 
-    public TurtleMove(EnemySetting setting) : base(setting)
+    public VerticalMove(EnemySetting setting) : base(setting)
     {
     }
 }
 
-public class PurpleMove : EnemyMove
+public class DepthMove : EnemyMove
 {
     public override void Initialize()
     {
-
+        isMoveZ = true;
+        IdleTime = 0;
     }
 
     public override void OnUpdate()
     {
+        if (isMove == false)
+        {
+            this.IdleTime += Time.deltaTime;
+            if (IdleTime >= 5)
+            {
+                isMove = true;
+                IdleTime = 0;
+            }
+        }
+        else if (isMove == true)
+        {
+            if (isMoveZ == true)
+            {
+                velocityZ = 1 * m_Setting.Spd;
+                isMove = false;
+            }
+            else if (isMoveZ == false)
+            {
+                velocityZ = -1 * m_Setting.Spd;
+                isMove = false;
+            }
 
+            if (isMoveZ == true)
+            {
+                isMoveZ = false;
+            }
+            else if (isMoveZ == false)
+            {
+                isMoveZ = true;
+            }
+
+            m_Setting.myRigidbody.velocity = new Vector3(0, 0, velocityZ);
+            velocityZ = 0;
+        }
     }
 
     public override void Release()
@@ -125,7 +219,7 @@ public class PurpleMove : EnemyMove
 
     }
 
-    public PurpleMove(EnemySetting setting) : base(setting)
+    public DepthMove(EnemySetting setting) : base(setting)
     {
     }
 }

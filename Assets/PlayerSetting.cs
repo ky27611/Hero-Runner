@@ -11,7 +11,8 @@ public class PlayerSetting
     //移動させるコンポーネントを入れる
     public Rigidbody myRigidbody;
     //前方向の速度
-    public float velocityZ = 16f;
+    //public float velocityZ = 16f;
+    public float velocityZ = 1f;
     //横方向の速度
     public float velocityX = 12f;
     //上方向の速度

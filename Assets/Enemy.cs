@@ -2,35 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlimeController : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
-    public enum MoveType 
+    public enum MoveType
     {
         Idle,
-        Slime,
+        Horizontal,
+        Vertical,
+        Depth,
     }
 
-    private SlimeSetting Setting;
-
+    public EnemySetting Setting;
     private Dictionary<MoveType, EnemyMove> m_MoveMap = new Dictionary<MoveType, EnemyMove>();
 
     private EnemyMove m_CurrentMove;
 
-
     // Start is called before the first frame update
     void Start()
     {
-
-        Setting = new SlimeSetting();
-
         m_MoveMap.Add(MoveType.Idle, new EnemyMove(Setting));
-        m_MoveMap.Add(MoveType.Slime, new SlimeMove(Setting));
-
-        m_CurrentMove = m_MoveMap[MoveType.Slime];
-        m_CurrentMove.Initialize();
-
+        m_MoveMap.Add(MoveType.Horizontal, new HorizontalMove(Setting));
+        m_MoveMap.Add(MoveType.Vertical, new VerticalMove(Setting));
+        m_MoveMap.Add(MoveType.Depth, new DepthMove(Setting));
         Setting.myRigidbody = GetComponent<Rigidbody>();
-        
+
+        //m_CurrentMove = m_MoveMap[MoveType.Horizontal];
+        m_CurrentMove = m_MoveMap[MoveType.Vertical];
+        //m_CurrentMove = m_MoveMap[MoveType.Depth];
+        //m_CurrentMove = m_MoveMap[MoveType.Idle];
+        m_CurrentMove.Initialize();
     }
 
     private void ChangeMove(MoveType move)
@@ -45,4 +45,5 @@ public class SlimeController : MonoBehaviour
     {
         m_CurrentMove.OnUpdate();
     }
+    
 }
