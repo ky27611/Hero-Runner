@@ -26,10 +26,42 @@ public class Enemy : MonoBehaviour
         m_MoveMap.Add(MoveType.Depth, new DepthMove(Setting));
         Setting.myRigidbody = GetComponent<Rigidbody>();
 
+        
+        switch (Setting.Type)
+        {
+            case EnemyType.Slime:
+                ChangeMove(MoveType.Horizontal);
+                break;
+            
+            case EnemyType.Turtle:
+                ChangeMove(MoveType.Depth);
+                break;
+            
+            case EnemyType.Purple:
+                ChangeMove(MoveType.Verticle);
+                break;
+
+        }
+        
+        /*
+        if (Setting.Type == Slime)
+        {
+            ChangeMove(MoveType.Horizontal);
+        }
+        else if (Setting.Type == Turtle)
+        {
+            ChangeMove(MoveType.Depth);
+        }
+        else if (Setting.Type == Purple)
+        {
+            ChangeMove(MoveType.Verticle);
+        }
+        */
+
         //m_CurrentMove = m_MoveMap[MoveType.Horizontal];
-        m_CurrentMove = m_MoveMap[MoveType.Vertical];
+        //m_CurrentMove = m_MoveMap[MoveType.Vertical];
         //m_CurrentMove = m_MoveMap[MoveType.Depth];
-        //m_CurrentMove = m_MoveMap[MoveType.Idle];
+        m_CurrentMove = m_MoveMap[MoveType.Idle];
         m_CurrentMove.Initialize();
     }
 
