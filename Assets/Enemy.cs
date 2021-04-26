@@ -20,25 +20,24 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_MoveMap.Add(MoveType.Idle, new EnemyMove(Setting));
-        m_MoveMap.Add(MoveType.Horizontal, new HorizontalMove(Setting));
-        m_MoveMap.Add(MoveType.Vertical, new VerticalMove(Setting));
-        m_MoveMap.Add(MoveType.Depth, new DepthMove(Setting));
-        Setting.myRigidbody = GetComponent<Rigidbody>();
+        m_MoveMap.Add(MoveType.Idle, new EnemyMove(Setting, GetComponent<Rigidbody>()));
+        m_MoveMap.Add(MoveType.Horizontal, new HorizontalMove(Setting, GetComponent<Rigidbody>()));
+        m_MoveMap.Add(MoveType.Vertical, new VerticalMove(Setting, GetComponent<Rigidbody>()));
+        m_MoveMap.Add(MoveType.Depth, new DepthMove(Setting, GetComponent<Rigidbody>()));
 
         
         switch (Setting.Type)
         {
-            case EnemyType.Slime:
+            case EnemySetting.EnemyType.Slime:
                 ChangeMove(MoveType.Horizontal);
                 break;
             
-            case EnemyType.Turtle:
+            case EnemySetting.EnemyType.Turtle:
                 ChangeMove(MoveType.Depth);
                 break;
             
-            case EnemyType.Purple:
-                ChangeMove(MoveType.Verticle);
+            case EnemySetting.EnemyType.Purple:
+                ChangeMove(MoveType.Vertical);
                 break;
 
         }
@@ -61,13 +60,13 @@ public class Enemy : MonoBehaviour
         //m_CurrentMove = m_MoveMap[MoveType.Horizontal];
         //m_CurrentMove = m_MoveMap[MoveType.Vertical];
         //m_CurrentMove = m_MoveMap[MoveType.Depth];
-        m_CurrentMove = m_MoveMap[MoveType.Idle];
-        m_CurrentMove.Initialize();
+        //m_CurrentMove = m_MoveMap[MoveType.Idle];
+        //m_CurrentMove.Initialize();
     }
 
     private void ChangeMove(MoveType move)
     {
-        m_CurrentMove.Release();
+        m_CurrentMove?.Release();
         m_CurrentMove = m_MoveMap[move];
         m_CurrentMove.Initialize();
     }

@@ -31,9 +31,10 @@ public class EnemyMove
     public float IdleTime;
 
 
-    public EnemyMove(EnemySetting setting)
+    public EnemyMove(EnemySetting setting, Rigidbody rigidbody)
     {
         m_Setting = setting;
+        myRigidbody = rigidbody;
     }
     public virtual void Initialize()
     {
@@ -94,7 +95,7 @@ public class HorizontalMove : EnemyMove
                 isMoveX = true;
             }
 
-            m_Setting.myRigidbody.velocity = new Vector3(velocityX, 0, 0);
+            myRigidbody.velocity = new Vector3(velocityX, 0, 0);
             velocityX = 0;
         }
 
@@ -105,9 +106,10 @@ public class HorizontalMove : EnemyMove
        
     }
 
-    public HorizontalMove(EnemySetting setting) : base(setting)
+    public HorizontalMove(EnemySetting setting, Rigidbody rigidbody) : base(setting, rigidbody)
     {
     }
+
 }
 
 public class VerticalMove : EnemyMove
@@ -154,7 +156,7 @@ public class VerticalMove : EnemyMove
             }
 
 
-            m_Setting.myRigidbody.velocity = new Vector3(0, velocityY, 0);
+            myRigidbody.velocity = new Vector3(0, velocityY, 0);
         }
     }
 
@@ -163,7 +165,7 @@ public class VerticalMove : EnemyMove
 
     }
 
-    public VerticalMove(EnemySetting setting) : base(setting)
+    public VerticalMove(EnemySetting setting, Rigidbody rigidbody) : base(setting, rigidbody)
     {
     }
 }
@@ -209,7 +211,7 @@ public class DepthMove : EnemyMove
                 isMoveZ = true;
             }
 
-            m_Setting.myRigidbody.velocity = new Vector3(0, 0, velocityZ);
+            myRigidbody.velocity = new Vector3(0, 0, velocityZ);
             velocityZ = 0;
         }
     }
@@ -219,7 +221,7 @@ public class DepthMove : EnemyMove
 
     }
 
-    public DepthMove(EnemySetting setting) : base(setting)
+    public DepthMove(EnemySetting setting, Rigidbody rigidbody) : base(setting, rigidbody)
     {
     }
 }

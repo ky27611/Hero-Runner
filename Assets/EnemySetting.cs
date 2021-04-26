@@ -20,6 +20,6 @@ public class EnemySetting : ScriptableObject
     public float Spd;
     public int Exp;
 
-    public Rigidbody myRigidbody;
+    //public Rigidbody myRigidbody;
 
 }
