@@ -16,6 +16,5 @@ MonoBehaviour:
   Name: Turtle
   Hp: 1
   Atk: 1
-  Spd: 25
+  Spd: 1
   Exp: 150
-  myRigidbody: {fileID: 0}

@@ -18,4 +18,3 @@ MonoBehaviour:
   Atk: 1
   Spd: 1
   Exp: 100
-  myRigidbody: {fileID: 0}

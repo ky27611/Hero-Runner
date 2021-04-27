@@ -17,6 +17,10 @@ public class Enemy : MonoBehaviour
 
     private EnemyMove m_CurrentMove;
 
+    public float EnemyHP;
+
+    private GameObject Score;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,7 +45,11 @@ public class Enemy : MonoBehaviour
                 break;
 
         }
+
+        this.EnemyHP = Setting.Hp;
         
+        this.Score = GameObject.Find("ScoreDirector");
+
         /*
         if (Setting.Type == Slime)
         {
@@ -75,6 +83,12 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         m_CurrentMove.OnUpdate();
+
+        if(this.EnemyHP <= 0)
+        {
+            this.Score.GetComponent<ScoreController>().DefeatEnemy();
+            Destroy(this.gameObject);
+        }
     }
     
 }

@@ -53,6 +53,31 @@ public class EnemyMove
 
 }
 
+/*
+public class DefeatedMove : EnemyMove
+{
+    public override void Initialize()
+    {
+        
+    }
+
+    public override void OnUpdate()
+    {
+
+    }
+
+    public override void Release()
+    {
+
+    }
+
+    public DefeatedMove(EnemySetting setting, Rigidbody rigidbody) : base(setting, rigidbody)
+    {
+    }
+
+}
+*/
+
 public class HorizontalMove : EnemyMove
 {
     public override void Initialize()

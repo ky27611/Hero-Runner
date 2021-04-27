@@ -16,6 +16,5 @@ MonoBehaviour:
   Name: Purple
   Hp: 1
   Atk: 1
-  Spd: 50
+  Spd: 1
   Exp: 200
-  myRigidbody: {fileID: 0}

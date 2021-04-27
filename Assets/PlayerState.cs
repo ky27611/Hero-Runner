@@ -108,6 +108,7 @@ public class PlayerStateAttack : PlayerState
     public PlayerStateAttack(PlayerSetting setting) : base(setting)
     {
     }
+
 }
 
 public class PlayerStateDamage : PlayerState

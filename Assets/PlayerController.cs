@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
         Death,
     }
 
-    private PlayerSetting Setting;
+    public PlayerSetting Setting;
 
     private Dictionary<StateType, PlayerState> m_StateMap = new Dictionary<StateType, PlayerState>();
 
@@ -26,14 +26,14 @@ public class PlayerController : MonoBehaviour
     private GameObject score;
     //Bossオブジェクト
     private GameObject BossCube;
-    //BossのHP（仮）
-    private int BossHP = 3;
-    //playerの攻撃力（仮）
-    private int playeratk = 1;
     //ゴール位置
     private float goalpos;
     //boss戦闘中状態
     public bool bossbattlestate = false;
+    //BossのHP（仮）
+    private int BossHP = 3;
+    //playerの攻撃力（仮）
+    //private int playeratk = 1;
 
 
     // Start is called before the first frame update
@@ -153,7 +153,7 @@ public class PlayerController : MonoBehaviour
             }
 
             //力尽きた
-            if (Setting.playerHP <= 0)
+            if (Setting.PlayerHP <= 0)
             {
                 ChangeState(StateType.Death);
             }
@@ -178,108 +178,57 @@ public class PlayerController : MonoBehaviour
             {
                 ChangeState(StateType.Idle);
             }
+            //
+            if(Setting.atkdelta >= Setting.atkspan)
+            {
+                ChangeState(StateType.Idle);
+            }
 
             //プレイヤーに速度を与える
             Setting.myRigidbody.velocity = new Vector3(Setting.inputVelocityX, Setting.myRigidbody.velocity.y, Setting.velocityZ);
         }
 
-        /*
-        //横方向の入力による速度
-        float inputVelocityY = 0;
-
-        //プレイヤーを矢印キーまたはボタンに応じて左右に移動させる
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && -Setting.movableRange < this.transform.position.x && Setting.movableX == true)
-        {
-            Setting.movableX = false;
-            Setting.nowpositionX -= Setting.setpositionX;
-            Setting.inputVelocityX = -Setting.velocityX;
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow) && this.transform.position.x < Setting.movableRange && Setting.movableX == true)
-        {
-            Setting.movableX = false;
-            Setting.nowpositionX += Setting.setpositionX;
-            Setting.inputVelocityX = Setting.velocityX;
-        }
-
-        //横方向移動したら停止する（3か所）
-        if(Setting.inputVelocityX < 0)
-        {
-            if (this.transform.position.x <= Setting.nowpositionX)
-            {
-                Setting.inputVelocityX = 0;
-                this.transform.position = new Vector3(Setting.nowpositionX, this.transform.position.y, this.transform.position.z);
-                Setting.movableX = true;
-            }
-        }
-        else
-        {
-            if (this.transform.position.x >= Setting.nowpositionX)
-            {
-                Setting.inputVelocityX = 0;
-                this.transform.position = new Vector3(Setting.nowpositionX, this.transform.position.y, this.transform.position.z);
-                Setting.movableX = true;
-            }
-        }
-
-        m_CurrentState.OnUpdate();
-
-        //ジャンプ
-        if (Input.GetKeyDown(KeyCode.UpArrow) &&
-            (Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Locomotion") || Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
-        {
-            ChangeState(StateType.Jump);
-        }
-
-        //スライディング
-        if (Input.GetKeyDown(KeyCode.DownArrow) &&
-            (Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Locomotion") || Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
-        {
-            ChangeState(StateType.Sliding);
-        }
-
-        //攻撃
-        if (Input.GetKeyDown(KeyCode.Space) && 
-            (Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Locomotion") || Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
-        {
-            ChangeState(StateType.Attack);
-        }
-
-        //力尽きた
-        if (Setting.playerHP <= 0)
-        {
-            ChangeState(StateType.Death);
-        }
-
-        //ボス前は停止
-        if (this.transform.position.z - goalpos >= -5)
-        {
-            this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, goalpos - 5);
-            Setting.velocityZ = 0;
-            Setting.myAnimator.SetFloat("Speed", 0);
-            this.score.GetComponent<ScoreController>().isTimeScore = false;
-        }
         
-
-        //Jumpステートの場合はJumpにfalseをセットする
-        if (Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
-        {
-            ChangeState(StateType.Idle);
-        }
-        //Slideステートの場合はSlideにfalseをセットする
-        if (Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Slide"))
-        {
-            ChangeState(StateType.Idle);
-        }
-
-        //プレイヤーに速度を与える
-        Setting.myRigidbody.velocity = new Vector3(Setting.inputVelocityX, Setting.myRigidbody.velocity.y, Setting.velocityZ);
-        */
     }
 
+    
     //攻撃当てたとき
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "enemy1")
+        {
+            other.gameObject.GetComponent<Enemy>().EnemyHP -= Setting.PlayerHP;
+        }
+        if (other.gameObject.tag == "Boss")
+        {
+            BossHP -= Setting.PlayerAtk;
+            Debug.Log(BossHP);
+
+            if (BossHP <= 0)
+            {
+                this.score.GetComponent<ScoreController>().DefeatBoss();
+                Destroy(other.gameObject);
+                this.gamedirector.GetComponent<GameDirector>().isClear = true;
+
+            }
+        }
+    }
+
+    //攻撃あたったとき
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.tag == "Cube" || other.gameObject.tag == "enemy1" || other.gameObject.tag == "Boss")
+        {
+            Setting.PlayerHP -= 1;
+        }
+
+    }
+
+    /*
+    //攻撃当てたとき
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "enemy1")
         {
             this.score.GetComponent<ScoreController>().DefeatEnemy();
             Destroy(other.gameObject);
@@ -308,5 +257,5 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-
+    */
 }

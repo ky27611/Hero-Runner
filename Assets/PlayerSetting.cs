@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSetting
+[CreateAssetMenu(menuName = "Player/Setting")]
+public class PlayerSetting : ScriptableObject
 {
     //アニメーションするためのコンポーネントを入れる
     public Animator myAnimator;
@@ -11,8 +12,7 @@ public class PlayerSetting
     //移動させるコンポーネントを入れる
     public Rigidbody myRigidbody;
     //前方向の速度
-    //public float velocityZ = 16f;
-    public float velocityZ = 1f;
+    public float velocityZ = 16f;
     //横方向の速度
     public float velocityX = 12f;
     //上方向の速度
@@ -41,5 +41,8 @@ public class PlayerSetting
     public float coefficient = 0.95f;
 
     //プレイヤーのHP
-    public float playerHP = 1f;
+    public float PlayerHP = 1;
+    public int PlayerAtk = 1;
+    public float PlayerSpd = 1;
+
 }
