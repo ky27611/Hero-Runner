@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
 
     private PlayerState m_CurrentState;
 
+    private EnemySetting e_Setting;
+
     private GameObject gamedirector;
 
     //Score
@@ -219,7 +221,8 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "Cube" || other.gameObject.tag == "enemy1" || other.gameObject.tag == "Boss")
         {
-            Setting.PlayerHP -= 1;
+            Setting.PlayerHP -= other.gameObject.GetComponent<Enemy>().EnemyAtk;
+            Destroy(other.gameObject);
         }
 
     }

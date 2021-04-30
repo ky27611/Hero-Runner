@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
     private EnemyMove m_CurrentMove;
 
     public float EnemyHP;
+    public float EnemyAtk;
 
     private GameObject Score;
 
@@ -47,6 +48,7 @@ public class Enemy : MonoBehaviour
         }
 
         this.EnemyHP = Setting.Hp;
+        this.EnemyAtk = Setting.Atk;
         
         this.Score = GameObject.Find("ScoreDirector");
 
