@@ -9,7 +9,9 @@ public class GameDirector : MonoBehaviour
     private GameObject centerText;
     private GameObject generationText;
     private GameObject unitychan;
+    private GameObject bossSlime;
     public bool isGameStart;
+    public bool isBossBattle;
     public bool isClear;
     public bool isGameOver;
     private float waittime = 0;
@@ -24,7 +26,9 @@ public class GameDirector : MonoBehaviour
         this.centerText = GameObject.Find("CenterText");
         this.generationText = GameObject.Find("GenerationText");
         this.unitychan = GameObject.Find("unitychan");
+        this.bossSlime = GameObject.Find("BossSlime");
         this.isGameStart = true;
+        this.isBossBattle = false;
         this.isClear = false;
         this.isGameOver = false;
         //this.isCountDown = true;
@@ -41,6 +45,16 @@ public class GameDirector : MonoBehaviour
             GameStart();
         }
 
+        if (this.isBossBattle == false && unitychan.transform.position.z - bossSlime.transform.position.z >= -5)
+        {
+            this.isBossBattle = true;
+        }
+
+        if (this.isClear == true)
+        {
+            Clear();
+        }
+
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             Reload();
@@ -51,10 +65,6 @@ public class GameDirector : MonoBehaviour
             GameOver();
         }
 
-        if (this.isClear == true)
-        {
-            Clear();
-        }
     }
 
     public void GameStart()

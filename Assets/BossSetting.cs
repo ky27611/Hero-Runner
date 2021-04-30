@@ -2,18 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Enemy/Setting")]
-public class EnemySetting : ScriptableObject
+[CreateAssetMenu(menuName = "Boss/Setting")]
+public class BossSetting : ScriptableObject
 {
-
-    public enum EnemyType
+    public enum BossType
     {
-        Slime,
-        Turtle,
-        Purple
+        BossSlime,
     }
 
-    public EnemyType Type;
+    public BossType Type;
     public string Name;
     public int Hp;
     public int Atk;

@@ -40,12 +40,12 @@ public class ScoreController : MonoBehaviour
     //敵を倒すとスコア加算
     public void DefeatEnemy()
     {
-        this.defeatscore += 10000;
+        this.defeatscore += 1000;
     }
     //ボスを倒すとスコア加算
     public void DefeatBoss()
     {
-        this.defeatscore += 50000;
+        this.defeatscore += 5000;
     }
 
 }

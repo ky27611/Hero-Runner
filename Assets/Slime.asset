@@ -16,5 +16,5 @@ MonoBehaviour:
   Name: Slime
   Hp: 1
   Atk: 1
-  Spd: 1
+  Spd: 0.5
   Exp: 100

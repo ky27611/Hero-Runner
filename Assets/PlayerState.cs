@@ -164,3 +164,32 @@ public class PlayerStateDeath : PlayerState
     {
     }
 }
+
+public class PlayerStateBossBattle : PlayerState
+{
+    private GameObject score;
+    private GameObject gamedirector;
+
+    public override void Initialize()
+    {
+        this.score = GameObject.Find("ScoreDirector");
+        this.score.GetComponent<ScoreController>().isTimeScore = false;
+        //this.gamedirector = GameObject.Find("GameDirector");
+        m_Setting.velocityZ = 0;
+        m_Setting.myAnimator.SetFloat("Speed", 0);
+    }
+
+    public override void OnUpdate()
+    {
+        
+    }
+
+    public override void Release()
+    {
+
+    }
+
+    public PlayerStateBossBattle(PlayerSetting setting) : base(setting)
+    {
+    }
+}

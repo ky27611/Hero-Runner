@@ -16,5 +16,5 @@ MonoBehaviour:
   Name: Turtle
   Hp: 1
   Atk: 1
-  Spd: 1
+  Spd: 5
   Exp: 150

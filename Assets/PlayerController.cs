@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
         Attack,
         Damage,
         Death,
+        BossBattle,
     }
 
     public PlayerSetting Setting;
@@ -27,17 +28,8 @@ public class PlayerController : MonoBehaviour
     //Score
     private GameObject score;
     //Bossオブジェクト
-    private GameObject BossCube;
-    //ゴール位置
-    private float goalpos;
-    //boss戦闘中状態
-    public bool bossbattlestate = false;
-    //BossのHP（仮）
-    private int BossHP = 3;
-    //playerの攻撃力（仮）
-    //private int playeratk = 1;
-
-
+    private GameObject BossSlime;
+ 
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +41,7 @@ public class PlayerController : MonoBehaviour
         m_StateMap.Add(StateType.Attack, new PlayerStateAttack(Setting));
         m_StateMap.Add(StateType.Damage, new PlayerStateDamage(Setting));
         m_StateMap.Add(StateType.Death, new PlayerStateDeath(Setting));
+        m_StateMap.Add(StateType.BossBattle, new PlayerStateBossBattle(Setting));
 
         m_CurrentState = m_StateMap[StateType.Idle];
 
@@ -73,11 +66,7 @@ public class PlayerController : MonoBehaviour
         this.score = GameObject.Find("ScoreDirector");
 
         //Boss
-        this.BossCube = GameObject.Find("BossCube");
-
-        //ゴール位置
-        this.goalpos = BossCube.transform.position.z;
-
+        this.BossSlime = GameObject.Find("BossSlime");
     }
 
     private void ChangeState(StateType state)
@@ -160,15 +149,14 @@ public class PlayerController : MonoBehaviour
                 ChangeState(StateType.Death);
             }
 
-            //ボス前は停止
-            if (this.transform.position.z - goalpos >= -5)
+            //ボスバトル
+            if(gamedirector.GetComponent<GameDirector>().isBossBattle == true)
             {
-                this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, goalpos - 5);
+                this.score = GameObject.Find("ScoreDirector");
+                this.score.GetComponent<ScoreController>().isTimeScore = false;
                 Setting.velocityZ = 0;
                 Setting.myAnimator.SetFloat("Speed", 0);
-                this.score.GetComponent<ScoreController>().isTimeScore = false;
             }
-
 
             //Jumpステートの場合はJumpにfalseをセットする
             if (Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
@@ -189,76 +177,37 @@ public class PlayerController : MonoBehaviour
             //プレイヤーに速度を与える
             Setting.myRigidbody.velocity = new Vector3(Setting.inputVelocityX, Setting.myRigidbody.velocity.y, Setting.velocityZ);
         }
-
-        
     }
-
     
     //攻撃当てたとき
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "enemy1")
         {
-            other.gameObject.GetComponent<Enemy>().EnemyHP -= Setting.PlayerHP;
+            other.gameObject.GetComponent<Enemy>().EnemyHP -= Setting.PlayerAtk;
         }
         if (other.gameObject.tag == "Boss")
         {
-            BossHP -= Setting.PlayerAtk;
-            Debug.Log(BossHP);
-
-            if (BossHP <= 0)
-            {
-                this.score.GetComponent<ScoreController>().DefeatBoss();
-                Destroy(other.gameObject);
-                this.gamedirector.GetComponent<GameDirector>().isClear = true;
-
-            }
+            other.gameObject.GetComponent<Boss>().BossHP -= Setting.PlayerAtk;
         }
     }
 
     //攻撃あたったとき
     void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == "Cube" || other.gameObject.tag == "enemy1" || other.gameObject.tag == "Boss")
+        if (other.gameObject.tag == "Cube")
+        {
+            Setting.PlayerHP -= 1;
+            Destroy(other.gameObject);
+        }
+        else if (other.gameObject.tag == "enemy1")
         {
             Setting.PlayerHP -= other.gameObject.GetComponent<Enemy>().EnemyAtk;
             Destroy(other.gameObject);
         }
-
-    }
-
-    /*
-    //攻撃当てたとき
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "enemy1")
+        else if (other.gameObject.tag == "Boss")
         {
-            this.score.GetComponent<ScoreController>().DefeatEnemy();
-            Destroy(other.gameObject);
-        }
-        if (other.gameObject.tag == "Boss")
-        {
-            BossHP -= playeratk;
-            Debug.Log(BossHP);
-
-            if (BossHP <= 0)
-            {
-                this.score.GetComponent<ScoreController>().DefeatBoss();
-                Destroy(other.gameObject);
-                this.gamedirector.GetComponent<GameDirector>().isClear = true;
-
-            }
+            Setting.PlayerHP -= other.gameObject.GetComponent<Boss>().BossAtk;
         }
     }
-
-    //攻撃あたったとき
-    void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.tag == "Cube" || other.gameObject.tag == "enemy1" || other.gameObject.tag == "Boss")
-        {
-            Setting.playerHP -= 1;
-        }
-
-    }
-    */
 }
