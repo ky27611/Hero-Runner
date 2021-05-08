@@ -9,6 +9,7 @@ public class GameDirector : MonoBehaviour
     private GameObject centerText;
     private GameObject generationText;
     private GameObject Player;
+    private Transform Geometry;
     private GameObject bossSlime;
     public bool isGameStart;
     public bool isBossBattle;
@@ -18,7 +19,8 @@ public class GameDirector : MonoBehaviour
     private float countdowntime = 4;
     private int countdowntimetext;
     //private bool isCountDown;
-    private static int generationCount;
+    private static int generationCount = 0;
+    private static bool isHeroSelect;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +28,7 @@ public class GameDirector : MonoBehaviour
         this.centerText = GameObject.Find("CenterText");
         this.generationText = GameObject.Find("GenerationText");
         this.Player = GameObject.Find("Player");
+        this.Geometry = Player.transform.Find("Geometry");
         this.bossSlime = GameObject.Find("BossSlime");
         this.isGameStart = true;
         this.isBossBattle = false;
@@ -40,9 +43,59 @@ public class GameDirector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (this.isGameStart == true)
+        if (isHeroSelect == true)
+        {
+            this.isGameStart = false;
+            Debug.Log("press a , b or c");
+
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                /*
+                foreach(Transform child in transform)
+                {
+                    child.gameObject.SetActive(false);
+                }
+                */
+                for (int i = 0; i < 50; i++)
+                {
+                    Geometry.GetChild(i).gameObject.SetActive(false);
+                }
+                Geometry.GetChild(0).gameObject.SetActive(true);
+                this.isGameStart = true;
+                isHeroSelect = false;
+            }
+            else if (Input.GetKeyDown(KeyCode.B))
+            {
+                for (int i = 0; i < 50; i++)
+                {
+                    Geometry.GetChild(i).gameObject.SetActive(false);
+                }
+                Geometry.GetChild(1).gameObject.SetActive(true);
+                this.isGameStart = true;
+                isHeroSelect = false;
+            }
+            else if (Input.GetKeyDown(KeyCode.C))
+            {
+                for (int i = 0; i < 50; i++)
+                {
+                    Geometry.GetChild(i).gameObject.SetActive(false);
+                }
+                Geometry.GetChild(2).gameObject.SetActive(true);
+                this.isGameStart = true;
+                isHeroSelect = false;
+            }
+        }
+        else if (this.isGameStart == true)
         {
             GameStart();
+        }
+        else if (this.isGameOver == true)
+        {
+            GameOver();
+        }
+        else if (this.isClear == true)
+        {
+            Clear();
         }
 
         if (this.isBossBattle == false && Player.transform.position.z - bossSlime.transform.position.z >= -5)
@@ -50,28 +103,17 @@ public class GameDirector : MonoBehaviour
             this.isBossBattle = true;
         }
 
-        if (this.isClear == true)
-        {
-            Clear();
-        }
-
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             Reload();
-        }
-
-        if (this.isGameOver == true)
-        {
-            GameOver();
-        }
-
+        } 
     }
 
     public void GameStart()
     {
         if (isGameStart == true)
         {
-            Player.transform.position = new Vector3(0, 0, -495);
+            Player.transform.position = new Vector3(0, 0.2f, -495);
             CountDown();
         }
     }
@@ -91,13 +133,14 @@ public class GameDirector : MonoBehaviour
 
         if (this.waittime >= 5)
         {
-            
-            SceneManager.LoadScene("Stage0Scene");
-            Debug.Log("stage0");
             this.waittime = 0;
+            isHeroSelect = true;
             generationCount++;
             this.generationText.GetComponent<Text>().text = "Generation:" + generationCount.ToString();
-
+            //SceneManager.LoadScene("Stage0Scene");
+            //Debug.Log("stage0");
+            this.centerText.GetComponent<Text>().text = "";
+            this.isGameOver = false;
 
             /*
             this.generationCount++;

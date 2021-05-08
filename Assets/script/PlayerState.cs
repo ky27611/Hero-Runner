@@ -150,6 +150,7 @@ public class PlayerStateDeath : PlayerState
         m_Setting.velocityZ = 0;
         m_Setting.velocityX = 0;
         m_Setting.velocityY = 0;
+        
     }
 
     public override void OnUpdate()
@@ -164,7 +165,14 @@ public class PlayerStateDeath : PlayerState
 
     public override void Release()
     {
-
+        this.score.GetComponent<ScoreController>().isTimeScore = true;
+        this.gamedirector.GetComponent<GameDirector>().isGameOver = false;
+        m_Setting.myAnimator.SetBool("Death", false);
+        m_Setting.PlayerHP = 1;
+        m_Setting.velocityZ = 16;
+        m_Setting.velocityX = 12;
+        m_Setting.velocityY = 4;
+        m_Setting.myAnimator.SetFloat("Speed", 0);
     }
 
     public PlayerStateDeath(PlayerSetting setting) : base(setting)

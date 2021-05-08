@@ -158,7 +158,7 @@ public class PlayerController1 : MonoBehaviour
                 //Setting.myAnimator.SetFloat("Speed", 0);
             }
 
-            /*
+            
             //Jumpステートの場合はJumpにfalseをセットする
             if (Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
             {
@@ -169,8 +169,8 @@ public class PlayerController1 : MonoBehaviour
             {
                 ChangeState(StateType.Idle);
             }
-            */
-            //
+            
+            
             if(Setting.atkdelta >= Setting.atkspan)
             {
                 ChangeState(StateType.Idle);
@@ -178,6 +178,10 @@ public class PlayerController1 : MonoBehaviour
 
             //プレイヤーに速度を与える
             Setting.myRigidbody.velocity = new Vector3(Setting.inputVelocityX, Setting.myRigidbody.velocity.y, Setting.velocityZ);
+        }
+        else
+        {
+            ChangeState(StateType.Idle);
         }
     }
     
