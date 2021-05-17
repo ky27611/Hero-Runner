@@ -9,13 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f321e1d5a5180b342baacf6eb301bdd4, type: 3}
-  m_Name: Player
+  m_Script: {fileID: 11500000, guid: 2c2884dca471b6742afa60447bb71d67, type: 3}
+  m_Name: InitialStatus
   m_EditorClassIdentifier: 
-  myAnimator: {fileID: 0}
-  myCollider: {fileID: 0}
-  myRigidbody: {fileID: 0}
-  velocityZ: 1
+  velocityZ: 16
   velocityX: 12
   velocityY: 4
   setpositionX: 2
@@ -27,8 +24,7 @@ MonoBehaviour:
   slidedelta: 0
   atkspan: 0.5
   atkdelta: 0
-  atkCollider: {fileID: 0}
   coefficient: 0.95
-  PlayerHP: 1
-  PlayerAtk: 1
-  PlayerSpd: 1
+  HP: 1
+  Atk: 1
+  Spd: 1

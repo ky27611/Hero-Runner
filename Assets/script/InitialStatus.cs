@@ -2,14 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSetting 
+[CreateAssetMenu(menuName = "Player/InitialStatus")]
+public class InitialStatus : ScriptableObject
 {
-    //アニメーションするためのコンポーネントを入れる
-    public Animator myAnimator;
-    //CapsuleColiderコンポーネントを入れる
-    public CapsuleCollider myCollider;
-    //移動させるコンポーネントを入れる
-    public Rigidbody myRigidbody;
     //前方向の速度
     public float velocityZ = 16f;
     //横方向の速度
@@ -33,15 +28,12 @@ public class PlayerSetting
     public float atkspan = 0.5f;
     public float atkdelta = 0;
 
-    //BoxColiderコンポーネントを入れる
-    public BoxCollider atkCollider;
-
     //動きを減速させる係数
     public float coefficient = 0.95f;
 
     //プレイヤーのHP
-    public float PlayerHP = 1;
-    public int PlayerAtk = 1;
-    public float PlayerSpd = 1;
+    public float HP = 1;
+    public int Atk = 1;
+    public float Spd = 1;
 
 }
