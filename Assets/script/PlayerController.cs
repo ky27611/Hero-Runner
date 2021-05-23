@@ -204,7 +204,7 @@ public class PlayerController : MonoBehaviour
     //攻撃あたったとき
     void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == "Cube")
+        if (other.gameObject.tag == "Obstacle")
         {
             Setting.PlayerHP -= 1;
             Destroy(other.gameObject);

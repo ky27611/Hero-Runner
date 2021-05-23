@@ -29,7 +29,7 @@ public class GameDirector : MonoBehaviour
         this.generationText = GameObject.Find("GenerationText");
         this.Player = GameObject.Find("Player");
         this.Geometry = Player.transform.Find("Geometry");
-        this.bossSlime = GameObject.Find("BossSlime");
+        //this.bossSlime = GameObject.Find("BossSlime");
         this.isGameStart = true;
         this.isBossBattle = false;
         this.isClear = false;
@@ -98,10 +98,10 @@ public class GameDirector : MonoBehaviour
             Clear();
         }
 
-        if (this.isBossBattle == false && Player.transform.position.z - bossSlime.transform.position.z >= -5)
-        {
-            this.isBossBattle = true;
-        }
+        //if (this.isBossBattle == false && Player.transform.position.z - bossSlime.transform.position.z >= -5)
+        //{
+        //    this.isBossBattle = true;
+        //}
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
@@ -113,7 +113,7 @@ public class GameDirector : MonoBehaviour
     {
         if (isGameStart == true)
         {
-            Player.transform.position = new Vector3(0, 0.2f, -495);
+            Player.transform.position = new Vector3(0, 0.2f, 0);
             CountDown();
         }
     }

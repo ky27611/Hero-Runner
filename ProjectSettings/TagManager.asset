@@ -7,6 +7,10 @@ TagManager:
   - Boss
   - enemy1
   - Cube
+  - Fence
+  - Crystal
+  - Flower
+  - Obstacle
   layers:
   - Default
   - TransparentFX

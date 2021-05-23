@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class MyCameraController : MonoBehaviour
 {
-    //Playerちゃんのオブジェクト
+    //Playerのオブジェクト
     private GameObject Player;
-    //Playerちゃんとカメラの距離
+    //Playerとカメラの距離
     private float difference;
 
     // Start is called before the first frame update
