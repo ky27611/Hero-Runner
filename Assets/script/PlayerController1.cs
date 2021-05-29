@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController1 : MonoBehaviour
 {
     public enum StateType
     {
@@ -15,9 +15,7 @@ public class PlayerController : MonoBehaviour
         BossBattle,
     }
 
-    public PlayerSettingData Setting;
-    public InitialStatus initialStatus;
-    public PlayerSettingComponent Compo;
+    public PlayerSetting Setting;
 
     private Dictionary<StateType, PlayerState> m_StateMap = new Dictionary<StateType, PlayerState>();
 
@@ -31,37 +29,36 @@ public class PlayerController : MonoBehaviour
     private GameObject score;
     //Bossオブジェクト
     private GameObject BossSlime;
-
+ 
     // Start is called before the first frame update
     void Start()
     {
-        Setting = new PlayerSettingData(initialStatus);
-        Compo = new PlayerSettingComponent();
+        Setting = new PlayerSetting();
 
-        m_StateMap.Add(StateType.Idle, new PlayerState(Setting, Compo));
-        m_StateMap.Add(StateType.Jump, new PlayerStateJump(Setting, Compo));
-        m_StateMap.Add(StateType.Sliding, new PlayerStateSliding(Setting, Compo));
-        m_StateMap.Add(StateType.Attack, new PlayerStateAttack(Setting, Compo));
-        m_StateMap.Add(StateType.Damage, new PlayerStateDamage(Setting, Compo));
-        m_StateMap.Add(StateType.Death, new PlayerStateDeath(Setting, Compo));
-        m_StateMap.Add(StateType.BossBattle, new PlayerStateBossBattle(Setting, Compo));
+        m_StateMap.Add(StateType.Idle, new PlayerState(Setting));
+        m_StateMap.Add(StateType.Jump, new PlayerStateJump(Setting));
+        m_StateMap.Add(StateType.Sliding, new PlayerStateSliding(Setting));
+        m_StateMap.Add(StateType.Attack, new PlayerStateAttack(Setting));
+        m_StateMap.Add(StateType.Damage, new PlayerStateDamage(Setting));
+        m_StateMap.Add(StateType.Death, new PlayerStateDeath(Setting));
+        m_StateMap.Add(StateType.BossBattle, new PlayerStateBossBattle(Setting));
 
         m_CurrentState = m_StateMap[StateType.Idle];
 
         //アニメータコンポーネントを取得
-        Compo.myAnimator = GetComponent<Animator>();
+        Setting.myAnimator = GetComponent<Animator>();
 
         //走るアニメーションを開始
         //Setting.myAnimator.SetFloat("Speed", 1);
 
         //Rigidbodyコンポーネントを取得
-        Compo.myRigidbody = GetComponent<Rigidbody>();
+        Setting.myRigidbody = GetComponent<Rigidbody>();
 
         //CapsuleColiderコンポーネントを取得
-        Compo.myCollider = GetComponent<CapsuleCollider>();
+        Setting.myCollider = GetComponent<CapsuleCollider>();
 
         //BoxColiderコンポーネントを取得
-        Compo.atkCollider = GetComponent<BoxCollider>();
+        Setting.atkCollider = GetComponent<BoxCollider>();
 
         this.gamedirector = GameObject.Find("GameDirector");
 
@@ -84,7 +81,7 @@ public class PlayerController : MonoBehaviour
     {
         if (this.gamedirector.GetComponent<GameDirector>().isGameStart == false)
         {
-            Compo.myAnimator.SetFloat("Speed", 1);
+            Setting.myAnimator.SetFloat("Speed", 1);
 
             //横方向の入力による速度
             float inputVelocityY = 0;
@@ -127,21 +124,21 @@ public class PlayerController : MonoBehaviour
 
             //ジャンプ
             if (Input.GetKeyDown(KeyCode.UpArrow) &&
-                (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Sliding")))
+                (Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle") || Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Sliding")))
             {
                 ChangeState(StateType.Jump);
             }
 
             //スライディング
             if (Input.GetKeyDown(KeyCode.DownArrow) &&
-                (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
+                (Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
             {
                 ChangeState(StateType.Sliding);
             }
 
             //攻撃
             if (Input.GetKeyDown(KeyCode.Space) &&
-                (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
+                (Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
             {
                 ChangeState(StateType.Attack);
             }
@@ -163,12 +160,12 @@ public class PlayerController : MonoBehaviour
 
             
             //Jumpステートの場合はJumpにfalseをセットする
-            if (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+            if (Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
             {
                 ChangeState(StateType.Idle);
             }
             //Slideステートの場合はSlideにfalseをセットする
-            if (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Slide"))
+            if (Setting.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Slide"))
             {
                 ChangeState(StateType.Idle);
             }
@@ -180,7 +177,7 @@ public class PlayerController : MonoBehaviour
             }
 
             //プレイヤーに速度を与える
-            Compo.myRigidbody.velocity = new Vector3(Setting.inputVelocityX, Compo.myRigidbody.velocity.y, Setting.velocityZ);
+            Setting.myRigidbody.velocity = new Vector3(Setting.inputVelocityX, Setting.myRigidbody.velocity.y, Setting.velocityZ);
         }
         else
         {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerControllerLowPolyAnimatedPeople : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     public float walkSpeed, runSpeed, rotateSpeed, jumpForce, walkAnimationSpeed, runAnimatonSpeed;
 
