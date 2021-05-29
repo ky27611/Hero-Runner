@@ -215,13 +215,5 @@ public class PlayerController1 : MonoBehaviour
         {
             Setting.PlayerHP -= other.gameObject.GetComponent<Boss>().BossAtk;
         }
-        else if (other.gameObject.tag == "Flower")
-        {
-            this.score.GetComponent<ScoreController>().BonusScore -= 100;
-        }
-        else if (other.gameObject.tag == "Flower")
-        {
-            this.score.GetComponent<ScoreController>().BonusScore -= 100;
-        }
     }
 }
