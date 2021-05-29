@@ -10,7 +10,6 @@ public class ScoreController : MonoBehaviour
     private int timescore = 0;
     private int timescoremagnification = 10;
     private int defeatscore = 0;
-    public int BonusScore = 0;
     private int score = 0;
     public bool isTimeScore;
     private GameObject gamedirector;
@@ -34,7 +33,7 @@ public class ScoreController : MonoBehaviour
         }
 
         //経過時間スコアと敵倒したポイントをスコアとして表示
-        this.score = defeatscore + timescore + BonusScore;
+        this.score = defeatscore + timescore;
         this.scoreText.GetComponent<Text>().text = "Score：" + this.score.ToString();
     }
 
