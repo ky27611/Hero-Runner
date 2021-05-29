@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class PlayerState
 {
-    protected PlayerSetting m_Setting;
+    protected PlayerSettingData m_Setting;
+    protected PlayerSettingComponent m_Compo;
 
-    public PlayerState(PlayerSetting setting)
+    public PlayerState(PlayerSettingData setting, PlayerSettingComponent compo)
     {
         m_Setting = setting;
+        m_Compo = compo;
     }
 
     public virtual void Initialize()
@@ -31,10 +33,10 @@ public class PlayerStateJump : PlayerState
 {
     public override void Initialize()
     {
-        m_Setting.myAnimator.SetTrigger("JumpTrigger");
-        var velo = m_Setting.myRigidbody.velocity;
+        m_Compo.myAnimator.SetTrigger("JumpTrigger");
+        var velo = m_Compo.myRigidbody.velocity;
         velo.y = m_Setting.velocityY;
-        m_Setting.myRigidbody.velocity = velo;
+        m_Compo.myRigidbody.velocity = velo;
     }
 
     public override void OnUpdate()
@@ -47,7 +49,7 @@ public class PlayerStateJump : PlayerState
         //m_Setting.myAnimator.SetBool("Jump", false);
     }
 
-    public PlayerStateJump(PlayerSetting setting) : base(setting)
+    public PlayerStateJump(PlayerSettingData setting, PlayerSettingComponent compo) : base(setting, compo)
     {
     }
 }
@@ -56,9 +58,9 @@ public class PlayerStateSliding : PlayerState
 {
     public override void Initialize()
     {
-        m_Setting.myAnimator.SetTrigger("SlidingTrigger");
-        m_Setting.myCollider.center = new Vector3(0, 0.35f, 0);
-        m_Setting.myCollider.height = 0.3f;
+        m_Compo.myAnimator.SetTrigger("SlidingTrigger");
+        m_Compo.myCollider.center = new Vector3(0, 0.35f, 0);
+        m_Compo.myCollider.height = 0.3f;
         m_Setting.slidedelta += Time.deltaTime;
     }
 
@@ -69,8 +71,8 @@ public class PlayerStateSliding : PlayerState
             m_Setting.slidedelta += Time.deltaTime;
             if (m_Setting.slidedelta > m_Setting.slidespan)
             {
-                m_Setting.myCollider.center = new Vector3(0, 0.8f, 0);
-                m_Setting.myCollider.height = 1.5f;
+                m_Compo.myCollider.center = new Vector3(0, 0.8f, 0);
+                m_Compo.myCollider.height = 1.5f;
                 m_Setting.slidedelta = 0;
             }
         }
@@ -81,7 +83,7 @@ public class PlayerStateSliding : PlayerState
         //m_Setting.myAnimator.SetBool("Slide", false);
     }
 
-    public PlayerStateSliding(PlayerSetting setting) : base(setting)
+    public PlayerStateSliding(PlayerSettingData setting, PlayerSettingComponent compo) : base(setting, compo)
     {
     }
 }
@@ -90,8 +92,8 @@ public class PlayerStateAttack : PlayerState
 {
     public override void Initialize()
     {
-        m_Setting.myAnimator.SetTrigger("AttackTrigger");
-        m_Setting.atkCollider.enabled = true;
+        m_Compo.myAnimator.SetTrigger("AttackTrigger");
+        m_Compo.atkCollider.enabled = true;
         m_Setting.atkdelta = 0.0f;
     }
 
@@ -102,11 +104,11 @@ public class PlayerStateAttack : PlayerState
 
     public override void Release()
     {
-        m_Setting.atkCollider.enabled = false;
+        m_Compo.atkCollider.enabled = false;
         m_Setting.atkdelta = 0;
     }
 
-    public PlayerStateAttack(PlayerSetting setting) : base(setting)
+    public PlayerStateAttack(PlayerSettingData setting, PlayerSettingComponent compo) : base(setting, compo)
     {
     }
 
@@ -129,7 +131,7 @@ public class PlayerStateDamage : PlayerState
         
     }
 
-    public PlayerStateDamage(PlayerSetting setting) : base(setting)
+    public PlayerStateDamage(PlayerSettingData setting, PlayerSettingComponent compo) : base(setting, compo)
     {
     }
 }
@@ -145,7 +147,7 @@ public class PlayerStateDeath : PlayerState
         this.score.GetComponent<ScoreController>().isTimeScore = false;
         this.gamedirector = GameObject.Find("GameDirector");
         this.gamedirector.GetComponent<GameDirector>().isGameOver = true;
-        m_Setting.myAnimator.SetBool("Death", true);
+        m_Compo.myAnimator.SetBool("Death", true);
         Debug.Log("Death");
         m_Setting.velocityZ = 0;
         m_Setting.velocityX = 0;
@@ -167,15 +169,15 @@ public class PlayerStateDeath : PlayerState
     {
         this.score.GetComponent<ScoreController>().isTimeScore = true;
         this.gamedirector.GetComponent<GameDirector>().isGameOver = false;
-        m_Setting.myAnimator.SetBool("Death", false);
+        m_Compo.myAnimator.SetBool("Death", false);
         m_Setting.PlayerHP = 1;
         m_Setting.velocityZ = 16;
         m_Setting.velocityX = 12;
         m_Setting.velocityY = 4;
-        m_Setting.myAnimator.SetFloat("Speed", 0);
+        m_Compo.myAnimator.SetFloat("Speed", 0);
     }
 
-    public PlayerStateDeath(PlayerSetting setting) : base(setting)
+    public PlayerStateDeath(PlayerSettingData setting, PlayerSettingComponent compo) : base(setting, compo)
     {
     }
 }
@@ -191,7 +193,7 @@ public class PlayerStateBossBattle : PlayerState
         this.score.GetComponent<ScoreController>().isTimeScore = false;
         //this.gamedirector = GameObject.Find("GameDirector");
         m_Setting.velocityZ = 0;
-        m_Setting.myAnimator.SetFloat("Speed", 0);
+        m_Compo.myAnimator.SetFloat("Speed", 0);
     }
 
     public override void OnUpdate()
@@ -204,7 +206,7 @@ public class PlayerStateBossBattle : PlayerState
 
     }
 
-    public PlayerStateBossBattle(PlayerSetting setting) : base(setting)
+    public PlayerStateBossBattle(PlayerSettingData setting, PlayerSettingComponent compo) : base(setting, compo)
     {
     }
 }
