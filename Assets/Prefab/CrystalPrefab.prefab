@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8868190548561506147}
   - component: {fileID: 8868190548560539043}
   - component: {fileID: 136997370285065413}
-  - component: {fileID: -5793812011940465356}
   m_Layer: 0
   m_Name: CrystalPrefab
   m_TagString: Crystal
@@ -28,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8868190548558607203}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.448211, y: 0.659, z: -492.02188}
+  m_LocalPosition: {x: 0, y: 0.5, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -89,24 +88,8 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8868190548558607203}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.6786676, y: 1.0866861, z: 1.0275202}
   m_Center: {x: -0.03422588, y: 0.0028606057, z: 0.043148845}
---- !u!54 &-5793812011940465356
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8868190548558607203}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
