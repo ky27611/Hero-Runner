@@ -26,6 +26,7 @@ public class PlayerSettingData
     public float slidespan;
     public float slidedelta;
     //攻撃のパラメータ
+    //public bool isAttack;
     public float atkspan;
     public float atkdelta;
 
@@ -58,6 +59,7 @@ public class PlayerSettingData
         slidespan = initialStatus.slidespan;
         slidedelta = initialStatus.slidedelta;
         //攻撃のパラメータ
+        //isAttack = initialStatus.isAttack;
         atkspan = initialStatus.atkspan;
         atkdelta = initialStatus.atkdelta;
 

@@ -90,10 +90,16 @@ public class PlayerStateSliding : PlayerState
 
 public class PlayerStateAttack : PlayerState
 {
+    private GameObject Player;
+    private Transform AtkCollider;
+
     public override void Initialize()
     {
+        this.Player = GameObject.Find("Player");
+        this.AtkCollider = Player.transform.Find("AttackCollider");
+        this.AtkCollider.GetComponent<Attack>().isAttack = true;
         m_Compo.myAnimator.SetTrigger("AttackTrigger");
-        m_Compo.atkCollider.enabled = true;
+        //m_Setting.isAttack = true;
         m_Setting.atkdelta = 0.0f;
     }
 
@@ -104,7 +110,8 @@ public class PlayerStateAttack : PlayerState
 
     public override void Release()
     {
-        m_Compo.atkCollider.enabled = false;
+        this.AtkCollider.GetComponent<Attack>().isAttack = false;
+        //m_Setting.isAttack = false;
         m_Setting.atkdelta = 0;
     }
 

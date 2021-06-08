@@ -25,6 +25,7 @@ public class InitialStatus : ScriptableObject
     public float slidespan = 1.0f;
     public float slidedelta = 0;
     //攻撃のパラメータ
+    //public bool isAttack = false;
     public float atkspan = 0.5f;
     public float atkdelta = 0;
 

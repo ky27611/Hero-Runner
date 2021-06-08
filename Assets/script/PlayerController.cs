@@ -191,6 +191,21 @@ public class PlayerController : MonoBehaviour
     //攻撃当てたとき
     void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.tag == "Obstacle")
+        {
+            Setting.PlayerHP -= 1;
+            //Destroy(other.gameObject);
+        }
+        else if (other.gameObject.tag == "enemy1")
+        {
+            Setting.PlayerHP -= other.gameObject.GetComponent<Enemy>().EnemyAtk;
+            //Destroy(other.gameObject);
+        }
+        else if (other.gameObject.tag == "Boss")
+        {
+            Setting.PlayerHP -= other.gameObject.GetComponent<Boss>().BossAtk;
+        }
+        /*
         if(other.gameObject.tag == "enemy1")
         {
             other.gameObject.GetComponent<Enemy>().EnemyHP -= Setting.PlayerAtk;
@@ -199,8 +214,10 @@ public class PlayerController : MonoBehaviour
         {
             other.gameObject.GetComponent<Boss>().BossHP -= Setting.PlayerAtk;
         }
+        */
     }
 
+    /*
     //攻撃あたったとき
     void OnCollisionEnter(Collision other)
     {
@@ -219,4 +236,5 @@ public class PlayerController : MonoBehaviour
             Setting.PlayerHP -= other.gameObject.GetComponent<Boss>().BossAtk;
         }
     }
+    */
 }
