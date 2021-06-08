@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 1947121136873992500}
   - component: {fileID: 1898131520597307314}
   - component: {fileID: 1898131520597307312}
+  - component: {fileID: 1145791872727364795}
   m_Layer: 0
   m_Name: SlimePrefab
   m_TagString: enemy1
@@ -112,6 +113,22 @@ MonoBehaviour:
   Setting: {fileID: 11400000, guid: 60f1b4f49ffbc554faaaee2af93dc5c3, type: 2}
   EnemyHP: 0
   EnemyAtk: 0
+--- !u!54 &1145791872727364795
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1896391317434958680}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 116
+  m_CollisionDetection: 0
 --- !u!1 &1896449480992428204
 GameObject:
   m_ObjectHideFlags: 0

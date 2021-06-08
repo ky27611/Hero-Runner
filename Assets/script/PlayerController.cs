@@ -188,7 +188,7 @@ public class PlayerController : MonoBehaviour
         }
     }
     
-    //攻撃当てたとき
+    //攻撃当たった時
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Obstacle")
@@ -204,6 +204,21 @@ public class PlayerController : MonoBehaviour
         else if (other.gameObject.tag == "Boss")
         {
             Setting.PlayerHP -= other.gameObject.GetComponent<Boss>().BossAtk;
+        }
+        else if (other.gameObject.tag == "Crystal")
+        {
+            gamedirector.GetComponent<GameDirector>().HeroPoint += 1;
+            Destroy(other.gameObject);
+        }
+        else if (other.gameObject.tag == "Flower")
+        {
+            gamedirector.GetComponent<GameDirector>().HeroPoint -= 1;
+            if (gamedirector.GetComponent<GameDirector>().HeroPoint < 0)
+            {
+                gamedirector.GetComponent<GameDirector>().HeroPoint = 0;
+            }
+
+            Destroy(other.gameObject);
         }
         /*
         if(other.gameObject.tag == "enemy1")

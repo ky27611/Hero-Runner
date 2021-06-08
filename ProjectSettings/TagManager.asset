@@ -11,6 +11,7 @@ TagManager:
   - Crystal
   - Flower
   - Obstacle
+  - Road
   layers:
   - Default
   - TransparentFX

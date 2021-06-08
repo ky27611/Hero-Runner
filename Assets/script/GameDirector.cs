@@ -8,6 +8,7 @@ public class GameDirector : MonoBehaviour
 {
     private GameObject centerText;
     private GameObject generationText;
+    private GameObject heroPointText;
     private GameObject Player;
     private Transform Geometry;
     private GameObject bossSlime;
@@ -22,11 +23,14 @@ public class GameDirector : MonoBehaviour
     private static int generationCount = 0;
     private static bool isHeroSelect;
 
+    public int HeroPoint;
+
     // Start is called before the first frame update
     void Start()
     {
         this.centerText = GameObject.Find("CenterText");
         this.generationText = GameObject.Find("GenerationText");
+        this.heroPointText = GameObject.Find("HeroPoint");
         this.Player = GameObject.Find("Player");
         this.Geometry = Player.transform.Find("Geometry");
         //this.bossSlime = GameObject.Find("BossSlime");
@@ -34,9 +38,11 @@ public class GameDirector : MonoBehaviour
         this.isBossBattle = false;
         this.isClear = false;
         this.isGameOver = false;
+        this.HeroPoint = 0;
         //this.isCountDown = true;
 
         this.generationText.GetComponent<Text>().text = "Generation:" + generationCount.ToString();
+        this.heroPointText.GetComponent<Text>().text = "HeroPoint:" + HeroPoint.ToString();
 
     }
 
@@ -102,6 +108,8 @@ public class GameDirector : MonoBehaviour
         //{
         //    this.isBossBattle = true;
         //}
+
+        this.heroPointText.GetComponent<Text>().text = "HeroPoint:" + HeroPoint.ToString();
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
