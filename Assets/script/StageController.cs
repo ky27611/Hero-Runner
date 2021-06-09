@@ -26,6 +26,8 @@ public class StageController : MonoBehaviour
     public float StartPos;
     public float GoalPos;
     public float PosRange;
+    public float StageStartPos;
+    public float StageCreatePos;
 
 
     // Start is called before the first frame update
@@ -39,11 +41,23 @@ public class StageController : MonoBehaviour
         this.CreateRange = 15f;
         this.CreatePos = this.StartPos;
         this.PosRange = 2f;
+        this.StageStartPos = 500f;
+        this.StageCreatePos = 1000f;
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (this.StageStartPos - Player.transform.position.z <= 100)
+        {
+            GameObject Road = Instantiate(RoadPrefab);
+            Road.transform.position = new Vector3(0, Road.transform.position.y, StageCreatePos);
+            this.StageStartPos += 1000f;
+            this.StageCreatePos += 1000f;
+
+        }
+
         //生成点とPlayerとの距離が一定以下になったらアイテム生成して次の生成点を更新
         this.PlayerDistance = this.CreatePos - Player.transform.position.z;
 
@@ -60,8 +74,13 @@ public class StageController : MonoBehaviour
             }
 
         }
-
-
+        else if (this.isCreate == false)
+        {
+            this.StartPos =  this.GoalPos + 100f;
+            this.GoalPos = this.GoalPos + this.GoalPos + 100f;
+            this.CreatePos = this.StartPos;
+            this.isCreate = true;
+        }
 
     }
 
@@ -120,20 +139,24 @@ public class StageController : MonoBehaviour
         }
         else
         {
+            //アイテムを置く座標のオフセットをランダムに設定
+            int offsetZ = Random.Range(-5, 6);
+            int offsetX = Random.Range(-1, 2);
+
             if (num2 <= 5)
             {
                 GameObject Slime = Instantiate(SlimePrefab);
-                Slime.transform.position = new Vector3(0, Slime.transform.position.y, CreatePos);
+                Slime.transform.position = new Vector3(PosRange * offsetX, Slime.transform.position.y, CreatePos + offsetZ);
             }
             else if(6 <= num2 && num2 <= 8)
             {
                 GameObject Turtle = Instantiate(TurtlePrefab);
-                Turtle.transform.position = new Vector3(0, Turtle.transform.position.y, CreatePos);
+                Turtle.transform.position = new Vector3(PosRange * offsetX, Turtle.transform.position.y, CreatePos + offsetZ);
             }
             else if (9 <= num2 && num2 <= 10)
             {
                 GameObject Purple = Instantiate(PurplePrefab);
-                Purple.transform.position = new Vector3(0, Purple.transform.position.y, CreatePos);
+                Purple.transform.position = new Vector3(PosRange * offsetX, Purple.transform.position.y, CreatePos + offsetZ);
             }
         }
     }
