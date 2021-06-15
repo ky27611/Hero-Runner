@@ -6,11 +6,13 @@ using UnityEngine.UI;
 public class ScoreController : MonoBehaviour
 {
     GameObject scoreText;
+    GameObject defeatText;
     private float time = 0;
     private int timescore = 0;
     private int timescoremagnification = 10;
     private int defeatscore = 0;
     private int score = 0;
+    private int defeatCount = 0;
     public bool isTimeScore;
     private GameObject gamedirector;
 
@@ -18,6 +20,7 @@ public class ScoreController : MonoBehaviour
     void Start()
     {
         this.scoreText = GameObject.Find("Score");
+        this.defeatText = GameObject.Find("Defeat");
         this.gamedirector = GameObject.Find("GameDirector");
         this.isTimeScore = true;
     }
@@ -40,12 +43,14 @@ public class ScoreController : MonoBehaviour
     //敵を倒すとスコア加算
     public void DefeatEnemy()
     {
-        this.defeatscore += 1000;
+        //this.defeatscore += 1000;
+        this.defeatCount++;
+        this.defeatText.GetComponent<Text>().text = "Defeat：" + this.defeatCount.ToString();
     }
     //ボスを倒すとスコア加算
     public void DefeatBoss()
     {
-        this.defeatscore += 5000;
+        //this.defeatscore += 5000;
     }
 
 }

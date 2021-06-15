@@ -9,9 +9,11 @@ public class GameDirector : MonoBehaviour
     private GameObject centerText;
     private GameObject generationText;
     private GameObject heroPointText;
+    private GameObject HPText;
     private GameObject Player;
     private Transform Geometry;
     private GameObject bossSlime;
+    private GameObject BGM;
     public bool isGameStart;
     public bool isBossBattle;
     public bool isClear;
@@ -31,8 +33,10 @@ public class GameDirector : MonoBehaviour
         this.centerText = GameObject.Find("CenterText");
         this.generationText = GameObject.Find("GenerationText");
         this.heroPointText = GameObject.Find("HeroPoint");
+        this.HPText = GameObject.Find("HP");
         this.Player = GameObject.Find("Player");
         this.Geometry = Player.transform.Find("Geometry");
+        this.BGM = GameObject.Find("BGM");
         //this.bossSlime = GameObject.Find("BossSlime");
         this.isGameStart = true;
         this.isBossBattle = false;
@@ -43,12 +47,16 @@ public class GameDirector : MonoBehaviour
 
         this.generationText.GetComponent<Text>().text = "Generation:" + generationCount.ToString();
         this.heroPointText.GetComponent<Text>().text = "HeroPoint:" + HeroPoint.ToString();
+        this.HPText.GetComponent<Text>().text = "HP:" + Player.GetComponent<PlayerController>().PlayerHP.ToString();
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        this.heroPointText.GetComponent<Text>().text = "HeroPoint:" + HeroPoint.ToString();
+        this.HPText.GetComponent<Text>().text = "HP:" + Player.GetComponent<PlayerController>().PlayerHP.ToString();
+
         if (isHeroSelect == true)
         {
             this.isGameStart = false;
@@ -109,7 +117,7 @@ public class GameDirector : MonoBehaviour
         //    this.isBossBattle = true;
         //}
 
-        this.heroPointText.GetComponent<Text>().text = "HeroPoint:" + HeroPoint.ToString();
+        
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
@@ -138,9 +146,11 @@ public class GameDirector : MonoBehaviour
         Debug.Log((int)waittime);
         Debug.Log("gameover");
         this.centerText.GetComponent<Text>().text = "GameOver";
+        
 
         if (this.waittime >= 5)
         {
+            BGM.GetComponent<AudioController>().AudioChange(11);
             this.waittime = 0;
             isHeroSelect = true;
             generationCount++;
@@ -166,6 +176,7 @@ public class GameDirector : MonoBehaviour
         Debug.Log((int)waittime);
         Debug.Log("clear");
         this.centerText.GetComponent<Text>().text = "Clear";
+        //BGM.GetComponent<AudioController>().AudioChange(12);
 
         if (this.waittime >= 5)
         {
@@ -207,6 +218,7 @@ public class GameDirector : MonoBehaviour
                 this.centerText.GetComponent<Text>().text = "";
                 this.countdowntime = 4;
                 isGameStart = false;
+                BGM.GetComponent<AudioController>().AudioChange(1);
             }
         }
     }

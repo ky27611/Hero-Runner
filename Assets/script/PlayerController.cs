@@ -32,6 +32,11 @@ public class PlayerController : MonoBehaviour
     //Bossオブジェクト
     private GameObject BossSlime;
 
+    public float PlayerHP;
+
+    public AudioClip RunningSE;
+    public AudioClip SlidingSE;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,7 +66,9 @@ public class PlayerController : MonoBehaviour
         Compo.myCollider = GetComponent<CapsuleCollider>();
 
         //BoxColiderコンポーネントを取得
-        Compo.atkCollider = GetComponent<BoxCollider>();
+        //Compo.atkCollider = GetComponent<BoxCollider>();
+
+        Compo.myAudio = GetComponent<AudioSource>();
 
         this.gamedirector = GameObject.Find("GameDirector");
 
@@ -70,6 +77,8 @@ public class PlayerController : MonoBehaviour
 
         //Boss
         this.BossSlime = GameObject.Find("BossSlime");
+
+        this.PlayerHP = Setting.PlayerHP;
     }
 
     private void ChangeState(StateType state)
@@ -82,9 +91,19 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        this.PlayerHP = Setting.PlayerHP;
+
         if (this.gamedirector.GetComponent<GameDirector>().isGameStart == false)
         {
             Compo.myAnimator.SetFloat("Speed", 1);
+
+            if (Compo.myAudio.clip != RunningSE)
+            {
+                Compo.myAudio.loop = true;
+                Compo.myAudio.clip = RunningSE;
+                Compo.myAudio.Play();
+            }
+            
 
             //横方向の入力による速度
             float inputVelocityY = 0;
@@ -137,6 +156,8 @@ public class PlayerController : MonoBehaviour
                 (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
             {
                 ChangeState(StateType.Sliding);
+                Compo.myAudio.PlayOneShot(SlidingSE);
+
             }
 
             //攻撃
@@ -150,6 +171,7 @@ public class PlayerController : MonoBehaviour
             if (Setting.PlayerHP <= 0)
             {
                 ChangeState(StateType.Death);
+                Compo.myAudio.Stop();
             }
 
             //ボスバトル

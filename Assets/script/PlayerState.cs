@@ -34,6 +34,7 @@ public class PlayerStateJump : PlayerState
     public override void Initialize()
     {
         m_Compo.myAnimator.SetTrigger("JumpTrigger");
+        m_Compo.myAudio.Stop();
         var velo = m_Compo.myRigidbody.velocity;
         velo.y = m_Setting.velocityY;
         m_Compo.myRigidbody.velocity = velo;

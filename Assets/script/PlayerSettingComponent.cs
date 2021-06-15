@@ -11,7 +11,7 @@ public class PlayerSettingComponent
     //移動させるコンポーネントを入れる
     public Rigidbody myRigidbody;
 
-    //BoxColiderコンポーネントを入れる
     public BoxCollider atkCollider;
 
+    public AudioSource myAudio;
 }
