@@ -17,12 +17,15 @@ public class StageController : MonoBehaviour
     public GameObject BossSlimePrefab;
 
     public GameObject Player;
+    public GameObject Director;
 
     private float PlayerDistance;
     private float CreatePos;
     private float CreateRange;
     private float CreateDistance;
     private bool isCreate;
+    private bool isGoal;
+    public bool isStageCreate;
     public float StartPos;
     public float GoalPos;
     public float PosRange;
@@ -34,7 +37,10 @@ public class StageController : MonoBehaviour
     void Start()
     {
         this.Player = GameObject.Find("Player");
-        this.isCreate = true;
+        this.Director = GameObject.Find("GameDirector");
+        this.isCreate = false;
+        this.isStageCreate = false;
+        this.isGoal = false;
         this.StartPos = 80f;
         this.GoalPos = 400f;
         this.CreateDistance = 55f;
@@ -49,6 +55,11 @@ public class StageController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (this.isCreate == false && this.isStageCreate == true)
+        {
+            StageCreate();
+        }
+
         if (this.StageStartPos - Player.transform.position.z <= 100)
         {
             GameObject Road = Instantiate(RoadPrefab);
@@ -72,16 +83,25 @@ public class StageController : MonoBehaviour
             {
                 this.isCreate = false;
             }
-
         }
-        else if (this.isCreate == false)
+
+        if (Player.transform.position.z >= this.GoalPos && isGoal == false)//this.GoalPos - Player.transform.position.z <= 0)
         {
-            this.StartPos =  this.GoalPos + 100f;
-            this.GoalPos = this.GoalPos + this.GoalPos + 100f;
-            this.CreatePos = this.StartPos;
-            this.isCreate = true;
+            this.isGoal = true;
+            this.Director.GetComponent<GameDirector>().index = GameDirector.Index.StageClear;
         }
 
+    }
+
+    void StageCreate()
+    {
+        this.StartPos = Player.transform.position.z + 50f;
+        this.GoalPos = this.StartPos + 400f;
+        this.CreatePos = this.StartPos + this.CreateRange;
+        this.isCreate = true;
+        this.isStageCreate = false;
+        this.isGoal = false;
+        this.Director.GetComponent<GameDirector>().index = GameDirector.Index.NormalMode;
     }
 
     void CreateItem()

@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour
     public AudioClip RunningSE;
     public AudioClip SlidingSE;
 
+    public bool isRunning;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -79,6 +81,8 @@ public class PlayerController : MonoBehaviour
         this.BossSlime = GameObject.Find("BossSlime");
 
         this.PlayerHP = Setting.PlayerHP;
+
+        this.isRunning = false;
     }
 
     private void ChangeState(StateType state)
@@ -93,7 +97,7 @@ public class PlayerController : MonoBehaviour
     {
         this.PlayerHP = Setting.PlayerHP;
 
-        if (this.gamedirector.GetComponent<GameDirector>().isGameStart == false)
+        if (this.isRunning == true)
         {
             Compo.myAnimator.SetFloat("Speed", 1);
 
@@ -103,111 +107,115 @@ public class PlayerController : MonoBehaviour
                 Compo.myAudio.clip = RunningSE;
                 Compo.myAudio.Play();
             }
-            
 
-            //横方向の入力による速度
-            float inputVelocityY = 0;
+            if (this.gamedirector.GetComponent<GameDirector>().index == GameDirector.Index.NormalMode)
+            {
+                //横方向の入力による速度
+                //float inputVelocityY = 0;
 
-            //プレイヤーを矢印キーまたはボタンに応じて左右に移動させる
-            if (Input.GetKeyDown(KeyCode.LeftArrow) && -Setting.movableRange < this.transform.position.x && Setting.movableX == true)
-            {
-                Setting.movableX = false;
-                Setting.nowpositionX -= Setting.setpositionX;
-                Setting.inputVelocityX = -Setting.velocityX;
-            }
-            else if (Input.GetKeyDown(KeyCode.RightArrow) && this.transform.position.x < Setting.movableRange && Setting.movableX == true)
-            {
-                Setting.movableX = false;
-                Setting.nowpositionX += Setting.setpositionX;
-                Setting.inputVelocityX = Setting.velocityX;
-            }
-
-            //横方向移動したら停止する（3か所）
-            if (Setting.inputVelocityX < 0)
-            {
-                if (this.transform.position.x <= Setting.nowpositionX)
+                //プレイヤーを矢印キーまたはボタンに応じて左右に移動させる
+                if (Input.GetKeyDown(KeyCode.LeftArrow) && -Setting.movableRange < this.transform.position.x && Setting.movableX == true)
                 {
-                    Setting.inputVelocityX = 0;
-                    this.transform.position = new Vector3(Setting.nowpositionX, this.transform.position.y, this.transform.position.z);
-                    Setting.movableX = true;
+                    Setting.movableX = false;
+                    Setting.nowpositionX -= Setting.setpositionX;
+                    Setting.inputVelocityX = -Setting.velocityX;
+                }
+                else if (Input.GetKeyDown(KeyCode.RightArrow) && this.transform.position.x < Setting.movableRange && Setting.movableX == true)
+                {
+                    Setting.movableX = false;
+                    Setting.nowpositionX += Setting.setpositionX;
+                    Setting.inputVelocityX = Setting.velocityX;
+                }
+
+                //横方向移動したら停止する（3か所）
+                if (Setting.inputVelocityX < 0)
+                {
+                    if (this.transform.position.x <= Setting.nowpositionX)
+                    {
+                        Setting.inputVelocityX = 0;
+                        this.transform.position = new Vector3(Setting.nowpositionX, this.transform.position.y, this.transform.position.z);
+                        Setting.movableX = true;
+                    }
+                }
+                else
+                {
+                    if (this.transform.position.x >= Setting.nowpositionX)
+                    {
+                        Setting.inputVelocityX = 0;
+                        this.transform.position = new Vector3(Setting.nowpositionX, this.transform.position.y, this.transform.position.z);
+                        Setting.movableX = true;
+                    }
+                }
+
+                m_CurrentState.OnUpdate();
+
+                //ジャンプ
+                if (Input.GetKeyDown(KeyCode.UpArrow) &&
+                    (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Sliding")))
+                {
+                    ChangeState(StateType.Jump);
+                }
+
+                //スライディング
+                if (Input.GetKeyDown(KeyCode.DownArrow) &&
+                    (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
+                {
+                    ChangeState(StateType.Sliding);
+                    Compo.myAudio.PlayOneShot(SlidingSE);
+
+                }
+
+                //攻撃
+                if (Input.GetKeyDown(KeyCode.Space) &&
+                    (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
+                {
+                    ChangeState(StateType.Attack);
+                }
+
+                //力尽きた
+                if (Setting.PlayerHP <= 0)
+                {
+                    ChangeState(StateType.Death);
+                    this.gamedirector.GetComponent<GameDirector>().index = GameDirector.Index.GameOver;
+                    Compo.myAudio.Stop();
+                }
+
+                //ボスバトル
+                if (this.gamedirector.GetComponent<GameDirector>().index == GameDirector.Index.BossMode)
+                {
+                    this.score = GameObject.Find("ScoreDirector");
+                    this.score.GetComponent<ScoreController>().isTimeScore = false;
+                    Setting.velocityZ = 0;
+                    //Setting.myAnimator.SetFloat("Speed", 0);
+                }
+
+
+                //Jumpステートの場合はJumpにfalseをセットする
+                if (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+                {
+                    ChangeState(StateType.Idle);
+                }
+                //Slideステートの場合はSlideにfalseをセットする
+                if (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Slide"))
+                {
+                    ChangeState(StateType.Idle);
+                }
+
+
+                if (Setting.atkdelta >= Setting.atkspan)
+                {
+                    ChangeState(StateType.Idle);
                 }
             }
-            else
-            {
-                if (this.transform.position.x >= Setting.nowpositionX)
-                {
-                    Setting.inputVelocityX = 0;
-                    this.transform.position = new Vector3(Setting.nowpositionX, this.transform.position.y, this.transform.position.z);
-                    Setting.movableX = true;
-                }
-            }
-
-            m_CurrentState.OnUpdate();
-
-            //ジャンプ
-            if (Input.GetKeyDown(KeyCode.UpArrow) &&
-                (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Sliding")))
-            {
-                ChangeState(StateType.Jump);
-            }
-
-            //スライディング
-            if (Input.GetKeyDown(KeyCode.DownArrow) &&
-                (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
-            {
-                ChangeState(StateType.Sliding);
-                Compo.myAudio.PlayOneShot(SlidingSE);
-
-            }
-
-            //攻撃
-            if (Input.GetKeyDown(KeyCode.Space) &&
-                (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
-            {
-                ChangeState(StateType.Attack);
-            }
-
-            //力尽きた
-            if (Setting.PlayerHP <= 0)
-            {
-                ChangeState(StateType.Death);
-                Compo.myAudio.Stop();
-            }
-
-            //ボスバトル
-            if(gamedirector.GetComponent<GameDirector>().isBossBattle == true)
-            {
-                this.score = GameObject.Find("ScoreDirector");
-                this.score.GetComponent<ScoreController>().isTimeScore = false;
-                Setting.velocityZ = 0;
-                //Setting.myAnimator.SetFloat("Speed", 0);
-            }
-
             
-            //Jumpステートの場合はJumpにfalseをセットする
-            if (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
-            {
-                ChangeState(StateType.Idle);
-            }
-            //Slideステートの場合はSlideにfalseをセットする
-            if (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Slide"))
-            {
-                ChangeState(StateType.Idle);
-            }
-            
-            
-            if(Setting.atkdelta >= Setting.atkspan)
-            {
-                ChangeState(StateType.Idle);
-            }
-
             //プレイヤーに速度を与える
             Compo.myRigidbody.velocity = new Vector3(Setting.inputVelocityX, Compo.myRigidbody.velocity.y, Setting.velocityZ);
         }
-        else
+        /*else
         {
             ChangeState(StateType.Idle);
         }
+        */
     }
     
     //攻撃当たった時

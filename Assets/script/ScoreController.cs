@@ -32,7 +32,7 @@ public class ScoreController : MonoBehaviour
         if (this.isTimeScore == true && this.gamedirector.GetComponent<GameDirector>().isGameStart == false)
         {
             this.time += Time.deltaTime;
-            this.timescore = timescoremagnification * (int)(time * 10);
+            this.timescore = 0;// timescoremagnification * (int)(time * 10);
         }
 
         //経過時間スコアと敵倒したポイントをスコアとして表示

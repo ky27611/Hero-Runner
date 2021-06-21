@@ -6,11 +6,36 @@ using UnityEngine.UI;
 
 public class GameDirector : MonoBehaviour
 {
+    public enum Index
+    {
+        PlayerSelect,
+        GameStart,
+        NormalMode,
+        BossMode,
+        StageClear,
+        GameOver,
+        PoseMenu,
+        StageCreate,
+        NextStage,
+        CountDown,
+    }
+
+    public Index index;
+
+    /*
+    public GameIndex index;
+
+    private Dictionary<Index, GameIndex> m_IndexMap = new Dictionary<Index, GameIndex>();
+
+    private GameIndex m_CurrentIndex;
+    */
+    
     private GameObject centerText;
     private GameObject generationText;
     private GameObject heroPointText;
     private GameObject HPText;
     private GameObject Player;
+    private GameObject Stage;
     private Transform Geometry;
     private GameObject bossSlime;
     private GameObject BGM;
@@ -22,14 +47,31 @@ public class GameDirector : MonoBehaviour
     private float countdowntime = 4;
     private int countdowntimetext;
     //private bool isCountDown;
-    private static int generationCount = 0;
-    private static bool isHeroSelect;
+    private int generationCount = 1;
+    //private static bool isHeroSelect;
 
     public int HeroPoint;
+    public int indexNo;
+    public int PlayerNo;
+    public int StageNo;
+
+    public bool isChangeIndex;
 
     // Start is called before the first frame update
     void Start()
     {
+        /*
+        m_IndexMap.Add(Index.PlayerSelect, new PlayerSelect());
+        m_IndexMap.Add(Index.GameStart, new GameStart());
+        m_IndexMap.Add(Index.NormalMode, new NormalMode());
+        m_IndexMap.Add(Index.BossMode, new BossMode());
+        m_IndexMap.Add(Index.StageClear, new StageClear());
+        m_IndexMap.Add(Index.GameOver, new GameOver());
+        m_IndexMap.Add(Index.PoseMenu, new PoseMenu());
+
+        m_CurrentIndex = m_IndexMap[Index.PlayerSelect];
+        */
+
         this.centerText = GameObject.Find("CenterText");
         this.generationText = GameObject.Find("GenerationText");
         this.heroPointText = GameObject.Find("HeroPoint");
@@ -37,13 +79,24 @@ public class GameDirector : MonoBehaviour
         this.Player = GameObject.Find("Player");
         this.Geometry = Player.transform.Find("Geometry");
         this.BGM = GameObject.Find("BGM");
+        this.Stage = GameObject.Find("StageDirector");
         //this.bossSlime = GameObject.Find("BossSlime");
+
+        this.HeroPoint = 0;
+        this.indexNo = 0;
+        this.index = Index.PlayerSelect;
+        this.PlayerNo = 0;
+        this.StageNo = 1;
+
+        this.isChangeIndex = true;
+
+        /*
+        //this.isCountDown = true;
         this.isGameStart = true;
         this.isBossBattle = false;
         this.isClear = false;
         this.isGameOver = false;
-        this.HeroPoint = 0;
-        //this.isCountDown = true;
+        */
 
         this.generationText.GetComponent<Text>().text = "Generation:" + generationCount.ToString();
         this.heroPointText.GetComponent<Text>().text = "HeroPoint:" + HeroPoint.ToString();
@@ -51,138 +104,136 @@ public class GameDirector : MonoBehaviour
 
     }
 
+    /*
+    private void ChangeIndex(Index index)
+    {
+        m_CurrentIndex.Release();
+        m_CurrentIndex = m_IndexMap[index];
+        m_CurrentIndex.Initialize();
+    }
+    */
+
     // Update is called once per frame
     void Update()
     {
         this.heroPointText.GetComponent<Text>().text = "HeroPoint:" + HeroPoint.ToString();
         this.HPText.GetComponent<Text>().text = "HP:" + Player.GetComponent<PlayerController>().PlayerHP.ToString();
 
-        if (isHeroSelect == true)
-        {
-            this.isGameStart = false;
-            Debug.Log("press a , b or c");
+        ChangeIndex();
 
-            if (Input.GetKeyDown(KeyCode.A))
+        //m_CurrentIndex.OnUpdate();
+
+    }
+
+    public void ChangeIndex()
+    {
+        switch (index)
+        {
+            case Index.PlayerSelect:     //キャラクター選択
+                
+                PlayerChange();
+                break;
+
+            case Index.GameStart:     //スタート処理
+
+                GameStart();
+                break;
+
+            case Index.NormalMode:     //ラン
+                this.Player.GetComponent<PlayerController>().isRunning = true;
+                break;
+
+            case Index.BossMode:     //ボス
+                this.Player.GetComponent<PlayerController>().isRunning = true;
+                break;
+
+            case Index.StageClear:     //ステージクリア
+
+                StageClear();
+                break;
+
+            case Index.GameOver:     //ゲームオーバー
+
+                GameOver();
+                break;
+
+            case Index.NextStage:
+
+                NextStage();
+                break;
+
+            case Index.StageCreate:
+
+                StageCreate();
+                break;
+            case Index.CountDown:
+
+                CountDown();
+                break;
+        }
+
+        this.isChangeIndex = false;
+    }
+
+    public void PlayerChange()
+    {
+        //this.isGameStart = false;
+        this.Player.GetComponent<PlayerController>().isRunning = false;
+        this.centerText.GetComponent<Text>().text = "press a , b or c";
+        Debug.Log("press a , b or c");
+        Geometry.GetChild(PlayerNo).gameObject.SetActive(false);
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            /*
+            foreach(Transform child in transform)
             {
-                /*
-                foreach(Transform child in transform)
-                {
-                    child.gameObject.SetActive(false);
-                }
-                */
-                for (int i = 0; i < 50; i++)
-                {
-                    Geometry.GetChild(i).gameObject.SetActive(false);
-                }
-                Geometry.GetChild(0).gameObject.SetActive(true);
-                this.isGameStart = true;
-                isHeroSelect = false;
+                child.gameObject.SetActive(false);
             }
-            else if (Input.GetKeyDown(KeyCode.B))
+            */
+            this.PlayerNo = 0;
+            this.centerText.GetComponent<Text>().text = "";
+            for (int i = 0; i < 50; i++)
             {
-                for (int i = 0; i < 50; i++)
-                {
-                    Geometry.GetChild(i).gameObject.SetActive(false);
-                }
-                Geometry.GetChild(1).gameObject.SetActive(true);
-                this.isGameStart = true;
-                isHeroSelect = false;
+                Geometry.GetChild(i).gameObject.SetActive(false);
             }
-            else if (Input.GetKeyDown(KeyCode.C))
+            Geometry.GetChild(PlayerNo).gameObject.SetActive(true);
+            this.index = Index.GameStart;
+        }
+        else if (Input.GetKeyDown(KeyCode.B))
+        {
+            this.PlayerNo = 1;
+            this.centerText.GetComponent<Text>().text = "";
+            for (int i = 0; i < 50; i++)
             {
-                for (int i = 0; i < 50; i++)
-                {
-                    Geometry.GetChild(i).gameObject.SetActive(false);
-                }
-                Geometry.GetChild(2).gameObject.SetActive(true);
-                this.isGameStart = true;
-                isHeroSelect = false;
+                Geometry.GetChild(i).gameObject.SetActive(false);
             }
+            Geometry.GetChild(PlayerNo).gameObject.SetActive(true);
+            this.index = Index.GameStart;
         }
-        else if (this.isGameStart == true)
+        else if (Input.GetKeyDown(KeyCode.C))
         {
-            GameStart();
+            this.PlayerNo = 2;
+            this.centerText.GetComponent<Text>().text = "";
+            for (int i = 0; i < 50; i++)
+            {
+                Geometry.GetChild(i).gameObject.SetActive(false);
+            }
+            Geometry.GetChild(PlayerNo).gameObject.SetActive(true);
+            this.index = Index.GameStart;
         }
-        else if (this.isGameOver == true)
-        {
-            GameOver();
-        }
-        else if (this.isClear == true)
-        {
-            Clear();
-        }
-
-        //if (this.isBossBattle == false && Player.transform.position.z - bossSlime.transform.position.z >= -5)
-        //{
-        //    this.isBossBattle = true;
-        //}
-
-        
-
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            Reload();
-        } 
     }
 
     public void GameStart()
     {
-        if (isGameStart == true)
-        {
-            Player.transform.position = new Vector3(0, 0.2f, 0);
-            CountDown();
-        }
-    }
-    
-    public void Reload()
-    {
-        SceneManager.LoadScene("Stage0Scene");
-        Debug.Log("stage0");
-    }
-
-    public void GameOver()
-    {
         this.waittime += Time.deltaTime;
-        Debug.Log((int)waittime);
-        Debug.Log("gameover");
-        this.centerText.GetComponent<Text>().text = "GameOver";
-        
-
-        if (this.waittime >= 5)
+        Player.transform.position = new Vector3(0, 0.2f, 0);
+        this.centerText.GetComponent<Text>().text = "Stage" + StageNo.ToString();
+        if (this.waittime >= 3)
         {
-            BGM.GetComponent<AudioController>().AudioChange(11);
             this.waittime = 0;
-            isHeroSelect = true;
-            generationCount++;
-            this.generationText.GetComponent<Text>().text = "Generation:" + generationCount.ToString();
-            //SceneManager.LoadScene("Stage0Scene");
-            //Debug.Log("stage0");
             this.centerText.GetComponent<Text>().text = "";
-            this.isGameOver = false;
-
-            /*
-            this.generationCount++;
-            this.generationText.GetComponent<Text>().text = "Generation:" + this.generationCount.ToString();
-            this.waittime = 0;
-            this.isGameOver = false;
-            this.isGameStart = true;
-            */
-        }
-    }
-
-    public void Clear()
-    {
-        this.waittime += Time.deltaTime;
-        Debug.Log((int)waittime);
-        Debug.Log("clear");
-        this.centerText.GetComponent<Text>().text = "Clear";
-        //BGM.GetComponent<AudioController>().AudioChange(12);
-
-        if (this.waittime >= 5)
-        {
-            SceneManager.LoadScene("Stage1Scene");
-            Debug.Log("stage1");
-            
+            this.index = Index.CountDown;
         }
     }
 
@@ -217,9 +268,82 @@ public class GameDirector : MonoBehaviour
                 this.waittime = 0;
                 this.centerText.GetComponent<Text>().text = "";
                 this.countdowntime = 4;
-                isGameStart = false;
-                BGM.GetComponent<AudioController>().AudioChange(1);
+                this.index = Index.StageCreate;
             }
         }
     }
+
+    public void GameOver()
+    {
+        this.waittime += Time.deltaTime;
+        //Debug.Log((int)waittime);
+        Debug.Log("gameover");
+
+        if (this.HeroPoint >= 1)
+        {
+            
+        }
+        else
+        {
+            this.centerText.GetComponent<Text>().text = "GameOver";
+        }
+        
+        if (this.waittime >= 5)
+        {
+            //BGM.GetComponent<AudioController>().AudioChange(11);
+            this.waittime = 0;
+            generationCount++;
+            this.generationText.GetComponent<Text>().text = "Generation:" + generationCount.ToString();
+            this.centerText.GetComponent<Text>().text = "";
+
+            if (this.HeroPoint >= 1)
+            {
+                this.HeroPoint = 0;
+                this.index = Index.PlayerSelect;
+            }
+            else
+            {
+                SceneManager.LoadScene("TitleScene");
+            }
+
+        }
+    }
+
+    public void StageClear()
+    {
+        this.waittime += Time.deltaTime;
+        Debug.Log((int)waittime);
+        Debug.Log("clear");
+        this.centerText.GetComponent<Text>().text = "Clear";
+        //BGM.GetComponent<AudioController>().AudioChange(12);
+
+        if (this.waittime >= 3)
+        {
+            //this.Stage.GetComponent<StageController>().isNextStage = true;
+            this.centerText.GetComponent<Text>().text = "";
+            this.index = Index.NextStage;
+            this.waittime = 0;
+            this.StageNo++;
+        }
+    }
+
+    public void NextStage()
+    {
+        this.waittime += Time.deltaTime;
+        
+        this.centerText.GetComponent<Text>().text = "Stage" + StageNo.ToString();
+
+        if (this.waittime >= 3)
+        {
+            this.waittime = 0;
+            this.centerText.GetComponent<Text>().text = "";
+            this.index = Index.StageCreate;
+        }
+    }
+
+    public void StageCreate()
+    {
+        this.Stage.GetComponent<StageController>().isStageCreate = true;
+    }
+
 }
