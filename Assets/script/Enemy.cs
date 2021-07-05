@@ -21,6 +21,7 @@ public class Enemy : MonoBehaviour
     public float EnemyAtk;
 
     private GameObject Score;
+    private GameObject Gamedirector;
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +52,7 @@ public class Enemy : MonoBehaviour
         this.EnemyAtk = Setting.Atk;
         
         this.Score = GameObject.Find("ScoreDirector");
+        this.Gamedirector = GameObject.Find("GameDirector");
 
         /*
         if (Setting.Type == Slime)
@@ -91,6 +93,12 @@ public class Enemy : MonoBehaviour
             this.Score.GetComponent<ScoreController>().DefeatEnemy();
             Destroy(this.gameObject);
         }
+
+        if (this.Gamedirector.GetComponent<GameDirector>().index == GameDirector.Index.PlayerSelect)
+        {
+            Destroy(this.gameObject);
+        }
+
     }
     
 }

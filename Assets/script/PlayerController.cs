@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
         this.isRunning = false;
     }
 
-    private void ChangeState(StateType state)
+    public void ChangeState(StateType state)
     {
         m_CurrentState.Release();
         m_CurrentState = m_StateMap[state];
@@ -180,6 +180,8 @@ public class PlayerController : MonoBehaviour
                     Compo.myAudio.Stop();
                 }
 
+
+
                 //ボスバトル
                 if (this.gamedirector.GetComponent<GameDirector>().index == GameDirector.Index.BossMode)
                 {
@@ -211,11 +213,13 @@ public class PlayerController : MonoBehaviour
             //プレイヤーに速度を与える
             Compo.myRigidbody.velocity = new Vector3(Setting.inputVelocityX, Compo.myRigidbody.velocity.y, Setting.velocityZ);
         }
-        /*else
+        else
         {
-            ChangeState(StateType.Idle);
+            Compo.myAnimator.SetFloat("Speed", 0);
+            //ChangeState(StateType.Idle);
+
         }
-        */
+        
     }
     
     //攻撃当たった時

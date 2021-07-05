@@ -36,6 +36,7 @@ public class GameDirector : MonoBehaviour
     private GameObject HPText;
     private GameObject Player;
     private GameObject Stage;
+    private GameObject Sword;
     private Transform Geometry;
     private GameObject bossSlime;
     private GameObject BGM;
@@ -54,6 +55,8 @@ public class GameDirector : MonoBehaviour
     public int indexNo;
     public int PlayerNo;
     public int StageNo;
+
+    public float RestartPos;
 
     public bool isChangeIndex;
 
@@ -78,6 +81,7 @@ public class GameDirector : MonoBehaviour
         this.HPText = GameObject.Find("HP");
         this.Player = GameObject.Find("Player");
         this.Geometry = Player.transform.Find("Geometry");
+        this.Sword = GameObject.Find("Sword");
         this.BGM = GameObject.Find("BGM");
         this.Stage = GameObject.Find("StageDirector");
         //this.bossSlime = GameObject.Find("BossSlime");
@@ -87,6 +91,8 @@ public class GameDirector : MonoBehaviour
         this.index = Index.PlayerSelect;
         this.PlayerNo = 0;
         this.StageNo = 1;
+
+        this.RestartPos = 0;
 
         this.isChangeIndex = true;
 
@@ -130,12 +136,12 @@ public class GameDirector : MonoBehaviour
         switch (index)
         {
             case Index.PlayerSelect:     //キャラクター選択
-                
+                this.Player.GetComponent<PlayerController>().isRunning = false;
                 PlayerChange();
                 break;
 
             case Index.GameStart:     //スタート処理
-
+                this.Player.GetComponent<PlayerController>().isRunning = false;
                 GameStart();
                 break;
 
@@ -182,6 +188,7 @@ public class GameDirector : MonoBehaviour
         this.centerText.GetComponent<Text>().text = "press a , b or c";
         Debug.Log("press a , b or c");
         Geometry.GetChild(PlayerNo).gameObject.SetActive(false);
+        this.Sword.GetComponent<Renderer>().enabled = false;
 
         if (Input.GetKeyDown(KeyCode.A))
         {
@@ -198,6 +205,7 @@ public class GameDirector : MonoBehaviour
                 Geometry.GetChild(i).gameObject.SetActive(false);
             }
             Geometry.GetChild(PlayerNo).gameObject.SetActive(true);
+            this.Sword.GetComponent<Renderer>().enabled = true;
             this.index = Index.GameStart;
         }
         else if (Input.GetKeyDown(KeyCode.B))
@@ -209,6 +217,7 @@ public class GameDirector : MonoBehaviour
                 Geometry.GetChild(i).gameObject.SetActive(false);
             }
             Geometry.GetChild(PlayerNo).gameObject.SetActive(true);
+            this.Sword.GetComponent<Renderer>().enabled = true;
             this.index = Index.GameStart;
         }
         else if (Input.GetKeyDown(KeyCode.C))
@@ -220,6 +229,7 @@ public class GameDirector : MonoBehaviour
                 Geometry.GetChild(i).gameObject.SetActive(false);
             }
             Geometry.GetChild(PlayerNo).gameObject.SetActive(true);
+            this.Sword.GetComponent<Renderer>().enabled = true;
             this.index = Index.GameStart;
         }
     }
@@ -227,7 +237,11 @@ public class GameDirector : MonoBehaviour
     public void GameStart()
     {
         this.waittime += Time.deltaTime;
-        Player.transform.position = new Vector3(0, 0.2f, 0);
+        Player.transform.position = new Vector3(0, 0.1f, RestartPos);
+        this.Player.GetComponent<PlayerController>().Setting.velocityZ = 16;
+        this.Player.GetComponent<PlayerController>().Setting.velocityX = 12;
+        this.Player.GetComponent<PlayerController>().Setting.velocityY = 4;
+
         this.centerText.GetComponent<Text>().text = "Stage" + StageNo.ToString();
         if (this.waittime >= 3)
         {
@@ -299,6 +313,8 @@ public class GameDirector : MonoBehaviour
             if (this.HeroPoint >= 1)
             {
                 this.HeroPoint = 0;
+                this.RestartPos = Player.transform.position.z;
+                this.Player.GetComponent<PlayerController>().ChangeState(PlayerController.StateType.Idle);
                 this.index = Index.PlayerSelect;
             }
             else
