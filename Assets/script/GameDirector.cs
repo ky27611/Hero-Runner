@@ -35,16 +35,21 @@ public class GameDirector : MonoBehaviour
     private GameObject heroPointText;
     private GameObject HPText;
     private GameObject Player;
+    private GameObject PlayerDummy;
     private GameObject Stage;
     private GameObject Sword;
+    private GameObject SwordDummy;
     private Transform Geometry;
+    private Transform GeometryDummy;
     private GameObject bossSlime;
     private GameObject BGM;
+    public bool isHeroDecision;
     public bool isGameStart;
     public bool isBossBattle;
     public bool isClear;
     public bool isGameOver;
     private float waittime = 0;
+    private int waitcount = 0;
     private float countdowntime = 4;
     private int countdowntimetext;
     //private bool isCountDown;
@@ -80,8 +85,11 @@ public class GameDirector : MonoBehaviour
         this.heroPointText = GameObject.Find("HeroPoint");
         this.HPText = GameObject.Find("HP");
         this.Player = GameObject.Find("Player");
+        this.PlayerDummy = GameObject.Find("PlayerDummy");
         this.Geometry = Player.transform.Find("Geometry");
+        this.GeometryDummy = PlayerDummy.transform.Find("GeometryDummy");
         this.Sword = GameObject.Find("Sword");
+        this.SwordDummy = GameObject.Find("SwordDummy");
         this.BGM = GameObject.Find("BGM");
         this.Stage = GameObject.Find("StageDirector");
         //this.bossSlime = GameObject.Find("BossSlime");
@@ -95,6 +103,7 @@ public class GameDirector : MonoBehaviour
         this.RestartPos = 0;
 
         this.isChangeIndex = true;
+        this.isHeroDecision = false;
 
         /*
         //this.isCountDown = true;
@@ -183,55 +192,86 @@ public class GameDirector : MonoBehaviour
 
     public void PlayerChange()
     {
-        //this.isGameStart = false;
-        this.Player.GetComponent<PlayerController>().isRunning = false;
-        this.centerText.GetComponent<Text>().text = "press a , b or c";
-        Debug.Log("press a , b or c");
-        Geometry.GetChild(PlayerNo).gameObject.SetActive(false);
-        this.Sword.GetComponent<Renderer>().enabled = false;
-
-        if (Input.GetKeyDown(KeyCode.A))
+        if (isHeroDecision == false)
         {
-            /*
-            foreach(Transform child in transform)
+            this.waittime += Time.deltaTime;
+            this.Player.GetComponent<PlayerController>().isRunning = false;
+            this.centerText.GetComponent<Text>().text = "press space";
+            Debug.Log("press space");
+            PlayerDummy.gameObject.SetActive(true);
+            Geometry.GetChild(PlayerNo).gameObject.SetActive(false);
+            this.Sword.GetComponent<Renderer>().enabled = false;
+            this.SwordDummy.GetComponent<Renderer>().enabled = false;
+
+            if (this.waittime >= 0.08f)
             {
-                child.gameObject.SetActive(false);
+                waittime = 0;
+                GeometryDummy.GetChild(PlayerNo).gameObject.SetActive(false);
+                this.PlayerNo++;
+                if (PlayerNo >= 6)
+                {
+                    PlayerNo = 0;
+                }
+                GeometryDummy.GetChild(PlayerNo).gameObject.SetActive(true);
             }
-            */
-            this.PlayerNo = 0;
-            this.centerText.GetComponent<Text>().text = "";
-            for (int i = 0; i < 50; i++)
+
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                Geometry.GetChild(i).gameObject.SetActive(false);
+                this.isHeroDecision = true;
+                this.waittime = 0;
             }
-            Geometry.GetChild(PlayerNo).gameObject.SetActive(true);
-            this.Sword.GetComponent<Renderer>().enabled = true;
-            this.index = Index.GameStart;
         }
+        else
+        {
+            this.waittime += Time.deltaTime;
+            this.centerText.GetComponent<Text>().text = "";
+            this.SwordDummy.GetComponent<Renderer>().enabled = true;
+
+            if (this.waittime >= 3)
+            {
+                this.waittime = 0;
+                this.isHeroDecision = false;
+                GeometryDummy.GetChild(PlayerNo).gameObject.SetActive(false);
+                PlayerDummy.gameObject.SetActive(false);
+                Geometry.GetChild(PlayerNo).gameObject.SetActive(true);
+                this.Sword.GetComponent<Renderer>().enabled = true;
+                GeometryDummy.GetChild(PlayerNo).gameObject.SetActive(false);
+                this.index = Index.GameStart;
+            }
+        }
+
+        /*
         else if (Input.GetKeyDown(KeyCode.B))
         {
-            this.PlayerNo = 1;
+            //this.PlayerNo = 1;
             this.centerText.GetComponent<Text>().text = "";
             for (int i = 0; i < 50; i++)
             {
                 Geometry.GetChild(i).gameObject.SetActive(false);
             }
+            GeometryDummy.GetChild(PlayerNo).gameObject.SetActive(false);
             Geometry.GetChild(PlayerNo).gameObject.SetActive(true);
             this.Sword.GetComponent<Renderer>().enabled = true;
+            //this.PlayerDummy.GetComponent<Renderer>().enabled = false;
+            GeometryDummy.GetChild(PlayerNo).gameObject.SetActive(false);
             this.index = Index.GameStart;
         }
         else if (Input.GetKeyDown(KeyCode.C))
         {
-            this.PlayerNo = 2;
+            //this.PlayerNo = 2;
             this.centerText.GetComponent<Text>().text = "";
             for (int i = 0; i < 50; i++)
             {
                 Geometry.GetChild(i).gameObject.SetActive(false);
             }
+            GeometryDummy.GetChild(PlayerNo).gameObject.SetActive(false);
             Geometry.GetChild(PlayerNo).gameObject.SetActive(true);
             this.Sword.GetComponent<Renderer>().enabled = true;
+            //this.PlayerDummy.GetComponent<Renderer>().enabled = false;
+            GeometryDummy.GetChild(PlayerNo).gameObject.SetActive(false);
             this.index = Index.GameStart;
         }
+        */
     }
 
     public void GameStart()
