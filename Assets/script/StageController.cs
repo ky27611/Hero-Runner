@@ -23,7 +23,7 @@ public class StageController : MonoBehaviour
     private float CreatePos;
     private float CreateRange;
     private float CreateDistance;
-    private bool isCreate;
+    public bool isCreate;
     private bool isGoal;
     public bool isStageCreate;
     public float StartPos;

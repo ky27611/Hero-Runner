@@ -202,6 +202,7 @@ public class GameDirector : MonoBehaviour
             Geometry.GetChild(PlayerNo).gameObject.SetActive(false);
             this.Sword.GetComponent<Renderer>().enabled = false;
             this.SwordDummy.GetComponent<Renderer>().enabled = false;
+            Player.transform.position = new Vector3(0, 0.1f, RestartPos);
 
             if (this.waittime >= 0.08f)
             {
@@ -332,6 +333,8 @@ public class GameDirector : MonoBehaviour
         this.waittime += Time.deltaTime;
         //Debug.Log((int)waittime);
         Debug.Log("gameover");
+        this.Sword.GetComponent<Renderer>().enabled = false;
+        this.Stage.GetComponent<StageController>().isCreate = false; 
 
         if (this.HeroPoint >= 1)
         {
