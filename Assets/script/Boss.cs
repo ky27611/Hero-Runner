@@ -9,6 +9,9 @@ public class Boss : MonoBehaviour
     {
         Idle,
         BossSlime,
+        BossTurtle,
+        BossPurple,
+        BossDragon,
     }
 
     public BossSetting Setting;
@@ -21,17 +24,30 @@ public class Boss : MonoBehaviour
 
     private GameObject Score;
     private GameObject gameDirector;
+    private GameObject Player;
 
     // Start is called before the first frame update
     void Start()
     {
-        m_BossMap.Add(BossType.Idle, new BossMove(Setting, GetComponent<Rigidbody>()));
-        m_BossMap.Add(BossType.BossSlime, new BossMove(Setting, GetComponent<Rigidbody>()));
+        m_BossMap.Add(BossType.Idle, new BossMove(Setting));
+        m_BossMap.Add(BossType.BossSlime, new BossMove(Setting));
+        m_BossMap.Add(BossType.BossTurtle, new BossMove(Setting));
+        m_BossMap.Add(BossType.BossPurple, new BossMove(Setting));
+        m_BossMap.Add(BossType.BossDragon, new BossMove(Setting));
 
         switch (Setting.Type)
         {
             case BossSetting.BossType.BossSlime:
                 ChangeMove(BossType.BossSlime);
+                break;
+            case BossSetting.BossType.BossTurtle:
+                ChangeMove(BossType.BossTurtle);
+                break;
+            case BossSetting.BossType.BossPurple:
+                ChangeMove(BossType.BossPurple);
+                break;
+            case BossSetting.BossType.BossDragon:
+                ChangeMove(BossType.BossDragon);
                 break;
         }
 
@@ -40,6 +56,9 @@ public class Boss : MonoBehaviour
 
         this.Score = GameObject.Find("ScoreDirector");
         this.gameDirector = GameObject.Find("GameDirector");
+        this.Player = GameObject.Find("Player");
+
+        this.transform.position = new Vector3(0, this.transform.position.y, Player.transform.position.z + 12);
 
     }
 
@@ -53,12 +72,19 @@ public class Boss : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        this.transform.position = new Vector3(0, this.transform.position.y, Player.transform.position.z + 12);
         m_CurrentMove.OnUpdate();
 
         if (this.BossHP <= 0)
         {
+            /*
             this.Score.GetComponent<ScoreController>().DefeatBoss();
             this.gameDirector.GetComponent<GameDirector>().isClear = true;
+            Destroy(this.gameObject);
+            */
+
+            //this.GetComponent<Renderer>().enabled = false;
+            this.gameDirector.GetComponent<GameDirector>().index = GameDirector.Index.StageClear;
             Destroy(this.gameObject);
         }
     }

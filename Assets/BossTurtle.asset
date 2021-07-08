@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 668054bd96ba2444f8fce10d5482b1e4, type: 3}
-  m_Name: BossSlime
+  m_Name: BossTurtle
   m_EditorClassIdentifier: 
-  Type: 0
+  Type: 1
   Name: 
   Hp: 10
   Atk: 1
   Spd: 1
-  Exp: 1000
+  Exp: 2000

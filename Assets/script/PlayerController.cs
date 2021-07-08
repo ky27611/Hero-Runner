@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private EnemySetting e_Setting;
 
     private GameObject gamedirector;
+    public GameObject ShockWavePrefab;
 
     //Score
     private GameObject score;
@@ -108,7 +109,7 @@ public class PlayerController : MonoBehaviour
                 Compo.myAudio.Play();
             }
 
-            if (this.gamedirector.GetComponent<GameDirector>().index == GameDirector.Index.NormalMode)
+            if (this.gamedirector.GetComponent<GameDirector>().index == GameDirector.Index.NormalMode || this.gamedirector.GetComponent<GameDirector>().index == GameDirector.Index.BossMode)
             {
                 //横方向の入力による速度
                 //float inputVelocityY = 0;
@@ -170,6 +171,12 @@ public class PlayerController : MonoBehaviour
                     (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
                 {
                     ChangeState(StateType.Attack);
+                    if (this.gamedirector.GetComponent<GameDirector>().index == GameDirector.Index.BossMode)
+                    {
+                        GameObject ShockWave = Instantiate(ShockWavePrefab);
+                        ShockWave.transform.position = new Vector3(this.transform.position.x, 1, this.transform.position.z + 2);
+                    }
+                    
                 }
 
                 //力尽きた
@@ -181,7 +188,7 @@ public class PlayerController : MonoBehaviour
                 }
 
 
-
+                /*
                 //ボスバトル
                 if (this.gamedirector.GetComponent<GameDirector>().index == GameDirector.Index.BossMode)
                 {
@@ -190,6 +197,7 @@ public class PlayerController : MonoBehaviour
                     Setting.velocityZ = 0;
                     //Setting.myAnimator.SetFloat("Speed", 0);
                 }
+                */
 
 
                 //Jumpステートの場合はJumpにfalseをセットする

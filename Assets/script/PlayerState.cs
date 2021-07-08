@@ -102,6 +102,7 @@ public class PlayerStateAttack : PlayerState
         m_Compo.myAnimator.SetTrigger("AttackTrigger");
         //m_Setting.isAttack = true;
         m_Setting.atkdelta = 0.0f;
+        //GameObject ShockWave = Instantiate(m_Compo.ShockWavePrefab);
     }
 
     public override void OnUpdate()

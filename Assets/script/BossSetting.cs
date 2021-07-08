@@ -8,6 +8,9 @@ public class BossSetting : ScriptableObject
     public enum BossType
     {
         BossSlime,
+        BossTurtle,
+        BossPurple,
+        BossDragon,
     }
 
     public BossType Type;

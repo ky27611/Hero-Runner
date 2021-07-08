@@ -6,6 +6,7 @@ public class BossMove
 {
     protected BossSetting m_Setting;
 
+    /*
     //前方向の速度
     public float velocityZ;
     //横方向の速度
@@ -29,12 +30,13 @@ public class BossMove
     public Rigidbody myRigidbody;
 
     public float IdleTime;
+    */
 
 
-    public BossMove(BossSetting setting, Rigidbody rigidbody)
+    public BossMove(BossSetting setting)
     {
         m_Setting = setting;
-        myRigidbody = rigidbody;
+        //myRigidbody = rigidbody;
     }
     public virtual void Initialize()
     {
@@ -70,7 +72,76 @@ public class BossSlimeMove : BossMove
 
     }
 
-    public BossSlimeMove(BossSetting setting, Rigidbody rigidbody) : base(setting, rigidbody)
+    public BossSlimeMove(BossSetting setting) : base(setting)
+    {
+    }
+
+}
+
+public class BossTurtleMove : BossMove
+{
+    public override void Initialize()
+    {
+
+    }
+
+    public override void OnUpdate()
+    {
+
+    }
+
+    public override void Release()
+    {
+
+    }
+
+    public BossTurtleMove(BossSetting setting) : base(setting)
+    {
+    }
+
+}
+
+public class BossPurpleMove : BossMove
+{
+    public override void Initialize()
+    {
+
+    }
+
+    public override void OnUpdate()
+    {
+
+    }
+
+    public override void Release()
+    {
+
+    }
+
+    public BossPurpleMove(BossSetting setting) : base(setting)
+    {
+    }
+
+}
+
+public class BossDragonMove : BossMove
+{
+    public override void Initialize()
+    {
+
+    }
+
+    public override void OnUpdate()
+    {
+
+    }
+
+    public override void Release()
+    {
+
+    }
+
+    public BossDragonMove(BossSetting setting) : base(setting)
     {
     }
 

@@ -14,4 +14,7 @@ public class PlayerSettingComponent
     public BoxCollider atkCollider;
 
     public AudioSource myAudio;
+
+    //public GameObject ShockWavePrefab;
+
 }

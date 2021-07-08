@@ -15,6 +15,9 @@ public class StageController : MonoBehaviour
     public GameObject TreePrefab;
     public GameObject CrystalPrefab;
     public GameObject BossSlimePrefab;
+    public GameObject BossTurtlePrefab;
+    public GameObject BossPurplePrefab;
+    public GameObject BossDragonPrefab;
 
     public GameObject Player;
     public GameObject Director;
@@ -88,7 +91,18 @@ public class StageController : MonoBehaviour
         if (Player.transform.position.z >= this.GoalPos && isGoal == false)//this.GoalPos - Player.transform.position.z <= 0)
         {
             this.isGoal = true;
-            this.Director.GetComponent<GameDirector>().index = GameDirector.Index.StageClear;
+            if (this.Director.GetComponent<GameDirector>().StageNo % 3 == 0)
+            {
+                BossCreate();
+            }
+            else if (this.Director.GetComponent<GameDirector>().StageNo % 10 == 0)
+            {
+                LastBossCreate();
+            }
+            else
+            {
+                this.Director.GetComponent<GameDirector>().index = GameDirector.Index.StageClear;
+            }
         }
 
     }
@@ -179,6 +193,32 @@ public class StageController : MonoBehaviour
                 Purple.transform.position = new Vector3(PosRange * offsetX, Purple.transform.position.y, CreatePos + offsetZ);
             }
         }
+    }
+
+    void BossCreate()
+    {
+        this.Director.GetComponent<GameDirector>().index = GameDirector.Index.BossMode;
+        if (this.Director.GetComponent<GameDirector>().StageNo % 10 == 3)
+        {
+            GameObject BossSlime = Instantiate(BossSlimePrefab);
+            BossSlime.transform.position = new Vector3(0, BossSlime.transform.position.y, Player.transform.position.z + 12);
+        }
+        else if (this.Director.GetComponent<GameDirector>().StageNo % 10 == 6)
+        {
+            GameObject BossTurtle = Instantiate(BossTurtlePrefab);
+            BossTurtle.transform.position = new Vector3(0, BossTurtle.transform.position.y, Player.transform.position.z + 12);
+        }
+        else if (this.Director.GetComponent<GameDirector>().StageNo % 10 == 9)
+        {
+            GameObject BossPurple = Instantiate(BossPurplePrefab);
+            BossPurple.transform.position = new Vector3(0, BossPurple.transform.position.y, Player.transform.position.z + 12);
+        }
+    }
+
+    void LastBossCreate()
+    {
+        //GameObject BossDragon = Instantiate(BossDragonPrefab);
+        //BossDragon.transform.position = new Vector3(0, BossDragon.transform.position.y, Player.transform.position.z + 12);
     }
 
 }
