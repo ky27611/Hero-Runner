@@ -374,6 +374,10 @@ MonoBehaviour:
   Setting: {fileID: 11400000, guid: f060f282a9047c740ab3c36c1424977d, type: 2}
   BossHP: 0
   BossAtk: 0
+  isAttack: 0
+  waittime: 0
+  BossAttack1Prefab: {fileID: 3105040949604167738, guid: 3db710db51624914f9c66083e3647f7f,
+    type: 3}
 --- !u!65 &7479033195640634445
 BoxCollider:
   m_ObjectHideFlags: 0

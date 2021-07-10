@@ -19,5 +19,7 @@ public class BossSetting : ScriptableObject
     public int Atk;
     public float Spd;
     public int Exp;
+    public float Cooltime;
+    public int RandomNum;
 
 }

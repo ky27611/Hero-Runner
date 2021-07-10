@@ -18,3 +18,5 @@ MonoBehaviour:
   Atk: 1
   Spd: 1
   Exp: 2000
+  Cooltime: 1
+  RandomNum: 75

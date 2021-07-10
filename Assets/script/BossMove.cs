@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossMove
+public class BossMove 
 {
     protected BossSetting m_Setting;
 
@@ -64,7 +64,10 @@ public class BossSlimeMove : BossMove
 
     public override void OnUpdate()
     {
-
+        /*
+        GameObject BossAttack1 = (GameObject)Resources.Load("Prefabs/BossAttack1");
+        Instantiate(BossAttack1);
+        */
     }
 
     public override void Release()

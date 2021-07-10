@@ -446,6 +446,12 @@ MonoBehaviour:
   Setting: {fileID: 11400000, guid: 70b98b8cd4a852a459bf052e08cafff6, type: 2}
   BossHP: 0
   BossAtk: 0
+  isAttack: 0
+  waittime: 0
+  BossAttack1Prefab: {fileID: 0}
+  BossAttack2Prefab: {fileID: 0}
+  BossAttack3Prefab: {fileID: 8535443984006166120, guid: 6d9b2b7bd87455e4d89771b542159bb6,
+    type: 3}
 --- !u!1 &7767142259345239354
 GameObject:
   m_ObjectHideFlags: 0
