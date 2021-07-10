@@ -26,10 +26,10 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_MoveMap.Add(MoveType.Idle, new EnemyMove(Setting, GetComponent<Rigidbody>()));
-        m_MoveMap.Add(MoveType.Horizontal, new HorizontalMove(Setting, GetComponent<Rigidbody>()));
-        m_MoveMap.Add(MoveType.Vertical, new VerticalMove(Setting, GetComponent<Rigidbody>()));
-        m_MoveMap.Add(MoveType.Depth, new DepthMove(Setting, GetComponent<Rigidbody>()));
+        m_MoveMap.Add(MoveType.Idle, new EnemyMove(Setting, GetComponent<Transform>()));
+        m_MoveMap.Add(MoveType.Horizontal, new HorizontalMove(Setting, GetComponent<Transform>()));
+        m_MoveMap.Add(MoveType.Vertical, new VerticalMove(Setting, GetComponent<Transform>()));
+        m_MoveMap.Add(MoveType.Depth, new DepthMove(Setting, GetComponent<Transform>()));
 
         
         switch (Setting.Type)
@@ -53,6 +53,8 @@ public class Enemy : MonoBehaviour
         
         this.Score = GameObject.Find("ScoreDirector");
         this.Gamedirector = GameObject.Find("GameDirector");
+
+        //Setting.myTransform = this.GetComponent<Transform>();
 
         /*
         if (Setting.Type == Slime)

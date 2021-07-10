@@ -19,5 +19,6 @@ public class EnemySetting : ScriptableObject
     public int Atk;
     public float Spd;
     public int Exp;
+    //public Transform myTransform;
 
 }
