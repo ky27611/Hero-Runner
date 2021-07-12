@@ -37,8 +37,11 @@ public class PlayerController : MonoBehaviour
 
     public AudioClip RunningSE;
     public AudioClip SlidingSE;
+    public AudioClip Null;
 
     public bool isRunning;
+    //public bool isGround;
+    //public bool isSESwitch;
 
     // Start is called before the first frame update
     void Start()
@@ -84,6 +87,10 @@ public class PlayerController : MonoBehaviour
         this.PlayerHP = Setting.PlayerHP;
 
         this.isRunning = false;
+        //this.isGround = false;
+        //this.isSESwitch = true;
+
+        Compo.myAudio.clip = RunningSE;
     }
 
     public void ChangeState(StateType state)
@@ -102,11 +109,14 @@ public class PlayerController : MonoBehaviour
         {
             Compo.myAnimator.SetFloat("Speed", 1);
 
-            if (Compo.myAudio.clip != RunningSE)
+            
+            if (Setting.isGround == true && Setting.isSliding == false)
             {
-                Compo.myAudio.loop = true;
                 Compo.myAudio.clip = RunningSE;
-                Compo.myAudio.Play();
+            }
+            else
+            {
+                Compo.myAudio.clip = Null;
             }
 
             if (this.gamedirector.GetComponent<GameDirector>().index == GameDirector.Index.NormalMode || this.gamedirector.GetComponent<GameDirector>().index == GameDirector.Index.BossMode)
@@ -206,10 +216,17 @@ public class PlayerController : MonoBehaviour
                     ChangeState(StateType.Idle);
                 }
                 //Slideステートの場合はSlideにfalseをセットする
-                if (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Slide"))
+                /*if (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Slide"))
                 {
                     ChangeState(StateType.Idle);
                 }
+                */
+
+                if (Setting.slidedelta > Setting.slidespan)
+                {
+                    ChangeState(StateType.Idle);
+                }
+
 
 
                 if (Setting.atkdelta >= Setting.atkspan)
@@ -220,10 +237,17 @@ public class PlayerController : MonoBehaviour
             
             //プレイヤーに速度を与える
             Compo.myRigidbody.velocity = new Vector3(Setting.inputVelocityX, Compo.myRigidbody.velocity.y, Setting.velocityZ);
+
+            if (Compo.myAudio.isPlaying == false)
+            {
+                Compo.myAudio.Play();
+            }
         }
         else
         {
             Compo.myAnimator.SetFloat("Speed", 0);
+            Compo.myAudio.Stop();
+            //Compo.myAudio.clip = RunningSE;
             //ChangeState(StateType.Idle);
 
         }

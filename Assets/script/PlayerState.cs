@@ -15,7 +15,7 @@ public class PlayerState
 
     public virtual void Initialize()
     {
-
+        m_Compo.myAudio.mute = false;
     }
 
     public virtual void Release()
@@ -25,7 +25,7 @@ public class PlayerState
     
     public virtual void OnUpdate()
     {
-
+        
     }
 }
 
@@ -34,7 +34,7 @@ public class PlayerStateJump : PlayerState
     public override void Initialize()
     {
         m_Compo.myAnimator.SetTrigger("JumpTrigger");
-        m_Compo.myAudio.Stop();
+        //m_Compo.myAudio.Stop();
         var velo = m_Compo.myRigidbody.velocity;
         velo.y = m_Setting.velocityY;
         m_Compo.myRigidbody.velocity = velo;
@@ -62,11 +62,12 @@ public class PlayerStateSliding : PlayerState
         m_Compo.myAnimator.SetTrigger("SlidingTrigger");
         m_Compo.myCollider.center = new Vector3(0, 0.35f, 0);
         m_Compo.myCollider.height = 0.3f;
+        m_Setting.isSliding = true;
         m_Setting.slidedelta += Time.deltaTime;
     }
 
     public override void OnUpdate()
-    {
+    {   /*
         if (m_Setting.slidedelta > 0)
         {
             m_Setting.slidedelta += Time.deltaTime;
@@ -77,11 +78,21 @@ public class PlayerStateSliding : PlayerState
                 m_Setting.slidedelta = 0;
             }
         }
+        */
+
+        m_Setting.slidedelta += Time.deltaTime;
+
     }
 
     public override void Release()
     {
         //m_Setting.myAnimator.SetBool("Slide", false);
+
+        m_Compo.myCollider.center = new Vector3(0, 0.8f, 0);
+        m_Compo.myCollider.height = 1.5f;
+        m_Setting.slidedelta = 0;
+        m_Setting.isSliding = false;
+        Debug.Log("Slidingfinish");
     }
 
     public PlayerStateSliding(PlayerSettingData setting, PlayerSettingComponent compo) : base(setting, compo)

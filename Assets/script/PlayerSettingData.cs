@@ -38,6 +38,9 @@ public class PlayerSettingData
     public int PlayerAtk;
     public float PlayerSpd;
 
+    public bool isSliding;
+    public bool isGround;
+
     public PlayerSettingData(InitialStatus initialStatus)
     {
         //前方向の速度
@@ -70,6 +73,9 @@ public class PlayerSettingData
         PlayerHP = initialStatus.HP;
         PlayerAtk = initialStatus.Atk;
         PlayerSpd = initialStatus.Spd;
+
+        isSliding = false;
+        isGround = false;
     }
 
     /*
