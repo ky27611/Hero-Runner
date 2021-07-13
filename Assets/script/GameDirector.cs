@@ -156,19 +156,43 @@ public class GameDirector : MonoBehaviour
 
             case Index.NormalMode:     //ラン
                 this.Player.GetComponent<PlayerController>().isRunning = true;
+
+                if (this.StageNo % 10 <= 3)
+                {
+                    this.BGM.GetComponent<AudioController>().BGMNo = 1;
+                }
+                else if (this.StageNo % 10 >= 4 && this.StageNo % 10 <= 6)
+                {
+                    this.BGM.GetComponent<AudioController>().BGMNo = 2;
+                }
+                else if (this.StageNo % 10 >= 7 && this.StageNo % 10 <= 9)
+                {
+                    this.BGM.GetComponent<AudioController>().BGMNo = 3;
+                }
+
                 break;
 
             case Index.BossMode:     //ボス
                 this.Player.GetComponent<PlayerController>().isRunning = true;
+
+                if (this.StageNo % 10 > 0)
+                {
+                    this.BGM.GetComponent<AudioController>().BGMNo = 9;
+                }
+                else
+                {
+                    this.BGM.GetComponent<AudioController>().BGMNo = 10;
+                }
+                
                 break;
 
             case Index.StageClear:     //ステージクリア
-
+                this.BGM.GetComponent<AudioController>().BGMNo = 12;
                 StageClear();
                 break;
 
             case Index.GameOver:     //ゲームオーバー
-
+                this.BGM.GetComponent<AudioController>().BGMNo = 11;
                 GameOver();
                 break;
 

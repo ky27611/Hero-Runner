@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
 
     public AudioClip RunningSE;
     public AudioClip SlidingSE;
+    public AudioClip AttackSE;
     public AudioClip Null;
 
     public bool isRunning;
@@ -181,6 +182,8 @@ public class PlayerController : MonoBehaviour
                     (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
                 {
                     ChangeState(StateType.Attack);
+                    Compo.myAudio.PlayOneShot(AttackSE);
+
                     if (this.gamedirector.GetComponent<GameDirector>().index == GameDirector.Index.BossMode)
                     {
                         GameObject ShockWave = Instantiate(ShockWavePrefab);
