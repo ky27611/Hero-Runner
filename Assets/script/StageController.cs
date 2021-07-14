@@ -18,6 +18,9 @@ public class StageController : MonoBehaviour
     public GameObject BossTurtlePrefab;
     public GameObject BossPurplePrefab;
     public GameObject BossDragonPrefab;
+    public GameObject Road1Prefab;
+    public GameObject Road2Prefab;
+    public GameObject Road3Prefab;
 
     public GameObject Player;
     public GameObject Director;
@@ -50,8 +53,8 @@ public class StageController : MonoBehaviour
         this.CreateRange = 15f;
         this.CreatePos = this.StartPos;
         this.PosRange = 2f;
-        this.StageStartPos = 500f;
-        this.StageCreatePos = 1000f;
+        this.StageStartPos = 0f;
+        this.StageCreatePos = 200f;
 
     }
 
@@ -63,14 +66,20 @@ public class StageController : MonoBehaviour
             StageCreate();
         }
 
-        if (this.StageStartPos - Player.transform.position.z <= 100)
+        
+        if (this.StageStartPos - Player.transform.position.z <= 0)
         {
+            /*
             GameObject Road = Instantiate(RoadPrefab);
             Road.transform.position = new Vector3(0, Road.transform.position.y, StageCreatePos);
             this.StageStartPos += 1000f;
             this.StageCreatePos += 1000f;
+            */
+
+            RoadCreate();
 
         }
+
 
         //生成点とPlayerとの距離が一定以下になったらアイテム生成して次の生成点を更新
         this.PlayerDistance = this.CreatePos - Player.transform.position.z;
@@ -116,6 +125,35 @@ public class StageController : MonoBehaviour
         this.isStageCreate = false;
         this.isGoal = false;
         this.Director.GetComponent<GameDirector>().index = GameDirector.Index.NormalMode;
+    }
+
+    void RoadCreate()
+    {
+        /*
+        GameObject Road1 = Instantiate(Road1Prefab);
+        Road1.transform.position = new Vector3(0, Road1.transform.position.y, StageCreatePos);
+        this.StageStartPos += 1000f;
+        this.StageCreatePos += 1000f;
+        */
+
+        if (this.Director.GetComponent<GameDirector>().StageNo % 10 <= 3)
+        {
+            GameObject Road1 = Instantiate(Road1Prefab);
+            Road1.transform.position = new Vector3(0, Road1.transform.position.y, StageCreatePos);
+        }
+        else if (this.Director.GetComponent<GameDirector>().StageNo % 10 >= 4 && this.Director.GetComponent<GameDirector>().StageNo % 10 <= 6)
+        {
+            GameObject Road2 = Instantiate(Road2Prefab);
+            Road2.transform.position = new Vector3(0, Road2.transform.position.y, StageCreatePos);
+        }
+        else if (this.Director.GetComponent<GameDirector>().StageNo % 10 >= 7 && this.Director.GetComponent<GameDirector>().StageNo % 10 <= 10)
+        {
+            GameObject Road3 = Instantiate(Road3Prefab);
+            Road3.transform.position = new Vector3(0, Road3.transform.position.y, StageCreatePos);
+        }
+        this.StageStartPos += 200f;
+        this.StageCreatePos += 200f;
+
     }
 
     void CreateItem()

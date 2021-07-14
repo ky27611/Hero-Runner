@@ -17,7 +17,7 @@ public class RoadController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Player.transform.position.z - this.transform.position.z >= 550)
+        if (Player.transform.position.z - this.transform.position.z >= 200)
         {
             Destroy(this.gameObject);
         }
