@@ -65,6 +65,8 @@ public class GameDirector : MonoBehaviour
 
     public bool isChangeIndex;
 
+    //public LifePanelController lifePanel;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -114,9 +116,9 @@ public class GameDirector : MonoBehaviour
         */
 
         this.generationText.GetComponent<Text>().text = "Generation:" + generationCount.ToString();
-        this.heroPointText.GetComponent<Text>().text = "HeroPoint:" + HeroPoint.ToString();
-        this.HPText.GetComponent<Text>().text = "HP:" + Player.GetComponent<PlayerController>().PlayerHP.ToString();
-
+        //this.heroPointText.GetComponent<Text>().text = "HeroPoint:" + HeroPoint.ToString();
+        //this.HPText.GetComponent<Text>().text = "HP:" + Player.GetComponent<PlayerController>().PlayerHP.ToString();
+        
     }
 
     /*
@@ -131,8 +133,9 @@ public class GameDirector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.heroPointText.GetComponent<Text>().text = "HeroPoint:" + HeroPoint.ToString();
-        this.HPText.GetComponent<Text>().text = "HP:" + Player.GetComponent<PlayerController>().PlayerHP.ToString();
+        //this.heroPointText.GetComponent<Text>().text = "HeroPoint:" + HeroPoint.ToString();
+        //this.HPText.GetComponent<Text>().text = "HP:" + Player.GetComponent<PlayerController>().PlayerHP.ToString();
+        //lifePanel.UpdateLife((int)Player.GetComponent<PlayerController>().Setting.PlayerHP);
 
         ChangeIndex();
 
