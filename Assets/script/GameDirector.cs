@@ -56,7 +56,9 @@ public class GameDirector : MonoBehaviour
     private int generationCount = 1;
     //private static bool isHeroSelect;
 
-    public int HeroPoint;
+    public float HeroPoint;
+    public float HeroPointMAX;
+    public float HeroPointRatio;
     public int indexNo;
     public int PlayerNo;
     public int StageNo;
@@ -97,6 +99,7 @@ public class GameDirector : MonoBehaviour
         //this.bossSlime = GameObject.Find("BossSlime");
 
         this.HeroPoint = 0;
+        this.HeroPointMAX = 2;
         this.indexNo = 0;
         this.index = Index.PlayerSelect;
         this.PlayerNo = 0;
@@ -136,6 +139,8 @@ public class GameDirector : MonoBehaviour
         //this.heroPointText.GetComponent<Text>().text = "HeroPoint:" + HeroPoint.ToString();
         //this.HPText.GetComponent<Text>().text = "HP:" + Player.GetComponent<PlayerController>().PlayerHP.ToString();
         //lifePanel.UpdateLife((int)Player.GetComponent<PlayerController>().Setting.PlayerHP);
+        this.HeroPointRatio = this.HeroPoint / this.HeroPointMAX;
+
 
         ChangeIndex();
 
