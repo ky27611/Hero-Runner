@@ -38,6 +38,11 @@ public class PlayerController : MonoBehaviour
     public AudioClip RunningSE;
     public AudioClip SlidingSE;
     public AudioClip AttackSE;
+    public AudioClip PowerUpSE;
+    public AudioClip PowerUpMAXSE;
+    public AudioClip PowerDownSE;
+    public AudioClip DamageSE;
+
     public AudioClip Null;
 
     public bool isRunning;
@@ -264,28 +269,44 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.tag == "Obstacle")
         {
             Setting.PlayerHP -= 1;
+            Compo.myAudio.PlayOneShot(DamageSE);
             //Destroy(other.gameObject);
         }
         else if (other.gameObject.tag == "enemy1")
         {
             Setting.PlayerHP -= other.gameObject.GetComponent<Enemy>().EnemyAtk;
+            Compo.myAudio.PlayOneShot(DamageSE);
             //Destroy(other.gameObject);
         }
         else if (other.gameObject.tag == "Boss")
         {
             Setting.PlayerHP -= other.gameObject.GetComponent<Boss>().BossAtk;
+            Compo.myAudio.PlayOneShot(DamageSE);
         }
         else if (other.gameObject.tag == "Crystal")
         {
             gamedirector.GetComponent<GameDirector>().HeroPoint += 1;
+
+            if (this.gamedirector.GetComponent<GameDirector>().HeroPointRatio >= 1)
+            {
+                Compo.myAudio.PlayOneShot(PowerUpMAXSE);
+            }
+            else
+            {
+                Compo.myAudio.PlayOneShot(PowerUpSE);
+            }
+
+
             Destroy(other.gameObject);
         }
         else if (other.gameObject.tag == "Flower")
         {
+            Compo.myAudio.PlayOneShot(PowerDownSE);
             gamedirector.GetComponent<GameDirector>().HeroPoint -= 1;
             if (gamedirector.GetComponent<GameDirector>().HeroPoint < 0)
             {
                 gamedirector.GetComponent<GameDirector>().HeroPoint = 0;
+                
             }
 
             Destroy(other.gameObject);

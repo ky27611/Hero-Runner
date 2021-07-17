@@ -112,6 +112,8 @@ MonoBehaviour:
   Setting: {fileID: 11400000, guid: 60f1b4f49ffbc554faaaee2af93dc5c3, type: 2}
   EnemyHP: 0
   EnemyAtk: 0
+  myAudio: {fileID: 0}
+  DefeatSE: {fileID: 8300000, guid: b5f9ddaecc6a5574888844573ba7df13, type: 3}
 --- !u!1 &1896449480992428204
 GameObject:
   m_ObjectHideFlags: 0

@@ -23,6 +23,9 @@ public class Enemy : MonoBehaviour
     private GameObject Score;
     private GameObject Gamedirector;
 
+    //public AudioSource myAudio;
+    //public AudioClip DefeatSE;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,7 +34,8 @@ public class Enemy : MonoBehaviour
         m_MoveMap.Add(MoveType.Vertical, new VerticalMove(Setting, GetComponent<Transform>()));
         m_MoveMap.Add(MoveType.Depth, new DepthMove(Setting, GetComponent<Transform>()));
 
-        
+        //this.myAudio = GetComponent<AudioSource>();
+
         switch (Setting.Type)
         {
             case EnemySetting.EnemyType.Slime:
@@ -93,6 +97,7 @@ public class Enemy : MonoBehaviour
         if(this.EnemyHP <= 0)
         {
             this.Score.GetComponent<ScoreController>().DefeatEnemy();
+            //this.myAudio.PlayOneShot(DefeatSE);
             Destroy(this.gameObject);
         }
 

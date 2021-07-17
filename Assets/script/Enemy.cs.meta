@@ -3,7 +3,10 @@ guid: 7f06737e9acb7b443aeda00baa526144
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - Setting: {instanceID: 0}
+  - myAudio: {instanceID: 0}
+  - DefeatSE: {fileID: 8300000, guid: b5f9ddaecc6a5574888844573ba7df13, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

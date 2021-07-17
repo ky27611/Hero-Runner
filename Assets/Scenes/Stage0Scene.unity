@@ -1466,6 +1466,7 @@ GameObject:
   m_Component:
   - component: {fileID: 818868215}
   - component: {fileID: 818868214}
+  - component: {fileID: 818868216}
   m_Layer: 0
   m_Name: GameDirector
   m_TagString: Untagged
@@ -1486,11 +1487,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 0
+  preindex: 0
   isHeroDecision: 0
   isGameStart: 0
-  isBossBattle: 0
-  isClear: 0
+  isBossMode: 0
+  isStageClear: 0
   isGameOver: 0
+  isNormalMode: 0
   HeroPoint: 0
   HeroPointMAX: 0
   HeroPointRatio: 0
@@ -1499,6 +1502,28 @@ MonoBehaviour:
   StageNo: 0
   RestartPos: 0
   isChangeIndex: 0
+  Seclips:
+  - {fileID: 0}
+  - {fileID: 8300000, guid: c85c383f834b27040bef48ccc180962e, type: 3}
+  - {fileID: 8300000, guid: c5841e49020e3ba47b07d8fd24861500, type: 3}
+  - {fileID: 8300000, guid: 058ac3b79d72e63439ae6f480752c1e7, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  SENo: 0
 --- !u!4 &818868215
 Transform:
   m_ObjectHideFlags: 0
@@ -1513,6 +1538,102 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &818868216
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818868213}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.3
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &834281213
 GameObject:
   m_ObjectHideFlags: 0
@@ -2549,6 +2670,10 @@ MonoBehaviour:
   RunningSE: {fileID: 8300000, guid: 94a3b85ce9aeaa24e9bdfdbe4efd4d9a, type: 3}
   SlidingSE: {fileID: 8300000, guid: 2f6630c28dd2f304d9216c2ecbd66f22, type: 3}
   AttackSE: {fileID: 8300000, guid: 0d7a9468c7cec1d4f89555e190652712, type: 3}
+  PowerUpSE: {fileID: 8300000, guid: d7ce82030d697ac4e996935fdad04504, type: 3}
+  PowerUpMAXSE: {fileID: 8300000, guid: c738538dd7d2bc14ca77856806111d8c, type: 3}
+  PowerDownSE: {fileID: 8300000, guid: e3a1d0293719ad441a1f187ebc98ff55, type: 3}
+  DamageSE: {fileID: 8300000, guid: 699d166da1ffa25468dfa912a71fabe9, type: 3}
   Null: {fileID: 0}
   isRunning: 0
 --- !u!82 &1414413962
@@ -2779,6 +2904,10 @@ MonoBehaviour:
   RunningSE: {fileID: 0}
   SlidingSE: {fileID: 0}
   AttackSE: {fileID: 0}
+  PowerUpSE: {fileID: 0}
+  PowerUpMAXSE: {fileID: 0}
+  PowerDownSE: {fileID: 0}
+  DamageSE: {fileID: 0}
   Null: {fileID: 0}
   isRunning: 0
 --- !u!65 &1593407527

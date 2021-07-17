@@ -29,6 +29,7 @@ public class AudioController : MonoBehaviour
         switch (BGMNo)
         {
             case 1:     //戦闘１
+                audios.Stop();
                 audios.loop = true;
                 audios.clip = clips[1];
                 if (audios.isPlaying == false)
@@ -37,6 +38,7 @@ public class AudioController : MonoBehaviour
                 }
                 break;
             case 2:     //戦闘２
+                audios.Stop();
                 audios.loop = true;
                 audios.clip = clips[2];
                 if (audios.isPlaying == false)
@@ -45,6 +47,7 @@ public class AudioController : MonoBehaviour
                 }
                 break;
             case 3:     //戦闘３
+                audios.Stop();
                 audios.loop = true;
                 audios.clip = clips[3];
                 if (audios.isPlaying == false)
@@ -53,6 +56,7 @@ public class AudioController : MonoBehaviour
                 }
                 break;
             case 9:     //ボス
+                audios.Stop();
                 audios.loop = true;
                 audios.clip = clips[9];
                 if (audios.isPlaying == false)
@@ -61,6 +65,7 @@ public class AudioController : MonoBehaviour
                 }
                 break;
             case 10:     //ラスボス
+                audios.Stop();
                 audios.loop = true;
                 audios.clip = clips[10];
                 if (audios.isPlaying == false)
@@ -69,11 +74,13 @@ public class AudioController : MonoBehaviour
                 }
                 break;
             case 11:    //ゲームオーバー
+                audios.Stop();
                 audios.loop = false;
                 audios.clip = clips[11];
                 audios.PlayOneShot(audios.clip);
                 break;
             case 12:    //ステージクリア
+                audios.Stop();
                 audios.loop = false;
                 audios.clip = clips[12];
                 audios.PlayOneShot(audios.clip);
