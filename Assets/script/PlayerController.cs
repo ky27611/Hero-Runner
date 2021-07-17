@@ -120,6 +120,11 @@ public class PlayerController : MonoBehaviour
                 Compo.myAudio.clip = Null;
             }
 
+            if (Compo.myAudio.isPlaying == false)
+            {
+                Compo.myAudio.Play();
+            }
+
             if (this.gamedirector.GetComponent<GameDirector>().index == GameDirector.Index.NormalMode || this.gamedirector.GetComponent<GameDirector>().index == GameDirector.Index.BossMode)
             {
                 //横方向の入力による速度
@@ -196,7 +201,8 @@ public class PlayerController : MonoBehaviour
                 if (Setting.PlayerHP <= 0)
                 {
                     ChangeState(StateType.Death);
-                    this.gamedirector.GetComponent<GameDirector>().index = GameDirector.Index.GameOver;
+                    //this.gamedirector.GetComponent<GameDirector>().index = GameDirector.Index.GameOver;
+                    this.gamedirector.GetComponent<GameDirector>().isGameOver = true;
                     Compo.myAudio.Stop();
                 }
 
@@ -240,11 +246,6 @@ public class PlayerController : MonoBehaviour
             
             //プレイヤーに速度を与える
             Compo.myRigidbody.velocity = new Vector3(Setting.inputVelocityX, Compo.myRigidbody.velocity.y, Setting.velocityZ);
-
-            if (Compo.myAudio.isPlaying == false)
-            {
-                Compo.myAudio.Play();
-            }
         }
         else
         {

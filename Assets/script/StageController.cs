@@ -110,7 +110,9 @@ public class StageController : MonoBehaviour
             }
             else
             {
-                this.Director.GetComponent<GameDirector>().index = GameDirector.Index.StageClear;
+                this.Director.GetComponent<GameDirector>().isStageClear = true;
+                //this.Director.GetComponent<GameDirector>().index = GameDirector.Index.StageClear;
+                //this.Director.GetComponent<GameDirector>().isChangeIndex = true;
             }
         }
 
@@ -124,7 +126,9 @@ public class StageController : MonoBehaviour
         this.isCreate = true;
         this.isStageCreate = false;
         this.isGoal = false;
-        this.Director.GetComponent<GameDirector>().index = GameDirector.Index.NormalMode;
+        this.Director.GetComponent<GameDirector>().isNormalMode = true;
+        //this.Director.GetComponent<GameDirector>().index = GameDirector.Index.NormalMode;
+        //this.Director.GetComponent<GameDirector>().isChangeIndex = true;
     }
 
     void RoadCreate()
@@ -235,7 +239,10 @@ public class StageController : MonoBehaviour
 
     void BossCreate()
     {
-        this.Director.GetComponent<GameDirector>().index = GameDirector.Index.BossMode;
+        //this.Director.GetComponent<GameDirector>().index = GameDirector.Index.BossMode;
+
+        this.Director.GetComponent<GameDirector>().isBossMode = true;
+
         if (this.Director.GetComponent<GameDirector>().StageNo % 10 == 3)
         {
             GameObject BossSlime = Instantiate(BossSlimePrefab);
@@ -255,6 +262,7 @@ public class StageController : MonoBehaviour
 
     void LastBossCreate()
     {
+        //this.Director.GetComponent<GameDirector>().isBossMode = true;
         //GameObject BossDragon = Instantiate(BossDragonPrefab);
         //BossDragon.transform.position = new Vector3(0, BossDragon.transform.position.y, Player.transform.position.z + 12);
     }

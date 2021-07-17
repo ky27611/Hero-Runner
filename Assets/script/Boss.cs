@@ -104,7 +104,8 @@ public class Boss : MonoBehaviour
             */
 
             //this.GetComponent<Renderer>().enabled = false;
-            this.gameDirector.GetComponent<GameDirector>().index = GameDirector.Index.StageClear;
+            //this.gameDirector.GetComponent<GameDirector>().index = GameDirector.Index.StageClear;
+            this.gameDirector.GetComponent<GameDirector>().isStageClear = true;
             Destroy(this.gameObject);
         }
     }
