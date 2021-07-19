@@ -38,6 +38,7 @@ public class TurtleAttack : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             Player.gameObject.GetComponent<PlayerController>().Setting.PlayerHP -= 1;
+            Destroy(this.gameObject);
         }
     }
 }

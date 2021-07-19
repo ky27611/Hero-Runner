@@ -37,4 +37,6 @@ public class InitialStatus : ScriptableObject
     public int Atk = 1;
     public float Spd = 1;
 
+    public float InvincibleTime = 1.0f;
+
 }

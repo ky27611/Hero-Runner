@@ -38,8 +38,14 @@ public class PlayerSettingData
     public int PlayerAtk;
     public float PlayerSpd;
 
+    public float InvincibleTime;
+    public float AfterDamageTime;
+
     public bool isSliding;
     public bool isGround;
+    public bool isDamage;
+
+    public int PlayerNo;
 
     public PlayerSettingData(InitialStatus initialStatus)
     {
@@ -74,8 +80,13 @@ public class PlayerSettingData
         PlayerAtk = initialStatus.Atk;
         PlayerSpd = initialStatus.Spd;
 
+        InvincibleTime = initialStatus.InvincibleTime;
+
+        AfterDamageTime = 0;
+
         isSliding = false;
         isGround = false;
+        isDamage = false;
     }
 
     /*

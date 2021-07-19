@@ -19,7 +19,7 @@ public class BossAttack1Controller : MonoBehaviour
     void Update()
     {
         Vector3 localPos = myTransform.localPosition;
-        localPos.z += 0.1f;
+        localPos.z -= 0.01f;
         myTransform.localPosition = localPos;
 
         if (Player.transform.position.z - this.transform.position.z >= 10)
@@ -35,6 +35,7 @@ public class BossAttack1Controller : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             Player.gameObject.GetComponent<PlayerController>().Setting.PlayerHP -= 1;
+            Destroy(this.gameObject);
         }
     }
     

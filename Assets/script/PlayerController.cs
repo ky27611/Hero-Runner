@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour
     //Bossオブジェクト
     private GameObject BossSlime;
 
+    private Transform Geometry;
+
     public float PlayerHP;
 
     public AudioClip RunningSE;
@@ -90,6 +92,8 @@ public class PlayerController : MonoBehaviour
         //Boss
         this.BossSlime = GameObject.Find("BossSlime");
 
+        this.Geometry = this.transform.Find("Geometry");
+
         this.PlayerHP = Setting.PlayerHP;
 
         this.isRunning = false;
@@ -111,6 +115,8 @@ public class PlayerController : MonoBehaviour
     {
         this.PlayerHP = Setting.PlayerHP;
 
+        Setting.PlayerNo = gamedirector.GetComponent<GameDirector>().PlayerNo;
+
         if (this.gameObject.transform.position.x > 6)
         {
             this.gameObject.transform.position = new Vector3(6, 0.1f, this.transform.position.z);
@@ -118,6 +124,30 @@ public class PlayerController : MonoBehaviour
         else if (this.gameObject.transform.position.x < -6)
         {
             this.gameObject.transform.position = new Vector3(-6, 0.1f, this.transform.position.z);
+        }
+
+        if (Setting.isDamage)
+        {
+            Setting.AfterDamageTime += Time.deltaTime;
+
+            if (Geometry.GetChild(Setting.PlayerNo).gameObject.GetComponent<Renderer>().enabled == true)
+            {
+                //Geometry.GetChild(Setting.PlayerNo).gameObject.SetActive(false);
+                Geometry.GetChild(Setting.PlayerNo).gameObject.GetComponent<Renderer>().enabled = false;
+            }
+            else
+            {
+                //Geometry.GetChild(Setting.PlayerNo).gameObject.SetActive(true);
+                Geometry.GetChild(Setting.PlayerNo).gameObject.GetComponent<Renderer>().enabled = true;
+            }
+
+            if (Setting.InvincibleTime <= Setting.AfterDamageTime)
+            {
+                //Geometry.GetChild(Setting.PlayerNo).gameObject.SetActive(true);
+                Geometry.GetChild(Setting.PlayerNo).gameObject.GetComponent<Renderer>().enabled = true;
+                Setting.AfterDamageTime = 0;
+                Setting.isDamage = false;
+            }
         }
 
         if (this.isRunning == true)
@@ -145,13 +175,13 @@ public class PlayerController : MonoBehaviour
                 //float inputVelocityY = 0;
 
                 //プレイヤーを矢印キーまたはボタンに応じて左右に移動させる
-                if (Input.GetKeyDown(KeyCode.LeftArrow) && -Setting.movableRange < this.transform.position.x && Setting.movableX == true)
+                if ((Input.GetKeyDown(KeyCode.LeftArrow)|| Input.GetKeyDown(KeyCode.A)) && -Setting.movableRange < this.transform.position.x && Setting.movableX == true)
                 {
                     Setting.movableX = false;
                     Setting.nowpositionX -= Setting.setpositionX;
                     Setting.inputVelocityX = -Setting.velocityX;
                 }
-                else if (Input.GetKeyDown(KeyCode.RightArrow) && this.transform.position.x < Setting.movableRange && Setting.movableX == true)
+                else if ((Input.GetKeyDown(KeyCode.RightArrow)|| Input.GetKeyDown(KeyCode.D)) && this.transform.position.x < Setting.movableRange && Setting.movableX == true)
                 {
                     Setting.movableX = false;
                     Setting.nowpositionX += Setting.setpositionX;
@@ -181,14 +211,14 @@ public class PlayerController : MonoBehaviour
                 m_CurrentState.OnUpdate();
 
                 //ジャンプ
-                if (Input.GetKeyDown(KeyCode.UpArrow) &&
+                if ((Input.GetKeyDown(KeyCode.UpArrow)|| Input.GetKeyDown(KeyCode.W)) &&
                     (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Sliding")))
                 {
                     ChangeState(StateType.Jump);
                 }
 
                 //スライディング
-                if (Input.GetKeyDown(KeyCode.DownArrow) &&
+                if ((Input.GetKeyDown(KeyCode.DownArrow)|| Input.GetKeyDown(KeyCode.S)) &&
                     (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
                 {
                     ChangeState(StateType.Sliding);
@@ -197,7 +227,7 @@ public class PlayerController : MonoBehaviour
                 }
 
                 //攻撃
-                if (Input.GetKeyDown(KeyCode.Space) &&
+                if ((Input.GetKeyDown(KeyCode.Space)||Input.GetMouseButtonDown(0)) &&
                     (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
                 {
                     ChangeState(StateType.Attack);
@@ -275,61 +305,89 @@ public class PlayerController : MonoBehaviour
     //攻撃当たった時
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Obstacle")
+        if (this.gamedirector.GetComponent<GameDirector>().index == GameDirector.Index.NormalMode || this.gamedirector.GetComponent<GameDirector>().index == GameDirector.Index.BossMode)
         {
-            Setting.PlayerHP -= 1;
-            Compo.myAudio.PlayOneShot(DamageSE);
-            //Destroy(other.gameObject);
-        }
-        else if (other.gameObject.tag == "enemy1")
-        {
-            Setting.PlayerHP -= other.gameObject.GetComponent<Enemy>().EnemyAtk;
-            Compo.myAudio.PlayOneShot(DamageSE);
-            //Destroy(other.gameObject);
-        }
-        else if (other.gameObject.tag == "Boss")
-        {
-            Setting.PlayerHP -= other.gameObject.GetComponent<Boss>().BossAtk;
-            Compo.myAudio.PlayOneShot(DamageSE);
-        }
-        else if (other.gameObject.tag == "Crystal")
-        {
-            gamedirector.GetComponent<GameDirector>().HeroPoint += 1;
-
-            if (this.gamedirector.GetComponent<GameDirector>().HeroPointMAX == this.gamedirector.GetComponent<GameDirector>().HeroPoint)//this.gamedirector.GetComponent<GameDirector>().HeroPointRatio >= 1)
+            if (other.gameObject.tag == "Obstacle")
             {
-                Compo.myAudio.PlayOneShot(PowerUpMAXSE);
+                if (Setting.isDamage == false)
+                {
+                    Setting.PlayerHP -= 1;
+                    Compo.myAudio.PlayOneShot(DamageSE);
+                    if (Setting.PlayerHP > 0)
+                    {
+                        Setting.isDamage = true;
+                    }
+                }
+
+                //Destroy(other.gameObject);
             }
-            else
+            else if (other.gameObject.tag == "enemy1")
             {
-                Compo.myAudio.PlayOneShot(PowerUpSE);
+                if (Setting.isDamage == false)
+                {
+                    Setting.PlayerHP -= other.gameObject.GetComponent<Enemy>().EnemyAtk;
+                    Compo.myAudio.PlayOneShot(DamageSE);
+
+                    if (Setting.PlayerHP > 0)
+                    {
+                        Setting.isDamage = true;
+                    }
+                    
+                }
+                //Destroy(other.gameObject);
             }
-
-
-            Destroy(other.gameObject);
-        }
-        else if (other.gameObject.tag == "Flower")
-        {
-            Compo.myAudio.PlayOneShot(PowerDownSE);
-            gamedirector.GetComponent<GameDirector>().HeroPoint -= 1;
-            if (gamedirector.GetComponent<GameDirector>().HeroPoint < 0)
+            else if (other.gameObject.tag == "Boss")
             {
-                gamedirector.GetComponent<GameDirector>().HeroPoint = 0;
-                
-            }
+                if (Setting.isDamage == false)
+                {
+                    Setting.PlayerHP -= other.gameObject.GetComponent<Boss>().BossAtk;
+                    Compo.myAudio.PlayOneShot(DamageSE);
+                    if (Setting.PlayerHP <= 0)
+                    {
+                        Setting.isDamage = true;
+                    }
+                }
 
-            Destroy(other.gameObject);
+            }
+            else if (other.gameObject.tag == "Crystal")
+            {
+                gamedirector.GetComponent<GameDirector>().HeroPoint += 1;
+
+                if (this.gamedirector.GetComponent<GameDirector>().HeroPointMAX == this.gamedirector.GetComponent<GameDirector>().HeroPoint)//this.gamedirector.GetComponent<GameDirector>().HeroPointRatio >= 1)
+                {
+                    Compo.myAudio.PlayOneShot(PowerUpMAXSE);
+                }
+                else
+                {
+                    Compo.myAudio.PlayOneShot(PowerUpSE);
+                }
+
+
+                Destroy(other.gameObject);
+            }
+            else if (other.gameObject.tag == "Flower")
+            {
+                Compo.myAudio.PlayOneShot(PowerDownSE);
+                gamedirector.GetComponent<GameDirector>().HeroPoint -= 1;
+                if (gamedirector.GetComponent<GameDirector>().HeroPoint < 0)
+                {
+                    gamedirector.GetComponent<GameDirector>().HeroPoint = 0;
+
+                }
+
+                Destroy(other.gameObject);
+            }
+            /*
+            if(other.gameObject.tag == "enemy1")
+            {
+                other.gameObject.GetComponent<Enemy>().EnemyHP -= Setting.PlayerAtk;
+            }
+            if (other.gameObject.tag == "Boss")
+            {
+                other.gameObject.GetComponent<Boss>().BossHP -= Setting.PlayerAtk;
+            }
+            */
         }
-        /*
-        if(other.gameObject.tag == "enemy1")
-        {
-            other.gameObject.GetComponent<Enemy>().EnemyHP -= Setting.PlayerAtk;
-        }
-        if (other.gameObject.tag == "Boss")
-        {
-            other.gameObject.GetComponent<Boss>().BossHP -= Setting.PlayerAtk;
-        }
-        */
     }
 
     /*
