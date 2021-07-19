@@ -32,6 +32,7 @@ public class StageController : MonoBehaviour
     public bool isCreate;
     private bool isGoal;
     public bool isStageCreate;
+    public bool isCreateNewArea;
     public float StartPos;
     public float GoalPos;
     public float PosRange;
@@ -46,6 +47,7 @@ public class StageController : MonoBehaviour
         this.Director = GameObject.Find("GameDirector");
         this.isCreate = false;
         this.isStageCreate = false;
+        this.isCreateNewArea = false;
         this.isGoal = false;
         this.StartPos = 80f;
         this.GoalPos = 400f;
@@ -66,6 +68,10 @@ public class StageController : MonoBehaviour
             StageCreate();
         }
 
+        if (this.isCreateNewArea)
+        {
+            CreateNewArea();
+        }
         
         if (this.StageStartPos - Player.transform.position.z <= 0)
         {
@@ -118,6 +124,36 @@ public class StageController : MonoBehaviour
 
     }
 
+    public void CreateNewArea()
+    {
+        /*
+        this.StageStartPos = 0f;
+        this.StageCreatePos = 200f;
+        */
+
+        this.isCreateNewArea = false;
+
+        if (this.Director.GetComponent<GameDirector>().StageNo % 10 == 0)
+        {
+            GameObject Road1 = Instantiate(Road1Prefab);
+            Road1.transform.position = new Vector3(0, Road1.transform.position.y, 0);
+            this.Director.GetComponent<GameDirector>().isPlayerOrigin = true;
+        }
+        else if (this.Director.GetComponent<GameDirector>().StageNo % 10 == 3)
+        {
+            GameObject Road2 = Instantiate(Road2Prefab);
+            Road2.transform.position = new Vector3(0, Road2.transform.position.y, 0);
+            this.Director.GetComponent<GameDirector>().isPlayerOrigin = true;
+        }
+        else if (this.Director.GetComponent<GameDirector>().StageNo % 10 == 6)
+        {
+            GameObject Road3 = Instantiate(Road3Prefab);
+            Road3.transform.position = new Vector3(0, Road3.transform.position.y, 0);
+            this.Director.GetComponent<GameDirector>().isPlayerOrigin = true;
+        }
+
+    }
+
     void StageCreate()
     {
         this.StartPos = Player.transform.position.z + 50f;
@@ -140,7 +176,7 @@ public class StageController : MonoBehaviour
         this.StageCreatePos += 1000f;
         */
 
-        if (this.Director.GetComponent<GameDirector>().StageNo % 10 <= 3)
+        if (this.Director.GetComponent<GameDirector>().StageNo % 10 >= 1 && this.Director.GetComponent<GameDirector>().StageNo % 10 <= 3)
         {
             GameObject Road1 = Instantiate(Road1Prefab);
             Road1.transform.position = new Vector3(0, Road1.transform.position.y, StageCreatePos);
@@ -150,7 +186,12 @@ public class StageController : MonoBehaviour
             GameObject Road2 = Instantiate(Road2Prefab);
             Road2.transform.position = new Vector3(0, Road2.transform.position.y, StageCreatePos);
         }
-        else if (this.Director.GetComponent<GameDirector>().StageNo % 10 >= 7 && this.Director.GetComponent<GameDirector>().StageNo % 10 <= 10)
+        else if (this.Director.GetComponent<GameDirector>().StageNo % 10 >= 7 && this.Director.GetComponent<GameDirector>().StageNo % 10 <= 9)
+        {
+            GameObject Road3 = Instantiate(Road3Prefab);
+            Road3.transform.position = new Vector3(0, Road3.transform.position.y, StageCreatePos);
+        }
+        else
         {
             GameObject Road3 = Instantiate(Road3Prefab);
             Road3.transform.position = new Vector3(0, Road3.transform.position.y, StageCreatePos);

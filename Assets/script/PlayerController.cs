@@ -111,6 +111,15 @@ public class PlayerController : MonoBehaviour
     {
         this.PlayerHP = Setting.PlayerHP;
 
+        if (this.gameObject.transform.position.x > 6)
+        {
+            this.gameObject.transform.position = new Vector3(6, 0.1f, this.transform.position.z);
+        }
+        else if (this.gameObject.transform.position.x < -6)
+        {
+            this.gameObject.transform.position = new Vector3(-6, 0.1f, this.transform.position.z);
+        }
+
         if (this.isRunning == true)
         {
             Compo.myAnimator.SetFloat("Speed", 1);
@@ -287,7 +296,7 @@ public class PlayerController : MonoBehaviour
         {
             gamedirector.GetComponent<GameDirector>().HeroPoint += 1;
 
-            if (this.gamedirector.GetComponent<GameDirector>().HeroPointRatio >= 1)
+            if (this.gamedirector.GetComponent<GameDirector>().HeroPointMAX == this.gamedirector.GetComponent<GameDirector>().HeroPoint)//this.gamedirector.GetComponent<GameDirector>().HeroPointRatio >= 1)
             {
                 Compo.myAudio.PlayOneShot(PowerUpMAXSE);
             }

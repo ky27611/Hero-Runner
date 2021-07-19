@@ -50,6 +50,7 @@ public class GameDirector : MonoBehaviour
     public bool isStageClear;
     public bool isGameOver;
     public bool isNormalMode;
+    public bool isPlayerOrigin;
     private float waittime = 0;
     private int waitcount = 0;
     private float countdowntime = 4;
@@ -117,7 +118,7 @@ public class GameDirector : MonoBehaviour
 
         this.RestartPos = 0;
 
-        
+        this.isPlayerOrigin = false;
         this.isHeroDecision = false;
 
         this.generationText.GetComponent<Text>().text = "Generation:" + generationCount.ToString();
@@ -403,6 +404,7 @@ public class GameDirector : MonoBehaviour
             case 1:
                 this.centerText.GetComponent<Text>().text = "Clear";
                 BGM.GetComponent<AudioController>().AudioChange(12);
+                this.Stage.GetComponent<StageController>().isCreateNewArea = true;
                 break;
             case 2:
                 this.waittime += Time.deltaTime;
@@ -516,6 +518,15 @@ public class GameDirector : MonoBehaviour
         switch (ProcessNo)
         {
             case 1:
+
+                if (isPlayerOrigin)
+                {
+                    isPlayerOrigin = false;
+                    this.Player.transform.position = new Vector3(0, 0.1f, -10);
+                    this.Stage.GetComponent<StageController>().StageStartPos = 0;
+                    this.Stage.GetComponent<StageController>().StageCreatePos = 200;
+                }
+                
                 this.centerText.GetComponent<Text>().text = "Stage" + StageNo.ToString();
                 break;
             case 2:

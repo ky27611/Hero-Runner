@@ -108,6 +108,11 @@ public class Boss : MonoBehaviour
             this.gameDirector.GetComponent<GameDirector>().isStageClear = true;
             Destroy(this.gameObject);
         }
+
+        if (this.gameDirector.GetComponent<GameDirector>().index == GameDirector.Index.PlayerSelect)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     void Attack()

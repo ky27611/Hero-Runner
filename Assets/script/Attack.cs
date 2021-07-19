@@ -6,12 +6,17 @@ public class Attack : MonoBehaviour
 {
     public BoxCollider myCollider;
     public bool isAttack;
+    public GameObject Player;
+    public AudioSource myAudio;
+    public AudioClip DefeatSE;
 
     // Start is called before the first frame update
     void Start()
     {
+        this.Player = GameObject.Find("Player");
         this.myCollider = GetComponent<BoxCollider>();
         this.isAttack = false;
+        this.myAudio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -31,7 +36,8 @@ public class Attack : MonoBehaviour
     {
         if (other.gameObject.tag == "enemy1")
         {
-            other.gameObject.GetComponent<Enemy>().EnemyHP -= 1;//Setting.PlayerAtk;
+            this.myAudio.PlayOneShot(DefeatSE);
+            other.gameObject.GetComponent<Enemy>().EnemyHP -= this.Player.gameObject.GetComponent<PlayerController>().Setting.PlayerAtk;
         }
     }
 }
