@@ -40,6 +40,7 @@ public class GameDirector : MonoBehaviour
     private GameObject Stage;
     private GameObject Sword;
     private GameObject SwordDummy;
+    private GameObject scoreDirector;
     private Transform Geometry;
     private Transform GeometryDummy;
     private GameObject bossSlime;
@@ -65,6 +66,7 @@ public class GameDirector : MonoBehaviour
     public int indexNo;
     public int PlayerNo;
     public int StageNo;
+    public int ModeNo;
     //public int ProcessNo;
 
     public float RestartPos;
@@ -74,7 +76,7 @@ public class GameDirector : MonoBehaviour
     public AudioClip[] Seclips;
     AudioSource Seaudios;
     public int SENo;
-    private int SeTiming; 
+    private bool isSeTiming; 
 
     void Start()
     {
@@ -102,6 +104,7 @@ public class GameDirector : MonoBehaviour
         this.SwordDummy = GameObject.Find("SwordDummy");
         this.BGM = GameObject.Find("BGM");
         this.Stage = GameObject.Find("StageDirector");
+        this.scoreDirector = GameObject.Find("ScoreDirector");
         this.BGM.GetComponent<AudioController>();
 
         Seaudios = GetComponent<AudioSource>();
@@ -120,6 +123,7 @@ public class GameDirector : MonoBehaviour
 
         this.isPlayerOrigin = false;
         this.isHeroDecision = false;
+        this.isSeTiming = false;
 
         this.generationText.GetComponent<Text>().text = "Generation:" + generationCount.ToString();
         //this.heroPointText.GetComponent<Text>().text = "HeroPoint:" + HeroPoint.ToString();
@@ -248,59 +252,82 @@ public class GameDirector : MonoBehaviour
                 this.Sword.GetComponent<Renderer>().enabled = false;
                 this.SwordDummy.GetComponent<Renderer>().enabled = false;
                 Player.transform.position = new Vector3(0, 0.1f, RestartPos);
-                this.centerText.GetComponent<Text>().text = "press space";
-                this.SeTiming = 1;
+                this.centerText.GetComponent<Text>().text = "Hero Select";
+                Seaudios.PlayOneShot(Seclips[0]);
+                this.isSeTiming = true;
+                ModeNo = 1;
                 break;
             case 2:
+
                 this.waittime += Time.deltaTime;
-                
-                if (isHeroDecision == false)
+
+                switch (ModeNo)
                 {
-                    if (this.waittime >= 0.1f)
-                    {
-                        Seaudios.PlayOneShot(Seclips[2]);
-                        waittime = 0;
-                        GeometryDummy.GetChild(PlayerNo).gameObject.SetActive(false);
-                        this.PlayerNo++;
-                        if (PlayerNo >= 6)
+                    case 1:
+                        this.centerText.GetComponent<Text>().text = "Hero Select";
+
+                        if (this.waittime >= 2)
                         {
-                            PlayerNo = 0;
+                            this.waittime = 0;
+                            ModeNo++;
                         }
-                        GeometryDummy.GetChild(PlayerNo).gameObject.SetActive(true);
-                    }
 
-                    if (Input.GetKeyDown(KeyCode.Space))
-                    {
-                        this.isHeroDecision = true;
-                        this.waittime = 0;
-                    }
-                }
-                else
-                {
-                    if (this.SeTiming == 1)
-                    {
-                        Seaudios.PlayOneShot(Seclips[1]);
-                        this.SeTiming--;
-                    }
-                    this.centerText.GetComponent<Text>().text = "";
-                    this.SwordDummy.GetComponent<Renderer>().enabled = true;
+                        break;
+                    case 2:
+                        this.centerText.GetComponent<Text>().text = "Press Space";
 
-                    if (this.waittime >= 3)
-                    {
-                        this.preindex = this.index;
-                        this.index = Index.GameStart;
-                        this.isChangeIndex = true;
-                    }
+                        if (this.waittime >=  0.1f)
+                        {
+                            Seaudios.PlayOneShot(Seclips[2]);
+                            waittime = 0;
+                            GeometryDummy.GetChild(PlayerNo).gameObject.SetActive(false);
+                            this.PlayerNo++;
+                            if (PlayerNo >= 6)
+                            {
+                                PlayerNo = 0;
+                            }
+                            GeometryDummy.GetChild(PlayerNo).gameObject.SetActive(true);
+                        }
+
+                        if (Input.GetKeyDown(KeyCode.Space))
+                        {
+                            this.isHeroDecision = true;
+                            ModeNo++;
+                            this.waittime = 0;
+                        }
+                        break;
+                    case 3:
+                        if (this.isSeTiming)
+                        {
+                            Seaudios.PlayOneShot(Seclips[1]);
+                            this.isSeTiming = false;
+                        }
+                        this.centerText.GetComponent<Text>().text = "";
+                        this.SwordDummy.GetComponent<Renderer>().enabled = true;
+
+                        if (this.waittime >= 3)
+                        {
+                            this.preindex = this.index;
+                            this.index = Index.GameStart;
+                            this.isChangeIndex = true;
+                        }
+                        break;
+                    default:
+                        break;
+
                 }
+                
                 break;
             case 3:
                 this.waittime = 0;
+                ModeNo = 1;
                 this.isHeroDecision = false;
                 GeometryDummy.GetChild(PlayerNo).gameObject.SetActive(false);
                 PlayerDummy.gameObject.SetActive(false);
                 Geometry.GetChild(PlayerNo).gameObject.SetActive(true);
                 this.Sword.GetComponent<Renderer>().enabled = true;
                 GeometryDummy.GetChild(PlayerNo).gameObject.SetActive(false);
+                this.isSeTiming = true;
                 break;
             default:
                 break;
@@ -402,17 +429,41 @@ public class GameDirector : MonoBehaviour
         switch (ProcessNo)
         {
             case 1:
-                this.centerText.GetComponent<Text>().text = "Clear";
+                this.centerText.GetComponent<Text>().text = "Stage" + StageNo.ToString() + " Clear";
                 BGM.GetComponent<AudioController>().AudioChange(12);
                 this.Stage.GetComponent<StageController>().isCreateNewArea = true;
+                ModeNo = 1;
                 break;
             case 2:
                 this.waittime += Time.deltaTime;
-                if (this.waittime >= 3)
+
+                switch (ModeNo)
                 {
-                    this.preindex = this.index;
-                    this.index = Index.NextStage;
-                    this.isChangeIndex = true;
+                    case 1:
+                        if (this.waittime >= 2 && this.waittime < 4)
+                        {
+                            this.centerText.GetComponent<Text>().text = "Defeat" + scoreDirector.GetComponent<ScoreController>().defeatCount.ToString() + " !!";
+                            if (this.isSeTiming)
+                            {
+                                Seaudios.PlayOneShot(Seclips[0]);
+                                isSeTiming = false;
+                            }
+                            
+                        }
+                        if (this.waittime >= 4)
+                        {
+                            isSeTiming = true;
+                            ModeNo++;
+                        }
+                        break;
+                    case 2:
+                        if (this.waittime >= 3)
+                        {
+                            this.preindex = this.index;
+                            this.index = Index.NextStage;
+                            this.isChangeIndex = true;
+                        }
+                        break;
                 }
                 break;
             case 3:
@@ -420,6 +471,8 @@ public class GameDirector : MonoBehaviour
                 this.centerText.GetComponent<Text>().text = "";
                 this.waittime = 0;
                 this.StageNo++;
+                this.ModeNo = 1;
+                this.isSeTiming = true;
                 break;
             default:
                 break;
@@ -553,64 +606,88 @@ public class GameDirector : MonoBehaviour
         switch (ProcessNo)
         {
             case 1:
-                this.SeTiming = 3;
+                this.isSeTiming = true;
+                this.waittime = 0;
+                ModeNo = 1;
                 break;
             case 2:
-                this.countdowntimetext = (int)this.countdowntime;
+                this.waittime += Time.deltaTime;
+                switch (ModeNo)
+                {
+                   case 1:
+                        if (isSeTiming)
+                        {
+                            Seaudios.PlayOneShot(Seclips[2]);
+                            this.isSeTiming = false;
+                        }
+                        this.centerText.GetComponent<Text>().text = "3";
 
-                if (countdowntime <= 4 && countdowntime > 3)
-                {
-                    if (this.SeTiming == 3)
-                    {
-                        Seaudios.PlayOneShot(Seclips[2]);
-                        this.SeTiming --;
-                    }
-                    this.centerText.GetComponent<Text>().text = this.countdowntimetext.ToString();
-                    this.countdowntime -= Time.deltaTime;
-                }
-                else if (countdowntime <= 3 && countdowntime > 2)
-                {
-                    if (this.SeTiming == 2)
-                    {
-                        Seaudios.PlayOneShot(Seclips[2]);
-                        this.SeTiming --;
-                    }
-                    this.centerText.GetComponent<Text>().text = this.countdowntimetext.ToString();
-                    this.countdowntime -= Time.deltaTime;
+                        if (this.waittime >= 1)
+                        {
+                            this.waittime = 0;
+                            isSeTiming = true;
+                            ModeNo++;
+                        }
+                        break;
+                    case 2:
+                        if (isSeTiming)
+                        {
+                            Seaudios.PlayOneShot(Seclips[2]);
+                            this.isSeTiming = false;
+                        }
+                        this.centerText.GetComponent<Text>().text = "2";
 
-                }
-                else if (countdowntime <= 2 && countdowntime > 1)
-                {
-                    if (this.SeTiming == 1)
-                    {
-                        Seaudios.PlayOneShot(Seclips[2]);
-                        this.SeTiming --;
-                    }
-                    this.centerText.GetComponent<Text>().text = this.countdowntimetext.ToString();
-                    this.countdowntime -= Time.deltaTime;
+                        if (this.waittime >= 1)
+                        {
+                            this.waittime = 0;
+                            isSeTiming = true;
+                            ModeNo++;
+                        }
+                        break;
+                    case 3:
+                        if (isSeTiming)
+                        {
+                            Seaudios.PlayOneShot(Seclips[2]);
+                            this.isSeTiming = false;
+                        }
+                        this.centerText.GetComponent<Text>().text = "1";
 
-                }
-                else if (countdowntime <= 1)//&& countdowntime >= 0)
-                {
-                    if (this.SeTiming == 0)
-                    {
-                        Seaudios.PlayOneShot(Seclips[3]);
-                        this.SeTiming --;
-                    }
-                    this.centerText.GetComponent<Text>().text = "Start!";
-                    this.waittime += Time.deltaTime;
-                    if (this.waittime >= 1)
-                    {
-                        this.preindex = this.index;
-                        this.index = Index.StageCreate;
-                        this.isChangeIndex = true;
-                    }
+                        if (this.waittime >= 1)
+                        {
+                            this.waittime = 0;
+                            isSeTiming = true;
+                            ModeNo++;
+                        }
+                        break;
+                    case 4:
+                        if (isSeTiming)
+                        {
+                            Seaudios.PlayOneShot(Seclips[3]);
+                            this.isSeTiming = false;
+                        }
+                        this.centerText.GetComponent<Text>().text = "Start!";
+
+                        if (this.waittime >= 1)
+                        {
+                            this.waittime = 0;
+                            isSeTiming = true;
+                            ModeNo++;
+                            this.preindex = this.index;
+                            this.index = Index.StageCreate;
+                            this.isChangeIndex = true;
+                        }
+                        break;
+                    case 5:
+                        break;
                 }
                 break;
+
             case 3:
                 this.waittime = 0;
                 this.centerText.GetComponent<Text>().text = "";
                 this.countdowntime = 4;
+                this.isSeTiming = true;
+                ModeNo = 1;
                 break;
             default:
                 break;

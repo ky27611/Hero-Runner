@@ -191,7 +191,7 @@ public class PlayerStateDeath : PlayerState
         this.score.GetComponent<ScoreController>().isTimeScore = true;
         this.gamedirector.GetComponent<GameDirector>().isGameOver = false;
         m_Compo.myAnimator.SetBool("Death", false);
-        m_Setting.PlayerHP = 2;
+        m_Setting.PlayerHP = 3;
         //m_Setting.velocityZ = 16;
         //m_Setting.velocityX = 12;
         //m_Setting.velocityY = 4;

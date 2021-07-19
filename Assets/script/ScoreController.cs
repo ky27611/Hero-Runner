@@ -12,7 +12,7 @@ public class ScoreController : MonoBehaviour
     private int timescoremagnification = 10;
     private int defeatscore = 0;
     private int score = 0;
-    private int defeatCount = 0;
+    public int defeatCount = 0;
     public bool isTimeScore;
     private GameObject gamedirector;
 
