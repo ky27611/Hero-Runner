@@ -137,6 +137,26 @@ public class Boss : MonoBehaviour
                     GameObject BossAttack3 = Instantiate(BossAttack3Prefab);
                     BossAttack3.transform.position = new Vector3(1.8f * offsetX2, this.transform.position.y, Player.transform.position.z + 11);
                     break;
+                case BossSetting.BossType.BossDragon:
+                    int num2 = Random.Range(1, 4);
+                    switch (num2)
+                    {
+                        case 1:
+                            GameObject BossAttack4 = Instantiate(BossAttack1Prefab);
+                            BossAttack4.transform.position = new Vector3(0, this.transform.position.y, Player.transform.position.z + 11);
+                            break;
+                        case 2:
+                            int offsetX3 = Random.Range(-1, 2);
+                            GameObject BossAttack5 = Instantiate(BossAttack2Prefab);
+                            BossAttack5.transform.position = new Vector3(2 * offsetX3, this.transform.position.y, Player.transform.position.z + 11);
+                            break;
+                        case 3:
+                            int offsetX4 = Random.Range(-1, 2);
+                            GameObject BossAttack6 = Instantiate(BossAttack3Prefab);
+                            BossAttack6.transform.position = new Vector3(1.8f * offsetX4, this.transform.position.y, Player.transform.position.z + 11);
+                            break;
+                    }
+                    break;
             }
 
         }

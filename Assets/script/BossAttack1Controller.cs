@@ -29,7 +29,7 @@ public class BossAttack1Controller : MonoBehaviour
 
     }
 
-    
+    /*
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
@@ -38,5 +38,5 @@ public class BossAttack1Controller : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-    
+    */
 }

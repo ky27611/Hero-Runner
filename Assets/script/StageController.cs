@@ -303,9 +303,9 @@ public class StageController : MonoBehaviour
 
     void LastBossCreate()
     {
-        //this.Director.GetComponent<GameDirector>().isBossMode = true;
-        //GameObject BossDragon = Instantiate(BossDragonPrefab);
-        //BossDragon.transform.position = new Vector3(0, BossDragon.transform.position.y, Player.transform.position.z + 12);
+        this.Director.GetComponent<GameDirector>().isBossMode = true;
+        GameObject BossDragon = Instantiate(BossDragonPrefab);
+        BossDragon.transform.position = new Vector3(0, BossDragon.transform.position.y, Player.transform.position.z + 12);
     }
 
 }

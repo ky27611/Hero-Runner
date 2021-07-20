@@ -282,7 +282,7 @@ public class GameDirector : MonoBehaviour
                             waittime = 0;
                             GeometryDummy.GetChild(PlayerNo).gameObject.SetActive(false);
                             this.PlayerNo++;
-                            if (PlayerNo >= 6)
+                            if (PlayerNo >= 4)
                             {
                                 PlayerNo = 0;
                             }

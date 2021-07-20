@@ -33,6 +33,7 @@ public class TurtleAttack : MonoBehaviour
 
     }
 
+    /*
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
@@ -41,4 +42,5 @@ public class TurtleAttack : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+    */
 }

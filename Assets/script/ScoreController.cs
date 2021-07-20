@@ -19,7 +19,7 @@ public class ScoreController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        this.scoreText = GameObject.Find("Score");
+        //this.scoreText = GameObject.Find("Score");
         this.defeatText = GameObject.Find("Defeat");
         this.gamedirector = GameObject.Find("GameDirector");
         this.isTimeScore = true;
@@ -36,8 +36,8 @@ public class ScoreController : MonoBehaviour
         }
 
         //経過時間スコアと敵倒したポイントをスコアとして表示
-        this.score = defeatscore + timescore;
-        this.scoreText.GetComponent<Text>().text = "Score：" + this.score.ToString();
+        //this.score = defeatscore + timescore;
+        //this.scoreText.GetComponent<Text>().text = "Score：" + this.score.ToString();
     }
 
     //敵を倒すとスコア加算

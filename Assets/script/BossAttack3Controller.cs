@@ -35,6 +35,7 @@ public class BossAttack3Controller : MonoBehaviour
         }
     }
 
+    /*
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
@@ -42,5 +43,5 @@ public class BossAttack3Controller : MonoBehaviour
             Player.gameObject.GetComponent<PlayerController>().Setting.PlayerHP -= 1;
         }
     }
-
+    */
 }
