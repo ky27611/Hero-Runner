@@ -27,6 +27,9 @@ public class PlayerController : MonoBehaviour
 
     private GameObject gamedirector;
     public GameObject ShockWavePrefab;
+    public GameObject LargeShockWavePrefab;
+    public GameObject RocketPrefab;
+    public GameObject SheepsPrefab;
 
     //Score
     private GameObject score;
@@ -150,6 +153,17 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        if (Setting.isSkill == false)
+        {
+            Setting.SkillRecoveryTime += Time.deltaTime;
+            if (Setting.SkillRecoveryTime >= Setting.SkillWaitTime)
+            {
+                Setting.isSkill = true;
+                Setting.SkillRecoveryTime = 0;
+                Setting.SkillWaitTime = 0;
+            }
+        }
+
         if (this.isRunning == true)
         {
             Compo.myAnimator.SetFloat("Speed", 1);
@@ -241,6 +255,16 @@ public class PlayerController : MonoBehaviour
                     
                 }
 
+                //スキル
+                if ((Input.GetMouseButtonDown(1)) &&
+                    (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
+                {
+                    if (Setting.isSkill)
+                    {
+                        Skill();
+                    }
+                }
+
                 //力尽きた
                 if (Setting.PlayerHP <= 0)
                 {
@@ -300,6 +324,47 @@ public class PlayerController : MonoBehaviour
 
         }
         
+    }
+
+    void Skill()
+    {
+        Setting.isSkill = false;
+        switch (Setting.PlayerNo)
+        {
+            case 0:
+                GameObject LargeShockWave = Instantiate(LargeShockWavePrefab);
+                LargeShockWave.transform.position = new Vector3(this.transform.position.x, LargeShockWave.transform.position.y, this.transform.position.z + 2);
+                Setting.SkillTime = 0;
+                Setting.SkillWaitTime = 5;
+                Setting.SkillRecoveryTime = 0;
+                break;
+            case 1:
+                GameObject Rocket = Instantiate(RocketPrefab);
+                Rocket.transform.position = new Vector3(this.transform.position.x, Rocket.transform.position.y, this.transform.position.z + 3);
+                Setting.SkillTime = 10;
+                Setting.SkillWaitTime = 5;
+                Setting.SkillRecoveryTime = 0;
+                break;
+            case 2:
+                Setting.PlayerHP += 2;
+                Setting.SkillWaitTime = 5;
+                Setting.SkillRecoveryTime = 0;
+                break;
+            case 3:
+                GameObject Sheeps = Instantiate(SheepsPrefab);
+                Sheeps.transform.position = new Vector3(this.transform.position.x, Sheeps.transform.position.y, this.transform.position.z);
+                Setting.SkillTime = 10;
+                Setting.SkillWaitTime = 5;
+                Setting.SkillRecoveryTime = 0;
+                break;
+            case 4:
+                Setting.velocityZ = 8;
+                Setting.SkillWaitTime = 5;
+                Setting.SkillRecoveryTime = 0;
+                break;
+            default:
+                break;
+        }
     }
     
     //攻撃当たった時

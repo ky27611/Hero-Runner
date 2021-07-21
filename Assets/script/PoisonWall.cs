@@ -18,6 +18,7 @@ public class PoisonWall : MonoBehaviour
         
     }
 
+    /*
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
@@ -25,4 +26,5 @@ public class PoisonWall : MonoBehaviour
             Player.gameObject.GetComponent<PlayerController>().Setting.PlayerHP -= 1;
         }
     }
+    */
 }

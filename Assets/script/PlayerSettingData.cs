@@ -44,8 +44,13 @@ public class PlayerSettingData
     public bool isSliding;
     public bool isGround;
     public bool isDamage;
+    public bool isSkill;
 
     public int PlayerNo;
+
+    public float SkillTime;
+    public float SkillWaitTime;
+    public float SkillRecoveryTime;
 
     public PlayerSettingData(InitialStatus initialStatus)
     {
@@ -83,10 +88,13 @@ public class PlayerSettingData
         InvincibleTime = initialStatus.InvincibleTime;
 
         AfterDamageTime = 0;
+        SkillTime = 0;
+        SkillWaitTime = 0;
 
         isSliding = false;
         isGround = false;
         isDamage = false;
+        isSkill = true;
     }
 
     /*

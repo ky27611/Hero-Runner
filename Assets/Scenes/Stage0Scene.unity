@@ -221,7 +221,7 @@ RectTransform:
   - {fileID: 834281214}
   - {fileID: 1941257964}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -238,7 +238,7 @@ PrefabInstance:
     - target: {fileID: 1005524070888006426, guid: 43fec10ff1f69d8469e3377c7bb7d2c3,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1005524070888006426, guid: 43fec10ff1f69d8469e3377c7bb7d2c3,
         type: 3}
@@ -625,7 +625,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &130564680
 GameObject:
@@ -1020,7 +1020,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &457510786
 PrefabInstance:
@@ -2425,7 +2425,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1272429651
 PrefabInstance:
@@ -2444,7 +2444,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400326, guid: 8f0565f23a2b58541a475bd3c1393052, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 400326, guid: 8f0565f23a2b58541a475bd3c1393052, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2684,6 +2684,12 @@ MonoBehaviour:
   initialStatus: {fileID: 11400000, guid: 8f900b93aa9e6464c8c32e8b874629c6, type: 2}
   ShockWavePrefab: {fileID: 7401105954517290111, guid: 0e91d29f9613ace4594f4b1d95dbd2f0,
     type: 3}
+  LargeShockWavePrefab: {fileID: 6301065472552514566, guid: 70e58eea154ef7a47a37ce1b928b0e73,
+    type: 3}
+  RocketPrefab: {fileID: 1714641106379113450, guid: 50128c8073fda864c952aad9968c1fc5,
+    type: 3}
+  SheepsPrefab: {fileID: 2242698656763450602, guid: 4438f0b056203fb45951a86c935cba9f,
+    type: 3}
   PlayerHP: 0
   RunningSE: {fileID: 8300000, guid: 94a3b85ce9aeaa24e9bdfdbe4efd4d9a, type: 3}
   SlidingSE: {fileID: 8300000, guid: 2f6630c28dd2f304d9216c2ecbd66f22, type: 3}
@@ -2918,6 +2924,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialStatus: {fileID: 0}
   ShockWavePrefab: {fileID: 0}
+  LargeShockWavePrefab: {fileID: 0}
+  RocketPrefab: {fileID: 0}
+  SheepsPrefab: {fileID: 0}
   PlayerHP: 0
   RunningSE: {fileID: 0}
   SlidingSE: {fileID: 0}
@@ -3005,7 +3014,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1682961995
 PrefabInstance:
@@ -3022,7 +3031,7 @@ PrefabInstance:
     - target: {fileID: 6565089011322337855, guid: c2c97df6e97c1754792a3f037da034cd,
         type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6565089011322337855, guid: c2c97df6e97c1754792a3f037da034cd,
         type: 3}
@@ -3473,7 +3482,7 @@ PrefabInstance:
     - target: {fileID: 8624811869634879151, guid: 8f2cd1315a68c51419bf58b9eab89390,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8624811869634879151, guid: 8f2cd1315a68c51419bf58b9eab89390,
         type: 3}
