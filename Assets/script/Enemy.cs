@@ -23,8 +23,8 @@ public class Enemy : MonoBehaviour
     private GameObject Score;
     private GameObject Gamedirector;
 
-    //public AudioSource myAudio;
-    //public AudioClip DefeatSE;
+    public AudioSource myAudio;
+    public AudioClip DefeatSE;
 
     // Start is called before the first frame update
     void Start()
@@ -98,6 +98,7 @@ public class Enemy : MonoBehaviour
         {
             this.Score.GetComponent<ScoreController>().DefeatEnemy();
             //this.myAudio.PlayOneShot(DefeatSE);
+            AudioSource.PlayClipAtPoint(DefeatSE, transform.position);
             Destroy(this.gameObject);
         }
 

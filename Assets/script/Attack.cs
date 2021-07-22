@@ -36,7 +36,7 @@ public class Attack : MonoBehaviour
     {
         if (other.gameObject.tag == "enemy1")
         {
-            this.myAudio.PlayOneShot(DefeatSE);
+            //this.myAudio.PlayOneShot(DefeatSE);
             other.gameObject.GetComponent<Enemy>().EnemyHP -= this.Player.gameObject.GetComponent<PlayerController>().Setting.PlayerAtk;
         }
     }

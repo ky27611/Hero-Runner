@@ -15,9 +15,20 @@ public class PlayerController : MonoBehaviour
         BossBattle,
     }
 
+    /*
+    public enum SkillType
+    {
+        Knight,
+        Astronaut,
+        Doctor,
+        Farmer,
+        Zombie,
+    }
+    */
+
     public PlayerSettingData Setting;
     public InitialStatus initialStatus;
-    public PlayerSettingComponent Compo;
+    public PlayerSettingComponent Compo; 
 
     private Dictionary<StateType, PlayerState> m_StateMap = new Dictionary<StateType, PlayerState>();
 
@@ -37,6 +48,7 @@ public class PlayerController : MonoBehaviour
     private GameObject BossSlime;
 
     private Transform Geometry;
+    private GameObject Sword;
 
     public float PlayerHP;
 
@@ -47,6 +59,10 @@ public class PlayerController : MonoBehaviour
     public AudioClip PowerUpMAXSE;
     public AudioClip PowerDownSE;
     public AudioClip DamageSE;
+    public AudioClip RocketSE;
+    public AudioClip CureSE;
+    public AudioClip SheepSE;
+    public AudioClip ZombieSE;
 
     public AudioClip Null;
 
@@ -96,6 +112,8 @@ public class PlayerController : MonoBehaviour
         this.BossSlime = GameObject.Find("BossSlime");
 
         this.Geometry = this.transform.Find("Geometry");
+        this.Sword = GameObject.Find("Sword");
+
 
         this.PlayerHP = Setting.PlayerHP;
 
@@ -120,13 +138,13 @@ public class PlayerController : MonoBehaviour
 
         Setting.PlayerNo = gamedirector.GetComponent<GameDirector>().PlayerNo;
 
-        if (this.gameObject.transform.position.x > 6)
+        if (this.gameObject.transform.position.x > 2)
         {
-            this.gameObject.transform.position = new Vector3(6, 0.1f, this.transform.position.z);
+            this.gameObject.transform.position = new Vector3(2, 0.1f, this.transform.position.z);
         }
-        else if (this.gameObject.transform.position.x < -6)
+        else if (this.gameObject.transform.position.x < -2)
         {
-            this.gameObject.transform.position = new Vector3(-6, 0.1f, this.transform.position.z);
+            this.gameObject.transform.position = new Vector3(-2, 0.1f, this.transform.position.z);
         }
 
         if (Setting.isDamage)
@@ -153,23 +171,53 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (Setting.isSkill == false)
+        if (Setting.isSkillActivation)
         {
-            Setting.SkillRecoveryTime += Time.deltaTime;
-            if (Setting.SkillRecoveryTime >= Setting.SkillWaitTime)
+            Setting.SkillActivationTime += Time.deltaTime;
+            if (Setting.SkillActivationTime >= Setting.SkillTime)
             {
-                Setting.isSkill = true;
-                Setting.SkillRecoveryTime = 0;
-                Setting.SkillWaitTime = 0;
+                Setting.isSkillActivation = false;
+                Setting.SkillActivationTime = 0;
+                Setting.SkillTime = 0;
+
+                if (Setting.isRocket)
+                {
+                    Setting.isRocket = false;
+                    Geometry.GetChild(Setting.PlayerNo).gameObject.GetComponent<Renderer>().enabled = true;
+                    this.Sword.GetComponent<Renderer>().enabled = true;
+                }
+                else if (Setting.isSlow)
+                {
+                    Setting.isSlow = false;
+                    Setting.velocityZ = initialStatus.velocityZ;
+                }
             }
         }
+        else
+        {
+            if (Setting.isEnableSkill == false)
+            {
+                Setting.SkillRecoveryTime += Time.deltaTime;
+                if (Setting.SkillRecoveryTime >= Setting.SkillWaitTime)
+                {
+                    Setting.isEnableSkill = true;
+                    Setting.SkillRecoveryTime = 0;
+                    Setting.SkillWaitTime = 0;
+                }
+            }
+        }
+
+        
 
         if (this.isRunning == true)
         {
             Compo.myAnimator.SetFloat("Speed", 1);
 
-            
-            if (Setting.isGround == true && Setting.isSliding == false)
+            if (Setting.isRocket)
+            {
+                Compo.myAudio.clip = RocketSE;
+            }
+            else if (Setting.isGround == true && Setting.isSliding == false)
             {
                 Compo.myAudio.clip = RunningSE;
             }
@@ -259,7 +307,7 @@ public class PlayerController : MonoBehaviour
                 if ((Input.GetMouseButtonDown(1)) &&
                     (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
                 {
-                    if (Setting.isSkill)
+                    if (Setting.isEnableSkill)
                     {
                         Skill();
                     }
@@ -271,6 +319,7 @@ public class PlayerController : MonoBehaviour
                     ChangeState(StateType.Death);
                     //this.gamedirector.GetComponent<GameDirector>().index = GameDirector.Index.GameOver;
                     this.gamedirector.GetComponent<GameDirector>().isGameOver = true;
+                    Geometry.GetChild(Setting.PlayerNo).gameObject.GetComponent<Renderer>().enabled = true;
                     Compo.myAudio.Stop();
                 }
 
@@ -328,37 +377,70 @@ public class PlayerController : MonoBehaviour
 
     void Skill()
     {
-        Setting.isSkill = false;
+        Setting.isEnableSkill = false;
+        Setting.isSkillActivation = true;
         switch (Setting.PlayerNo)
         {
             case 0:
                 GameObject LargeShockWave = Instantiate(LargeShockWavePrefab);
                 LargeShockWave.transform.position = new Vector3(this.transform.position.x, LargeShockWave.transform.position.y, this.transform.position.z + 2);
-                Setting.SkillTime = 0;
+                Setting.SkillTime = 1;
+                Setting.SkillActivationTime = 0;
                 Setting.SkillWaitTime = 5;
                 Setting.SkillRecoveryTime = 0;
                 break;
             case 1:
                 GameObject Rocket = Instantiate(RocketPrefab);
                 Rocket.transform.position = new Vector3(this.transform.position.x, Rocket.transform.position.y, this.transform.position.z + 3);
-                Setting.SkillTime = 10;
+
+                if (this.gamedirector.GetComponent<GameDirector>().index == GameDirector.Index.BossMode)
+                {
+                    
+                    Setting.SkillTime = 5;
+                }
+                else
+                {
+                    Setting.isRocket = true;
+                    Geometry.GetChild(Setting.PlayerNo).gameObject.GetComponent<Renderer>().enabled = false;
+                    this.Sword.GetComponent<Renderer>().enabled = false;
+                    Setting.SkillTime = 10;
+                }
+               
+                Setting.SkillActivationTime = 0;
                 Setting.SkillWaitTime = 5;
                 Setting.SkillRecoveryTime = 0;
                 break;
             case 2:
+                Compo.myAudio.PlayOneShot(CureSE);
                 Setting.PlayerHP += 2;
+                if (Setting.PlayerHP > 3)
+                {
+                    Setting.PlayerHP = 3;
+                }
+
+                Setting.SkillTime = 1;
+                Setting.SkillActivationTime = 0;
                 Setting.SkillWaitTime = 5;
                 Setting.SkillRecoveryTime = 0;
                 break;
             case 3:
+                Compo.myAudio.PlayOneShot(SheepSE);
                 GameObject Sheeps = Instantiate(SheepsPrefab);
-                Sheeps.transform.position = new Vector3(this.transform.position.x, Sheeps.transform.position.y, this.transform.position.z);
+                Sheeps.transform.position = new Vector3(this.transform.position.x, Sheeps.transform.position.y, this.transform.position.z); if (this.gamedirector.GetComponent<GameDirector>().index == GameDirector.Index.BossMode)
+                {
+                    Setting.SkillTime = 5;
+                }
                 Setting.SkillTime = 10;
+                Setting.SkillActivationTime = 0;
                 Setting.SkillWaitTime = 5;
                 Setting.SkillRecoveryTime = 0;
                 break;
             case 4:
-                Setting.velocityZ = 8;
+                Compo.myAudio.PlayOneShot(ZombieSE);
+                Setting.velocityZ = (initialStatus.velocityZ / 2);
+                Setting.isSlow = true;
+                Setting.SkillTime = 10;
+                Setting.SkillActivationTime = 0;
                 Setting.SkillWaitTime = 5;
                 Setting.SkillRecoveryTime = 0;
                 break;
@@ -374,7 +456,7 @@ public class PlayerController : MonoBehaviour
         {
             if (other.gameObject.tag == "Obstacle")
             {
-                if (Setting.isDamage == false)
+                if (Setting.isDamage == false && Setting.isRocket == false)
                 {
                     Setting.PlayerHP -= 1;
                     Compo.myAudio.PlayOneShot(DamageSE);
@@ -388,7 +470,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (other.gameObject.tag == "enemy1")
             {
-                if (Setting.isDamage == false)
+                if (Setting.isDamage == false && Setting.isRocket == false)
                 {
                     Setting.PlayerHP -= other.gameObject.GetComponent<Enemy>().EnemyAtk;
                     Compo.myAudio.PlayOneShot(DamageSE);
@@ -403,7 +485,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (other.gameObject.tag == "Boss")
             {
-                if (Setting.isDamage == false)
+                if (Setting.isDamage == false && Setting.isRocket == false)
                 {
                     Setting.PlayerHP -= other.gameObject.GetComponent<Boss>().BossAtk;
                     Compo.myAudio.PlayOneShot(DamageSE);
@@ -418,7 +500,7 @@ public class PlayerController : MonoBehaviour
             {
                 gamedirector.GetComponent<GameDirector>().HeroPoint += 1;
 
-                if (this.gamedirector.GetComponent<GameDirector>().HeroPointMAX == this.gamedirector.GetComponent<GameDirector>().HeroPoint)//this.gamedirector.GetComponent<GameDirector>().HeroPointRatio >= 1)
+                if (this.gamedirector.GetComponent<GameDirector>().HeroPointMAX <= this.gamedirector.GetComponent<GameDirector>().HeroPoint)//this.gamedirector.GetComponent<GameDirector>().HeroPointRatio >= 1)
                 {
                     Compo.myAudio.PlayOneShot(PowerUpMAXSE);
                 }

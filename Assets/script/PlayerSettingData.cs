@@ -44,11 +44,15 @@ public class PlayerSettingData
     public bool isSliding;
     public bool isGround;
     public bool isDamage;
-    public bool isSkill;
+    public bool isEnableSkill;
+    public bool isSkillActivation;
+    public bool isRocket;
+    public bool isSlow;
 
     public int PlayerNo;
 
     public float SkillTime;
+    public float SkillActivationTime;
     public float SkillWaitTime;
     public float SkillRecoveryTime;
 
@@ -89,12 +93,17 @@ public class PlayerSettingData
 
         AfterDamageTime = 0;
         SkillTime = 0;
+        SkillActivationTime = 0;
         SkillWaitTime = 0;
+        SkillRecoveryTime = 0;
 
         isSliding = false;
         isGround = false;
         isDamage = false;
-        isSkill = true;
+        isEnableSkill = true;
+        isSkillActivation = false;
+        isRocket = false;
+        isSlow = false;
     }
 
     /*

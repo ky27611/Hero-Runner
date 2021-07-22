@@ -9,7 +9,7 @@ public class RocketController : MonoBehaviour
     public BoxCollider myCollider;
     public Rigidbody myRigidbody;
     public float velocityZ;
-    public float Duration;
+    //public float Duration;
 
     // Start is called before the first frame update
     void Start()
@@ -19,7 +19,7 @@ public class RocketController : MonoBehaviour
         this.myCollider = GetComponent<BoxCollider>();
         this.myRigidbody = GetComponent<Rigidbody>();
         this.velocityZ = 32;
-        this.Duration = 0;
+        //this.Duration = 0;
     }
 
     // Update is called once per frame
@@ -34,16 +34,20 @@ public class RocketController : MonoBehaviour
                 Destroy(this.gameObject);
             }
         }
-        else if (this.gameDirector.GetComponent<GameDirector>().index == GameDirector.Index.NormalMode)
+        else if (this.gameDirector.GetComponent<GameDirector>().index == GameDirector.Index.BossMode)
         {
-            this.Duration += Time.deltaTime;
-            if (Duration >= this.Player.GetComponent<PlayerController>().Setting.SkillTime)
+            Destroy(this.gameObject);
+        }      
+        else //if (this.gameDirector.GetComponent<GameDirector>().index == GameDirector.Index.NormalMode)
+        {
+            //this.Duration += Time.deltaTime;
+            if (this.Player.GetComponent<PlayerController>().Setting.isSkillActivation == false)
             {
-                this.Duration = 0;
+                //this.Duration = 0;
                 Destroy(this.gameObject);
             }
 
-            this.transform.position = new Vector3(this.Player.transform.position.x, this.transform.position.y, this.Player.transform.position.z + 5);
+            this.transform.position = new Vector3(this.Player.transform.position.x, this.transform.position.y, this.Player.transform.position.z + 0);
         }
     }
 

@@ -40,7 +40,6 @@ public class LargeShockWaveController : MonoBehaviour
         if (other.gameObject.tag == "enemy1")
         {
             other.gameObject.GetComponent<Enemy>().EnemyHP -= 1;
-            Destroy(this.gameObject);
         }
 
     }
