@@ -27,7 +27,7 @@ public class BossAttack3Controller : MonoBehaviour
             this.Move *= -1;
         }
 
-        this.transform.position = new Vector3(this.transform.position.x + this.Move, this.transform.position.y, this.transform.position.z - 0.1f);
+        this.transform.position = new Vector3(this.transform.position.x + this.Move, this.transform.position.y, this.transform.position.z - 0.05f);
 
         if (Player.transform.position.z - this.transform.position.z >= 10)
         {

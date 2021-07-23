@@ -20,7 +20,7 @@ public class BossAttack2Controller : MonoBehaviour
     void Update()
     {
         Vector3 localPos = myTransform.localPosition;
-        localPos.z -= 0.1f;
+        localPos.z -= 0.05f;
         myTransform.localPosition = localPos;
 
         if (Player.transform.position.z - this.transform.position.z >= 10)

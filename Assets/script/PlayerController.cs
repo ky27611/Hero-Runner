@@ -258,13 +258,13 @@ public class PlayerController : MonoBehaviour
                 //float inputVelocityY = 0;
 
                 //プレイヤーを矢印キーまたはボタンに応じて左右に移動させる
-                if ((Input.GetKeyDown(KeyCode.LeftArrow)|| Input.GetKeyDown(KeyCode.A)) && -Setting.movableRange < this.transform.position.x && Setting.movableX == true)
+                if ((Input.GetKeyDown(KeyCode.LeftArrow)|| Input.GetKeyDown(KeyCode.A)) && -Setting.movableRange < this.transform.position.x && Setting.movableX == true && Setting.PlayerHP > 0)
                 {
                     Setting.movableX = false;
                     Setting.nowpositionX -= Setting.setpositionX;
                     Setting.inputVelocityX = -Setting.velocityX;
                 }
-                else if ((Input.GetKeyDown(KeyCode.RightArrow)|| Input.GetKeyDown(KeyCode.D)) && this.transform.position.x < Setting.movableRange && Setting.movableX == true)
+                else if ((Input.GetKeyDown(KeyCode.RightArrow)|| Input.GetKeyDown(KeyCode.D)) && this.transform.position.x < Setting.movableRange && Setting.movableX == true && Setting.PlayerHP > 0)
                 {
                     Setting.movableX = false;
                     Setting.nowpositionX += Setting.setpositionX;
@@ -295,14 +295,14 @@ public class PlayerController : MonoBehaviour
 
                 //ジャンプ
                 if ((Input.GetKeyDown(KeyCode.UpArrow)|| Input.GetKeyDown(KeyCode.W)) &&
-                    (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Sliding")))
+                    (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Sliding")) && Setting.PlayerHP > 0)
                 {
                     ChangeState(StateType.Jump);
                 }
 
                 //スライディング
                 if ((Input.GetKeyDown(KeyCode.DownArrow)|| Input.GetKeyDown(KeyCode.S)) &&
-                    (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
+                    (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) && Setting.PlayerHP > 0)
                 {
                     ChangeState(StateType.Sliding);
                     Compo.myAudio.PlayOneShot(SlidingSE);
@@ -311,7 +311,7 @@ public class PlayerController : MonoBehaviour
 
                 //攻撃
                 if ((Input.GetKeyDown(KeyCode.Space)||Input.GetMouseButtonDown(0)) &&
-                    (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
+                    (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) && Setting.PlayerHP > 0)
                 {
                     ChangeState(StateType.Attack);
                     Compo.myAudio.PlayOneShot(AttackSE);
@@ -326,7 +326,7 @@ public class PlayerController : MonoBehaviour
 
                 //スキル
                 if ((Input.GetMouseButtonDown(1)) &&
-                    (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")))
+                    (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) && Setting.PlayerHP > 0)
                 {
                     if (Setting.isEnableSkill)
                     {

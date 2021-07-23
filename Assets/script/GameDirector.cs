@@ -371,7 +371,7 @@ public class GameDirector : MonoBehaviour
             case 1:
                 this.Player.GetComponent<PlayerController>().isRunning = true;
 
-                if (this.StageNo % 10 <= 3)
+                if (this.StageNo % 10 >= 1 && this.StageNo % 10 <= 3)
                 {
                     BGM.GetComponent<AudioController>().AudioChange(1);
                     //this.BGM.GetComponent<AudioController>().BGMNo = 1;
@@ -381,7 +381,7 @@ public class GameDirector : MonoBehaviour
                     BGM.GetComponent<AudioController>().AudioChange(2);
                     //this.BGM.GetComponent<AudioController>().BGMNo = 2;
                 }
-                else if (this.StageNo % 10 >= 7 && this.StageNo % 10 <= 9)
+                else if (this.StageNo % 10 >= 7 || this.StageNo % 10 == 0)
                 {
                     BGM.GetComponent<AudioController>().AudioChange(3);
                     //.BGM.GetComponent<AudioController>().BGMNo = 3;
@@ -408,7 +408,7 @@ public class GameDirector : MonoBehaviour
                 {
                     BGM.GetComponent<AudioController>().AudioChange(10);
                 }
-                else if (this.StageNo % 3 == 0)
+                else if ((this.StageNo % 10) % 3 == 0)
                 {
                     BGM.GetComponent<AudioController>().AudioChange(9);
                 }
