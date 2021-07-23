@@ -314,7 +314,7 @@ public class PlayerController : MonoBehaviour
                 }
 
                 //力尽きた
-                if (Setting.PlayerHP <= 0)
+                if (Setting.PlayerHP <= 0 && Setting.isGround)
                 {
                     ChangeState(StateType.Death);
                     //this.gamedirector.GetComponent<GameDirector>().index = GameDirector.Index.GameOver;
