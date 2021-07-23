@@ -67,6 +67,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip Null;
 
     public bool isRunning;
+    public bool isDebug;
     //public bool isGround;
     //public bool isSESwitch;
 
@@ -118,6 +119,7 @@ public class PlayerController : MonoBehaviour
         this.PlayerHP = Setting.PlayerHP;
 
         this.isRunning = false;
+        this.isDebug = false;
         //this.isGround = false;
         //this.isSESwitch = true;
 
@@ -135,6 +137,25 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         this.PlayerHP = Setting.PlayerHP;
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (isDebug)
+            {
+                isDebug = false;
+            }
+            else
+            {
+                isDebug = true;
+            }
+            
+        }
+
+        if (isDebug)
+        {
+            Setting.PlayerHP = 3;
+        }
+
 
         Setting.PlayerNo = gamedirector.GetComponent<GameDirector>().PlayerNo;
 
