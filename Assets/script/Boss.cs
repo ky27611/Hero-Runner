@@ -20,6 +20,7 @@ public class Boss : MonoBehaviour
     private BossMove m_CurrentMove;
 
     public float BossHP;
+    public float BossLastHP;
     public float BossAtk;
 
     private GameObject Score;
@@ -31,6 +32,11 @@ public class Boss : MonoBehaviour
     public GameObject BossAttack1Prefab;
     public GameObject BossAttack2Prefab;
     public GameObject BossAttack3Prefab;
+
+    public AudioSource myAudio;
+    public AudioClip AppearSE;
+    public AudioClip DefeatSE;
+    public AudioClip DamageSE;
 
 
     // Start is called before the first frame update
@@ -59,13 +65,16 @@ public class Boss : MonoBehaviour
         }
 
         this.BossHP = Setting.Hp;
+        this.BossLastHP = this.BossHP;
         this.BossAtk = Setting.Atk;
 
         this.Score = GameObject.Find("ScoreDirector");
         this.gameDirector = GameObject.Find("GameDirector");
         this.Player = GameObject.Find("Player");
+        this.myAudio = GetComponent<AudioSource>();
 
         this.transform.position = new Vector3(0, this.transform.position.y, Player.transform.position.z + 12);
+        this.myAudio.PlayOneShot(AppearSE);
 
     }
 
@@ -79,6 +88,13 @@ public class Boss : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (this.BossLastHP > this.BossHP)
+        {
+            AudioSource.PlayClipAtPoint(DamageSE, transform.position);
+        }
+
+        this.BossLastHP = this.BossHP;
+
         this.transform.position = new Vector3(0, this.transform.position.y, Player.transform.position.z + 12);
         m_CurrentMove.OnUpdate();
 
@@ -97,15 +113,17 @@ public class Boss : MonoBehaviour
         
         if (this.BossHP <= 0)
         {
-            /*
-            this.Score.GetComponent<ScoreController>().DefeatBoss();
-            this.gameDirector.GetComponent<GameDirector>().isClear = true;
-            Destroy(this.gameObject);
-            */
+            if (Setting.Type == BossSetting.BossType.BossDragon)
+            {
+                this.Score.GetComponent<ScoreController>().defeatCount += 10;
+            }
+            else
+            {
+                this.Score.GetComponent<ScoreController>().defeatCount += 5;
+            }
 
-            //this.GetComponent<Renderer>().enabled = false;
-            //this.gameDirector.GetComponent<GameDirector>().index = GameDirector.Index.StageClear;
             this.gameDirector.GetComponent<GameDirector>().isStageClear = true;
+            AudioSource.PlayClipAtPoint(DefeatSE, transform.position);
             Destroy(this.gameObject);
         }
 

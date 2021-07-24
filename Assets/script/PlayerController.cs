@@ -519,7 +519,16 @@ public class PlayerController : MonoBehaviour
             }
             else if (other.gameObject.tag == "Crystal")
             {
-                gamedirector.GetComponent<GameDirector>().HeroPoint += 1;
+                //gamedirector.GetComponent<GameDirector>().HeroPoint += 1;
+
+                if (this.gamedirector.GetComponent<GameDirector>().HeroPointMAX <= this.gamedirector.GetComponent<GameDirector>().HeroPoint)
+                {
+                    this.score.GetComponent<ScoreController>().defeatCount++;
+                }
+                else
+                {
+                    gamedirector.GetComponent<GameDirector>().HeroPoint += 1;
+                }
 
                 if (this.gamedirector.GetComponent<GameDirector>().HeroPointMAX <= this.gamedirector.GetComponent<GameDirector>().HeroPoint)//this.gamedirector.GetComponent<GameDirector>().HeroPointRatio >= 1)
                 {
@@ -536,11 +545,15 @@ public class PlayerController : MonoBehaviour
             else if (other.gameObject.tag == "Flower")
             {
                 Compo.myAudio.PlayOneShot(PowerDownSE);
-                gamedirector.GetComponent<GameDirector>().HeroPoint -= 1;
-                if (gamedirector.GetComponent<GameDirector>().HeroPoint < 0)
+                
+                if (gamedirector.GetComponent<GameDirector>().HeroPoint <= 0)
                 {
                     gamedirector.GetComponent<GameDirector>().HeroPoint = 0;
-
+                    this.score.GetComponent<ScoreController>().defeatCount--;
+                }
+                else
+                {
+                    gamedirector.GetComponent<GameDirector>().HeroPoint -= 1;
                 }
 
                 Destroy(other.gameObject);

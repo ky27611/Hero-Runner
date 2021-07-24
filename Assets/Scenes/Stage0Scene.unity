@@ -697,7 +697,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Generation\uFF1A0"
+  m_Text: "\u30D2\u30FC\u30ED\u30FCNo\uFF1A0"
 --- !u!222 &130564683
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -927,7 +927,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Defeat\uFF1A0"
+  m_Text: "\u30B9\u30B3\u30A2\uFF1A0"
 --- !u!222 &448421105
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1002,6 +1002,7 @@ MonoBehaviour:
   Player: {fileID: 0}
   Director: {fileID: 0}
   isCreate: 0
+  isRandom: 0
   isStageCreate: 0
   isCreateNewArea: 0
   StartPos: 0
@@ -1009,6 +1010,10 @@ MonoBehaviour:
   PosRange: 0
   StageStartPos: 0
   StageCreatePos: 0
+  AreaNo: 0
+  DummyStageNo: 0
+  PlacementNo: 0
+  DummyPlacementNo: 0
 --- !u!4 &456846760
 Transform:
   m_ObjectHideFlags: 0
@@ -2705,6 +2710,7 @@ MonoBehaviour:
   ZombieSE: {fileID: 8300000, guid: e26fe30ac4727ee47a29f1d75088dd78, type: 3}
   Null: {fileID: 0}
   isRunning: 0
+  isDebug: 0
 --- !u!82 &1414413962
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2946,6 +2952,7 @@ MonoBehaviour:
   ZombieSE: {fileID: 0}
   Null: {fileID: 0}
   isRunning: 0
+  isDebug: 0
 --- !u!65 &1593407527
 BoxCollider:
   m_ObjectHideFlags: 0

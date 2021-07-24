@@ -35,6 +35,8 @@ public class ScoreController : MonoBehaviour
             this.timescore = 0;// timescoremagnification * (int)(time * 10);
         }
 
+        this.defeatText.GetComponent<Text>().text = "スコア：" + this.defeatCount.ToString();
+
         //経過時間スコアと敵倒したポイントをスコアとして表示
         //this.score = defeatscore + timescore;
         //this.scoreText.GetComponent<Text>().text = "Score：" + this.score.ToString();
@@ -45,7 +47,7 @@ public class ScoreController : MonoBehaviour
     {
         //this.defeatscore += 1000;
         this.defeatCount++;
-        this.defeatText.GetComponent<Text>().text = "Defeat：" + this.defeatCount.ToString();
+        
     }
     //ボスを倒すとスコア加算
     public void DefeatBoss()
