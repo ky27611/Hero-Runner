@@ -52,6 +52,7 @@ public class GameDirector : MonoBehaviour
     public bool isGameOver;
     public bool isNormalMode;
     public bool isPlayerOrigin;
+    public bool isDebug;
     private float waittime = 0;
     private int waitcount = 0;
     private float countdowntime = 4;
@@ -124,6 +125,7 @@ public class GameDirector : MonoBehaviour
         this.isPlayerOrigin = false;
         this.isHeroDecision = false;
         this.isSeTiming = false;
+        this.isDebug = false;
 
         this.generationText.GetComponent<Text>().text = "勇者No：" + generationCount.ToString();
         //this.heroPointText.GetComponent<Text>().text = "HeroPoint:" + HeroPoint.ToString();
@@ -146,6 +148,7 @@ public class GameDirector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        this.isDebug = this.Player.GetComponent<PlayerController>().isDebug;
 
         if (this.HeroPoint >= this.HeroPointMAX)
         {
@@ -295,6 +298,43 @@ public class GameDirector : MonoBehaviour
                             ModeNo++;
                             this.waittime = 0;
                         }
+                        else if (Input.GetKeyDown(KeyCode.Alpha0) && this.isDebug)
+                        {
+                            PlayerNo = 0;
+                            this.isHeroDecision = true;
+                            ModeNo++;
+                            this.waittime = 0;
+                        }
+                        else if (Input.GetKeyDown(KeyCode.Alpha1) && this.isDebug)
+                        {
+                            PlayerNo = 1;
+                            this.isHeroDecision = true;
+                            ModeNo++;
+                            this.waittime = 0;
+                        }
+                        else if (Input.GetKeyDown(KeyCode.Alpha2) && this.isDebug)
+                        {
+                            PlayerNo = 2;
+                            this.isHeroDecision = true;
+                            ModeNo++;
+                            this.waittime = 0;
+                        }
+                        else if (Input.GetKeyDown(KeyCode.Alpha3) && this.isDebug)
+                        {
+                            PlayerNo = 3;
+                            this.isHeroDecision = true;
+                            ModeNo++;
+                            this.waittime = 0;
+                        }
+                        else if (Input.GetKeyDown(KeyCode.Alpha4) && this.isDebug)
+                        {
+                            PlayerNo = 4;
+                            this.isHeroDecision = true;
+                            ModeNo++;
+                            this.waittime = 0;
+                        }
+
+
                         break;
                     case 3:
                         if (this.isSeTiming)

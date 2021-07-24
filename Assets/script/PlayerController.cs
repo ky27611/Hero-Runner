@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip PowerUpMAXSE;
     public AudioClip PowerDownSE;
     public AudioClip DamageSE;
+    public AudioClip LargeShockWaveSE;
     public AudioClip RocketSE;
     public AudioClip CureSE;
     public AudioClip SheepSE;
@@ -204,6 +205,7 @@ public class PlayerController : MonoBehaviour
                 if (Setting.isRocket)
                 {
                     Setting.isRocket = false;
+                    Setting.velocityZ = initialStatus.velocityZ;
                     Geometry.GetChild(Setting.PlayerNo).gameObject.GetComponent<Renderer>().enabled = true;
                     this.Sword.GetComponent<Renderer>().enabled = true;
                 }
@@ -405,30 +407,33 @@ public class PlayerController : MonoBehaviour
             case 0:
                 GameObject LargeShockWave = Instantiate(LargeShockWavePrefab);
                 LargeShockWave.transform.position = new Vector3(this.transform.position.x, LargeShockWave.transform.position.y, this.transform.position.z + 2);
+                ChangeState(StateType.Attack);
+                Compo.myAudio.PlayOneShot(LargeShockWaveSE);
                 Setting.SkillTime = 1;
                 Setting.SkillActivationTime = 0;
-                Setting.SkillWaitTime = 5;
+                Setting.SkillWaitTime = 15;
                 Setting.SkillRecoveryTime = 0;
                 break;
             case 1:
                 GameObject Rocket = Instantiate(RocketPrefab);
                 Rocket.transform.position = new Vector3(this.transform.position.x, Rocket.transform.position.y, this.transform.position.z + 3);
+                Setting.velocityZ = (initialStatus.velocityZ * 1.5f);
 
                 if (this.gamedirector.GetComponent<GameDirector>().index == GameDirector.Index.BossMode)
                 {
                     
-                    Setting.SkillTime = 5;
+                    Setting.SkillTime = 1;
                 }
                 else
                 {
                     Setting.isRocket = true;
                     Geometry.GetChild(Setting.PlayerNo).gameObject.GetComponent<Renderer>().enabled = false;
                     this.Sword.GetComponent<Renderer>().enabled = false;
-                    Setting.SkillTime = 10;
+                    Setting.SkillTime = 5;
                 }
                
                 Setting.SkillActivationTime = 0;
-                Setting.SkillWaitTime = 5;
+                Setting.SkillWaitTime = 20;
                 Setting.SkillRecoveryTime = 0;
                 break;
             case 2:
@@ -441,7 +446,7 @@ public class PlayerController : MonoBehaviour
 
                 Setting.SkillTime = 1;
                 Setting.SkillActivationTime = 0;
-                Setting.SkillWaitTime = 5;
+                Setting.SkillWaitTime = 30;
                 Setting.SkillRecoveryTime = 0;
                 break;
             case 3:
@@ -449,18 +454,18 @@ public class PlayerController : MonoBehaviour
                 GameObject Sheeps = Instantiate(SheepsPrefab);
                 Sheeps.transform.position = new Vector3(this.transform.position.x, Sheeps.transform.position.y, this.transform.position.z); if (this.gamedirector.GetComponent<GameDirector>().index == GameDirector.Index.BossMode)
                 {
-                    Setting.SkillTime = 5;
+                    Setting.SkillTime = 1;
                 }
-                Setting.SkillTime = 10;
+                Setting.SkillTime = 8;
                 Setting.SkillActivationTime = 0;
-                Setting.SkillWaitTime = 5;
+                Setting.SkillWaitTime = 20;
                 Setting.SkillRecoveryTime = 0;
                 break;
             case 4:
                 Compo.myAudio.PlayOneShot(ZombieSE);
                 Setting.velocityZ = (initialStatus.velocityZ / 2);
                 Setting.isSlow = true;
-                Setting.SkillTime = 10;
+                Setting.SkillTime = 7;
                 Setting.SkillActivationTime = 0;
                 Setting.SkillWaitTime = 5;
                 Setting.SkillRecoveryTime = 0;
