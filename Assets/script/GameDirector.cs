@@ -32,6 +32,9 @@ public class GameDirector : MonoBehaviour
     */
     
     private GameObject centerText;
+    private GameObject centerBack;
+    private GameObject underText;
+    private GameObject underBack;
     private GameObject generationText;
     private GameObject heroPointText;
     private GameObject HPText;
@@ -94,6 +97,9 @@ public class GameDirector : MonoBehaviour
         */
 
         this.centerText = GameObject.Find("CenterText");
+        this.centerBack = GameObject.Find("CenterBack");
+        this.underText = GameObject.Find("UnderText");
+        this.underBack = GameObject.Find("UnderBack");
         this.generationText = GameObject.Find("GenerationText");
         this.heroPointText = GameObject.Find("HeroPoint");
         this.HPText = GameObject.Find("HP");
@@ -111,6 +117,8 @@ public class GameDirector : MonoBehaviour
         Seaudios = GetComponent<AudioSource>();
         this.SENo = 0;
 
+        this.centerBack.GetComponent<Image>().enabled = false;
+        this.underBack.GetComponent<Image>().enabled = false;
 
         this.HeroPoint = 0;
         this.HeroPointMAX = 2;
@@ -268,6 +276,7 @@ public class GameDirector : MonoBehaviour
                 {
                     case 1:
                         this.centerText.GetComponent<Text>().text = "次の勇者は…";
+                        this.centerBack.GetComponent<Image>().enabled = true;
 
                         if (this.waittime >= 2)
                         {
@@ -277,7 +286,8 @@ public class GameDirector : MonoBehaviour
 
                         break;
                     case 2:
-                        this.centerText.GetComponent<Text>().text = "Press Space";
+                        this.centerText.GetComponent<Text>().text = "クリックで決定だ！";
+                        this.centerBack.GetComponent<Image>().enabled = true;
 
                         if (this.waittime >=  0.1f)
                         {
@@ -292,7 +302,7 @@ public class GameDirector : MonoBehaviour
                             GeometryDummy.GetChild(PlayerNo).gameObject.SetActive(true);
                         }
 
-                        if (Input.GetKeyDown(KeyCode.Space))
+                        if (Input.GetMouseButtonDown(0))
                         {
                             this.isHeroDecision = true;
                             ModeNo++;
@@ -343,7 +353,30 @@ public class GameDirector : MonoBehaviour
                             this.isSeTiming = false;
                         }
                         this.centerText.GetComponent<Text>().text = "";
+                        this.centerBack.GetComponent<Image>().enabled = false;
                         this.SwordDummy.GetComponent<Renderer>().enabled = true;
+                        this.underBack.GetComponent<Image>().enabled = true;
+
+                        if (this.PlayerNo == 0)
+                        {
+                            this.underText.GetComponent<Text>().text = "騎士";
+                        }
+                        else if (this.PlayerNo == 1)
+                        {
+                            this.underText.GetComponent<Text>().text = "宇宙飛行士";
+                        }
+                        else if (this.PlayerNo == 2)
+                        {
+                            this.underText.GetComponent<Text>().text = "医者";
+                        }
+                        else if (this.PlayerNo == 3)
+                        {
+                            this.underText.GetComponent<Text>().text = "牧場主";
+                        }
+                        else if (this.PlayerNo == 4)
+                        {
+                            this.underText.GetComponent<Text>().text = "ゾンビ";
+                        }
 
                         if (this.waittime >= 3)
                         {
@@ -368,6 +401,8 @@ public class GameDirector : MonoBehaviour
                 this.Sword.GetComponent<Renderer>().enabled = true;
                 GeometryDummy.GetChild(PlayerNo).gameObject.SetActive(false);
                 this.isSeTiming = true;
+                this.underText.GetComponent<Text>().text = "";
+                this.underBack.GetComponent<Image>().enabled = false;
                 break;
             default:
                 break;
@@ -384,7 +419,8 @@ public class GameDirector : MonoBehaviour
                 this.Player.GetComponent<PlayerController>().Setting.velocityZ = 16;
                 this.Player.GetComponent<PlayerController>().Setting.velocityX = 12;
                 this.Player.GetComponent<PlayerController>().Setting.velocityY = 4;
-                this.centerText.GetComponent<Text>().text = "Stage" + StageNo.ToString();
+                this.centerText.GetComponent<Text>().text = "ステージ" + StageNo.ToString();
+                this.centerBack.GetComponent<Image>().enabled = true;
                 break;
             case 2:
                 this.waittime += Time.deltaTime;
@@ -398,6 +434,7 @@ public class GameDirector : MonoBehaviour
             case 3:
                 this.waittime = 0;
                 this.centerText.GetComponent<Text>().text = "";
+                this.centerBack.GetComponent<Image>().enabled = false;
                 break;
             default:
                 break;
@@ -470,6 +507,7 @@ public class GameDirector : MonoBehaviour
         {
             case 1:
                 this.centerText.GetComponent<Text>().text = "ステージ" + StageNo.ToString() + " クリア";
+                this.centerBack.GetComponent<Image>().enabled = true;
                 BGM.GetComponent<AudioController>().AudioChange(12);
                 this.Stage.GetComponent<StageController>().isCreateNewArea = true;
                 ModeNo = 1;
@@ -510,6 +548,7 @@ public class GameDirector : MonoBehaviour
             case 3:
                 //this.Stage.GetComponent<StageController>().isNextStage = true;
                 this.centerText.GetComponent<Text>().text = "";
+                this.centerBack.GetComponent<Image>().enabled = false;
                 this.waittime = 0;
                 this.StageNo++;
                 this.ModeNo = 1;
@@ -539,6 +578,7 @@ public class GameDirector : MonoBehaviour
                 else
                 {
                     this.centerText.GetComponent<Text>().text = "GameOver";
+                    this.centerBack.GetComponent<Image>().enabled = true;
                 }
 
                 if (this.waittime >= 5)
@@ -547,6 +587,7 @@ public class GameDirector : MonoBehaviour
                     generationCount++;
                     this.generationText.GetComponent<Text>().text = "勇者No：" + generationCount.ToString();
                     this.centerText.GetComponent<Text>().text = "";
+                    this.centerBack.GetComponent<Image>().enabled = false;
 
                     if (this.HeroPointRatio >= 1)
                     {
@@ -622,6 +663,7 @@ public class GameDirector : MonoBehaviour
                 }
                 
                 this.centerText.GetComponent<Text>().text = "ステージ" + StageNo.ToString();
+                this.centerBack.GetComponent<Image>().enabled = true;
                 break;
             case 2:
                 this.waittime += Time.deltaTime;
@@ -635,6 +677,7 @@ public class GameDirector : MonoBehaviour
             case 3:
                 this.waittime = 0;
                 this.centerText.GetComponent<Text>().text = "";
+                this.centerBack.GetComponent<Image>().enabled = false;
                 break;
             default:
                 break;
@@ -662,6 +705,7 @@ public class GameDirector : MonoBehaviour
                             this.isSeTiming = false;
                         }
                         this.centerText.GetComponent<Text>().text = "3";
+                        this.centerBack.GetComponent<Image>().enabled = true;
 
                         if (this.waittime >= 1)
                         {
@@ -726,6 +770,7 @@ public class GameDirector : MonoBehaviour
             case 3:
                 this.waittime = 0;
                 this.centerText.GetComponent<Text>().text = "";
+                this.centerBack.GetComponent<Image>().enabled = false;
                 this.countdowntime = 4;
                 this.isSeTiming = true;
                 ModeNo = 1;
