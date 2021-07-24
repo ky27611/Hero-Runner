@@ -361,26 +361,26 @@ public class GameDirector : MonoBehaviour
 
                         if (this.PlayerNo == 0)
                         {
-                            this.underText.GetComponent<Text>().text = "騎士";
+                            this.underText.GetComponent<Text>().text = "騎士(スキル：スーパースラッシュ)";
                         }
                         else if (this.PlayerNo == 1)
                         {
-                            this.underText.GetComponent<Text>().text = "宇宙飛行士";
+                            this.underText.GetComponent<Text>().text = "宇宙飛行士(スキル：ロケット)";
                         }
                         else if (this.PlayerNo == 2)
                         {
-                            this.underText.GetComponent<Text>().text = "医者";
+                            this.underText.GetComponent<Text>().text = "医者(スキル：回復)";
                         }
                         else if (this.PlayerNo == 3)
                         {
-                            this.underText.GetComponent<Text>().text = "牧場主";
+                            this.underText.GetComponent<Text>().text = "牧場主(スキル：羊呼び)";
                         }
                         else if (this.PlayerNo == 4)
                         {
-                            this.underText.GetComponent<Text>().text = "ゾンビ";
+                            this.underText.GetComponent<Text>().text = "ゾンビ(スキル：ゆっくり走る)";
                         }
 
-                        if (this.waittime >= 3)
+                        if (this.waittime >= 5)
                         {
                             this.preindex = this.index;
                             this.index = Index.GameStart;

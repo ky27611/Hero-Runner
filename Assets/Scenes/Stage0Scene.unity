@@ -1744,6 +1744,7 @@ MonoBehaviour:
   isNormalMode: 0
   isPlayerOrigin: 0
   isDebug: 0
+  isDeathatStage: 0
   HeroPoint: 0
   HeroPointMAX: 0
   HeroPointRatio: 0
@@ -1943,7 +1944,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 22db3cc32ca88b6488b2f36d1e766c58, type: 3}
-    m_FontSize: 150
+    m_FontSize: 100
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
