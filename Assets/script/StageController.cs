@@ -31,6 +31,7 @@ public class StageController : MonoBehaviour
     private float CreateDistance;
     public bool isCreate;
     public bool isRandom;
+    public bool isRoadDebug;
     private bool isGoal;
     public bool isStageCreate;
     public bool isCreateNewArea;
@@ -52,6 +53,7 @@ public class StageController : MonoBehaviour
         this.Director = GameObject.Find("GameDirector");
         this.isCreate = false;
         this.isRandom = false;
+        this.isRoadDebug = false;
         this.isStageCreate = false;
         this.isCreateNewArea = false;
         this.isGoal = false;
@@ -73,6 +75,18 @@ public class StageController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            if (this.isRoadDebug)
+            {
+                isRoadDebug = false;
+            }
+            else
+            {
+                isRoadDebug = true;
+            }
+        }
+
         this.DummyStageNo = this.Director.GetComponent<GameDirector>().StageNo % 10;
 
         if (this.DummyStageNo >= 1 && this.DummyStageNo < 4)
@@ -257,18 +271,22 @@ public class StageController : MonoBehaviour
 
     void CreateItem()
     {
-        switch (AreaNo)
+        if (isRoadDebug == false)
         {
-            case 1:
-                Area1();
-                break;
-            case 2:
-                Area2();
-                break;
-            case 3:
-                Area3();
-                break;
+            switch (AreaNo)
+            {
+                case 1:
+                    Area1();
+                    break;
+                case 2:
+                    Area2();
+                    break;
+                case 3:
+                    Area3();
+                    break;
+            }
         }
+        
         /*
         //どのアイテムを出すのかをランダムに設定
         int num1 = Random.Range(1, 11);

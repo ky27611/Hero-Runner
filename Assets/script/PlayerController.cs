@@ -417,7 +417,7 @@ public class PlayerController : MonoBehaviour
             case 1:
                 GameObject Rocket = Instantiate(RocketPrefab);
                 Rocket.transform.position = new Vector3(this.transform.position.x, Rocket.transform.position.y, this.transform.position.z + 3);
-                Setting.velocityZ = (initialStatus.velocityZ * 1.5f);
+                Setting.velocityZ = (initialStatus.velocityZ * 1.25f);
 
                 if (this.gamedirector.GetComponent<GameDirector>().index == GameDirector.Index.BossMode)
                 {

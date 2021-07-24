@@ -1229,6 +1229,7 @@ MonoBehaviour:
   Director: {fileID: 0}
   isCreate: 0
   isRandom: 0
+  isRoadDebug: 0
   isStageCreate: 0
   isCreateNewArea: 0
   StartPos: 0
@@ -1564,7 +1565,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 690264248}
   m_LocalRotation: {x: -0, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.05, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 1414413960}
@@ -3355,6 +3356,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565089011322337855, guid: c2c97df6e97c1754792a3f037da034cd,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 6565089011322337855, guid: c2c97df6e97c1754792a3f037da034cd,
         type: 3}
