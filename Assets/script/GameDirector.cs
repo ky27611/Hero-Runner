@@ -56,6 +56,7 @@ public class GameDirector : MonoBehaviour
     public bool isNormalMode;
     public bool isPlayerOrigin;
     public bool isDebug;
+    public bool isDeathatStage;
     private float waittime = 0;
     private int waitcount = 0;
     private float countdowntime = 4;
@@ -134,6 +135,7 @@ public class GameDirector : MonoBehaviour
         this.isHeroDecision = false;
         this.isSeTiming = false;
         this.isDebug = false;
+        this.isDeathatStage = false;
 
         this.generationText.GetComponent<Text>().text = "勇者No：" + generationCount.ToString();
         //this.heroPointText.GetComponent<Text>().text = "HeroPoint:" + HeroPoint.ToString();
@@ -419,6 +421,7 @@ public class GameDirector : MonoBehaviour
                 this.Player.GetComponent<PlayerController>().Setting.velocityZ = 16;
                 this.Player.GetComponent<PlayerController>().Setting.velocityX = 12;
                 this.Player.GetComponent<PlayerController>().Setting.velocityY = 4;
+                this.Player.GetComponent<PlayerController>().Setting.PlayerHP = 3;
                 this.centerText.GetComponent<Text>().text = "ステージ" + StageNo.ToString();
                 this.centerBack.GetComponent<Image>().enabled = true;
                 break;
@@ -520,12 +523,24 @@ public class GameDirector : MonoBehaviour
                     case 1:
                         if (this.waittime >= 2 && this.waittime < 4)
                         {
-                            this.centerText.GetComponent<Text>().text = "スコア：" + scoreDirector.GetComponent<ScoreController>().defeatCount.ToString() + "";
-                            if (this.isSeTiming)
+                            
+                            
+                            if (isDeathatStage == false)
                             {
-                                Seaudios.PlayOneShot(Seclips[0]);
-                                isSeTiming = false;
+                                this.centerText.GetComponent<Text>().text = "倒れなかった！\nスコアボーナス！";
+
+                                if (this.isSeTiming)
+                                {
+                                    Seaudios.PlayOneShot(Seclips[0]);
+                                    isSeTiming = false;
+                                }
                             }
+                            /*
+                            else
+                            {
+                                this.centerText.GetComponent<Text>().text = "スコア：" + scoreDirector.GetComponent<ScoreController>().defeatCount.ToString() + "";
+                            }
+                            */
                             
                         }
                         if (this.waittime >= 4)
@@ -533,6 +548,10 @@ public class GameDirector : MonoBehaviour
                             isSeTiming = true;
                             ModeNo++;
                             this.waittime = 0;
+                            if (isDeathatStage == false)
+                            {
+                                this.scoreDirector.GetComponent<ScoreController>().defeatCount += 5;
+                            }
                         }
                         break;
                     case 2:
@@ -568,20 +587,40 @@ public class GameDirector : MonoBehaviour
                 this.Sword.GetComponent<Renderer>().enabled = false;
                 this.Stage.GetComponent<StageController>().isCreate = false;
                 BGM.GetComponent<AudioController>().AudioChange(11);
+                this.isDeathatStage = true;
                 break;
             case 2:
                 this.waittime += Time.deltaTime;
-                if (this.HeroPointRatio >= 1)
-                {
 
-                }
-                else
+                if (this.waittime >= 2 && this.waittime < 6)
                 {
-                    this.centerText.GetComponent<Text>().text = "GameOver";
-                    this.centerBack.GetComponent<Image>().enabled = true;
+                    if (this.HeroPointRatio >= 1)
+                    {
+                        this.centerText.GetComponent<Text>().text = "次の勇者へ...";
+                        this.centerBack.GetComponent<Image>().enabled = true;
+                    }
+                    else
+                    {
+                        this.centerText.GetComponent<Text>().text = "GameOver";
+                        this.centerBack.GetComponent<Image>().enabled = true;
+                    }
                 }
 
-                if (this.waittime >= 5)
+                if (this.waittime >= 6 && this.waittime < 10)
+                {
+                    if (this.HeroPointRatio >= 1)
+                    {
+                        waittime = 10;
+                    }
+                    else
+                    {
+                        this.centerText.GetComponent<Text>().text = "最終スコア：" + this.scoreDirector.GetComponent<ScoreController>().defeatCount.ToString();
+                        this.centerBack.GetComponent<Image>().enabled = true;
+                    }
+                }
+                
+
+                if (this.waittime >= 10)
                 {
                     this.waittime = 0;
                     generationCount++;
@@ -678,6 +717,7 @@ public class GameDirector : MonoBehaviour
                 this.waittime = 0;
                 this.centerText.GetComponent<Text>().text = "";
                 this.centerBack.GetComponent<Image>().enabled = false;
+                this.isDeathatStage = false;
                 break;
             default:
                 break;

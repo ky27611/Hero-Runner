@@ -49,6 +49,8 @@ public class PlayerSettingData
     public bool isRocket;
     public bool isSlow;
 
+    public bool isDeath;
+
     public int PlayerNo;
 
     public float SkillTime;
@@ -104,6 +106,8 @@ public class PlayerSettingData
         isSkillActivation = false;
         isRocket = false;
         isSlow = false;
+
+        isDeath = false;
     }
 
     /*

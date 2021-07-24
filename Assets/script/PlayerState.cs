@@ -190,15 +190,16 @@ public class PlayerStateDeath : PlayerState
     public override void Release()
     {
         this.score.GetComponent<ScoreController>().isTimeScore = true;
-        this.gamedirector.GetComponent<GameDirector>().isGameOver = false;
+        //this.gamedirector.GetComponent<GameDirector>().isGameOver = false;
         m_Compo.myAnimator.SetBool("Death", false);
-        m_Setting.PlayerHP = 3;
+        //m_Setting.PlayerHP = 3;
         m_Setting.SkillTime = 0;
         m_Setting.SkillActivationTime = 0;
         m_Setting.SkillWaitTime = 0;
         m_Setting.SkillRecoveryTime = 0;
         m_Setting.isEnableSkill = true;
         m_Setting.isSkillActivation = false;
+        m_Setting.isDeath = false;
         //m_Setting.velocityZ = 16;
         //m_Setting.velocityX = 12;
         //m_Setting.velocityY = 4;

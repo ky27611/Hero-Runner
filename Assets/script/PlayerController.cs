@@ -69,6 +69,7 @@ public class PlayerController : MonoBehaviour
 
     public bool isRunning;
     public bool isDebug;
+    //public bool isDeath;
     //public bool isGround;
     //public bool isSESwitch;
 
@@ -160,13 +161,17 @@ public class PlayerController : MonoBehaviour
 
         Setting.PlayerNo = gamedirector.GetComponent<GameDirector>().PlayerNo;
 
-        if (this.gameObject.transform.position.x > 2)
+        if (this.gameObject.transform.position.x > 3)
         {
             this.gameObject.transform.position = new Vector3(2, 0.1f, this.transform.position.z);
+            Setting.nowpositionX = 2;
+            Setting.inputVelocityX = 0;
         }
-        else if (this.gameObject.transform.position.x < -2)
+        else if (this.gameObject.transform.position.x < -3)
         {
             this.gameObject.transform.position = new Vector3(-2, 0.1f, this.transform.position.z);
+            Setting.nowpositionX = -2;
+            Setting.inputVelocityX = 0;
         }
 
         if (Setting.isDamage)
@@ -230,8 +235,8 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        
 
+        
         if (this.isRunning == true)
         {
             Compo.myAnimator.SetFloat("Speed", 1);
@@ -339,11 +344,7 @@ public class PlayerController : MonoBehaviour
                 //力尽きた
                 if (Setting.PlayerHP <= 0 && Setting.isGround)
                 {
-                    ChangeState(StateType.Death);
-                    //this.gamedirector.GetComponent<GameDirector>().index = GameDirector.Index.GameOver;
-                    this.gamedirector.GetComponent<GameDirector>().isGameOver = true;
-                    Geometry.GetChild(Setting.PlayerNo).gameObject.GetComponent<Renderer>().enabled = true;
-                    Compo.myAudio.Stop();
+                    Setting.isDeath = true;
                 }
 
 
@@ -395,7 +396,18 @@ public class PlayerController : MonoBehaviour
             //ChangeState(StateType.Idle);
 
         }
-        
+
+        if (Setting.isDeath)
+        {
+            ChangeState(StateType.Death);
+            //this.gamedirector.GetComponent<GameDirector>().index = GameDirector.Index.GameOver;
+            this.gamedirector.GetComponent<GameDirector>().isGameOver = true;
+            Geometry.GetChild(Setting.PlayerNo).gameObject.GetComponent<Renderer>().enabled = true;
+            Compo.myAnimator.SetFloat("Speed", 0);
+            Compo.myAudio.Stop();
+            Compo.myRigidbody.velocity = new Vector3(Setting.inputVelocityX, Compo.myRigidbody.velocity.y, Setting.velocityZ);
+        }
+
     }
 
     void Skill()
@@ -437,17 +449,20 @@ public class PlayerController : MonoBehaviour
                 Setting.SkillRecoveryTime = 0;
                 break;
             case 2:
-                Compo.myAudio.PlayOneShot(CureSE);
-                Setting.PlayerHP += 2;
-                if (Setting.PlayerHP > 3)
+                if (Setting.PlayerHP < 3)
                 {
-                    Setting.PlayerHP = 3;
-                }
+                    Compo.myAudio.PlayOneShot(CureSE);
+                    Setting.PlayerHP += 1;
+                    if (Setting.PlayerHP > 3)
+                    {
+                        Setting.PlayerHP = 3;
+                    }
 
-                Setting.SkillTime = 1;
-                Setting.SkillActivationTime = 0;
-                Setting.SkillWaitTime = 30;
-                Setting.SkillRecoveryTime = 0;
+                    Setting.SkillTime = 1;
+                    Setting.SkillActivationTime = 0;
+                    Setting.SkillWaitTime = 30;
+                    Setting.SkillRecoveryTime = 0;
+                }
                 break;
             case 3:
                 Compo.myAudio.PlayOneShot(SheepSE);
