@@ -173,6 +173,8 @@ public class GameDirector : MonoBehaviour
     {
         this.isDebug = this.Player.GetComponent<PlayerController>().isDebug;
 
+        this.HeroPointMAX = ((this.StageNo - 1) / 10) + 2;
+        
         if (this.HeroPoint >= this.HeroPointMAX)
         {
             this.HeroPoint = this.HeroPointMAX;
@@ -619,6 +621,32 @@ public class GameDirector : MonoBehaviour
                         }
                         break;
                     case 2:
+                        if (this.StageNo == 10)
+                        {
+                            if (this.waittime < 3)
+                            {
+                                this.centerText.GetComponent<Text>().fontSize = 120;
+                                this.centerText.GetComponent<Text>().text = "悪のドラゴンは倒した！";
+                                this.centerBack.GetComponent<Image>().enabled = true;
+                            }
+                            else if (this.waittime >=  3 && this.waittime < 6)
+                            {
+                                this.centerText.GetComponent<Text>().text = "だが、まだ敵は残っている！\n走り続けろ勇者！";
+                            }
+                            else if (this.waittime >= 6)
+                            {
+                                ModeNo++;
+                                this.waittime = 0;
+                            }
+                            
+                        }
+                        else
+                        {
+                            ModeNo++;
+                            this.waittime = 0;
+                        }
+                        break;
+                    case 3:
                         if (this.waittime >= 2)
                         {
                             this.preindex = this.index;
@@ -631,6 +659,7 @@ public class GameDirector : MonoBehaviour
             case 3:
                 //this.Stage.GetComponent<StageController>().isNextStage = true;
                 this.centerText.GetComponent<Text>().text = "";
+                this.centerText.GetComponent<Text>().fontSize = 180;
                 this.centerBack.GetComponent<Image>().enabled = false;
                 this.waittime = 0;
                 this.StageNo++;

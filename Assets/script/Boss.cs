@@ -129,7 +129,7 @@ public class Boss : MonoBehaviour
                 this.gameDirector.GetComponent<GameDirector>().isBossDefeat = true;
             }
 
-            Invoke("Defeat", 2);
+            Invoke("Defeat", 2.5f);
         }
 
         if (this.gameDirector.GetComponent<GameDirector>().index == GameDirector.Index.PlayerSelect)

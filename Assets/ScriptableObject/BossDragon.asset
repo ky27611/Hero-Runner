@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 3
   Name: 
-  Hp: 20
+  Hp: 30
   Atk: 1
   Spd: 1
   Exp: 3000

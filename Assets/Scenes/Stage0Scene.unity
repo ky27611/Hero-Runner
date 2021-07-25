@@ -1838,6 +1838,8 @@ MonoBehaviour:
   isDeathatStage: 0
   isFadeIn: 0
   isFadeOut: 0
+  isBossDefeat: 0
+  isHighScore: 0
   HeroPoint: 0
   HeroPointMAX: 0
   HeroPointRatio: 0
@@ -3098,7 +3100,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 22db3cc32ca88b6488b2f36d1e766c58, type: 3}
-    m_FontSize: 200
+    m_FontSize: 180
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
