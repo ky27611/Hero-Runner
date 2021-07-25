@@ -140,7 +140,7 @@ public class HorizontalMove : EnemyMove
 
             myTramsform.transform.position = new Vector3(myTramsform.position.x + this.Move, myTramsform.position.y, myTramsform.position.z);
 
-            if (IdleTime >= 1)
+            if (IdleTime >= 0.5)
             {
                 isMove = false;
                 IdleTime = 0;
