@@ -20,11 +20,12 @@ MonoBehaviour:
   nowpositionX: 0
   inputVelocityX: 0
   movableX: 1
-  slidespan: 1
+  slidespan: 0.8
   slidedelta: 0
-  atkspan: 0.5
+  atkspan: 0.4
   atkdelta: 0
   coefficient: 0.95
   HP: 3
   Atk: 1
   Spd: 1
+  InvincibleTime: 1

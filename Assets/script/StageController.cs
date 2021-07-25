@@ -44,7 +44,7 @@ public class StageController : MonoBehaviour
     public int DummyStageNo;
     public int PlacementNo;
     public int DummyPlacementNo;
-
+    private int Ocount;
 
     // Start is called before the first frame update
     void Start()
@@ -69,6 +69,7 @@ public class StageController : MonoBehaviour
         this.PlacementNo = 1;
         this.DummyStageNo = 1;
         this.DummyPlacementNo = 1;
+        this.Ocount = 0;
 
 }
 
@@ -77,13 +78,20 @@ public class StageController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.O))
         {
-            if (this.isRoadDebug)
+            this.Ocount++;
+
+            if (this.Ocount >= 3)
             {
-                isRoadDebug = false;
-            }
-            else
-            {
-                isRoadDebug = true;
+                if (this.isRoadDebug)
+                {
+                    isRoadDebug = false;
+                    this.Ocount = 0;
+                }
+                else
+                {
+                    isRoadDebug = true;
+                    this.Ocount = 0;
+                }
             }
         }
 

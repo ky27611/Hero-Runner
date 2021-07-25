@@ -277,9 +277,7 @@ public class GameDirector : MonoBehaviour
                 isFadeIn = false;
             }
 
-        }
-        
-        
+        }        
     }
 
     public void FadeOut()
@@ -294,7 +292,6 @@ public class GameDirector : MonoBehaviour
                 alfa = 1;
                 isFadeOut = false;
             }
-
         }
     }
 
@@ -512,6 +509,7 @@ public class GameDirector : MonoBehaviour
         {
             case 1:
                 this.Player.GetComponent<PlayerController>().isRunning = true;
+                this.Player.GetComponent<PlayerController>().Setting.movableX = true;
 
                 if (this.StageNo % 10 >= 1 && this.StageNo % 10 <= 3)
                 {

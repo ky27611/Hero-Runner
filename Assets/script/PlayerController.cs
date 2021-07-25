@@ -69,6 +69,7 @@ public class PlayerController : MonoBehaviour
 
     public bool isRunning;
     public bool isDebug;
+    private int Pcount;
     //public bool isDeath;
     //public bool isGround;
     //public bool isSESwitch;
@@ -122,6 +123,8 @@ public class PlayerController : MonoBehaviour
 
         this.isRunning = false;
         this.isDebug = false;
+
+        this.Pcount = 0;
         //this.isGround = false;
         //this.isSESwitch = true;
 
@@ -142,15 +145,21 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.P))
         {
-            if (isDebug)
+            Pcount++;
+
+            if (this.Pcount >= 3)
             {
-                isDebug = false;
-            }
-            else
-            {
-                isDebug = true;
-            }
-            
+                if (isDebug)
+                {
+                    isDebug = false;
+                    this.Pcount = 0;
+                }
+                else
+                {
+                    isDebug = true;
+                    this.Pcount = 0;
+                }
+            }            
         }
 
         if (isDebug)
@@ -166,12 +175,14 @@ public class PlayerController : MonoBehaviour
             this.gameObject.transform.position = new Vector3(2, 0.1f, this.transform.position.z);
             Setting.nowpositionX = 2;
             Setting.inputVelocityX = 0;
+            Setting.movableX = true;
         }
         else if (this.gameObject.transform.position.x < -3)
         {
             this.gameObject.transform.position = new Vector3(-2, 0.1f, this.transform.position.z);
             Setting.nowpositionX = -2;
             Setting.inputVelocityX = 0;
+            Setting.movableX = true;
         }
 
         if (Setting.isDamage)
@@ -318,7 +329,7 @@ public class PlayerController : MonoBehaviour
 
                 //攻撃
                 if ((Input.GetKeyDown(KeyCode.Space)||Input.GetMouseButtonDown(0)) &&
-                    (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) && Setting.PlayerHP > 0)
+                    (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Sliding")) && Setting.PlayerHP > 0)
                 {
                     ChangeState(StateType.Attack);
                     Compo.myAudio.PlayOneShot(AttackSE);
