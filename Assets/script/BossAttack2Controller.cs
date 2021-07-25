@@ -15,6 +15,7 @@ public class BossAttack2Controller : MonoBehaviour
         this.Player = GameObject.Find("Player");
         this.gameDirector = GameObject.Find("GameDirector");
         this.myTransform = this.transform;
+
         this.transform.position = new Vector3(this.transform.position.x, 1, Player.transform.position.z + 11);
     }
 
@@ -31,6 +32,10 @@ public class BossAttack2Controller : MonoBehaviour
         }
 
         if (Player.transform.position.z - this.transform.position.z >= 10)
+        {
+            Destroy(this.gameObject);
+        }
+        if (this.gameDirector.GetComponent<GameDirector>().isBossDefeat)
         {
             Destroy(this.gameObject);
         }

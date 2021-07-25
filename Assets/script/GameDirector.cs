@@ -60,6 +60,7 @@ public class GameDirector : MonoBehaviour
     public bool isDeathatStage;
     public bool isFadeIn;
     public bool isFadeOut;
+    public bool isBossDefeat;
     private float waittime = 0;
     private int waitcount = 0;
     private float countdowntime = 4;
@@ -557,7 +558,6 @@ public class GameDirector : MonoBehaviour
 
                 break;
             case 3:
-
                 break;
             default:
                 break;
@@ -574,6 +574,7 @@ public class GameDirector : MonoBehaviour
                 BGM.GetComponent<AudioController>().AudioChange(12);
                 this.Stage.GetComponent<StageController>().isCreateNewArea = true;
                 ModeNo = 1;
+                this.isBossDefeat = false;
                 break;
             case 2:
                 this.waittime += Time.deltaTime;

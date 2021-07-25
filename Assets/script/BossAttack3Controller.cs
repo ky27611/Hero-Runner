@@ -40,6 +40,10 @@ public class BossAttack3Controller : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+        if (this.gameDirector.GetComponent<GameDirector>().isBossDefeat)
+        {
+            Destroy(this.gameObject);
+        }
 
     }
 

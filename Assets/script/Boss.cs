@@ -26,12 +26,15 @@ public class Boss : MonoBehaviour
     private GameObject Score;
     private GameObject gameDirector;
     private GameObject Player;
+    private Animator myAnimator;
     public bool isAttack;
+    public bool isDeath;
     public float waittime;
 
     public GameObject BossAttack1Prefab;
     public GameObject BossAttack2Prefab;
     public GameObject BossAttack3Prefab;
+    public GameObject BossAttack4Prefab;
 
     public AudioSource myAudio;
     public AudioClip AppearSE;
@@ -68,10 +71,13 @@ public class Boss : MonoBehaviour
         this.BossLastHP = this.BossHP;
         this.BossAtk = Setting.Atk;
 
+        this.isDeath = false;
+
         this.Score = GameObject.Find("ScoreDirector");
         this.gameDirector = GameObject.Find("GameDirector");
         this.Player = GameObject.Find("Player");
         this.myAudio = GetComponent<AudioSource>();
+        this.myAnimator = GetComponent<Animator>();
 
         this.transform.position = new Vector3(0, this.transform.position.y, Player.transform.position.z + 12);
         this.myAudio.PlayOneShot(AppearSE);
@@ -113,18 +119,17 @@ public class Boss : MonoBehaviour
         
         if (this.BossHP <= 0)
         {
-            if (Setting.Type == BossSetting.BossType.BossDragon)
+            //this.gameDirector.GetComponent<GameDirector>().isStageClear = true;
+            AudioSource.PlayClipAtPoint(DefeatSE, transform.position);
+            
+
+            if (isDeath == false)
             {
-                this.Score.GetComponent<ScoreController>().defeatCount += 10;
-            }
-            else
-            {
-                this.Score.GetComponent<ScoreController>().defeatCount += 5;
+                this.myAnimator.SetTrigger("DeathTrigger");
+                this.gameDirector.GetComponent<GameDirector>().isBossDefeat = true;
             }
 
-            this.gameDirector.GetComponent<GameDirector>().isStageClear = true;
-            AudioSource.PlayClipAtPoint(DefeatSE, transform.position);
-            Destroy(this.gameObject);
+            Invoke("Defeat", 2);
         }
 
         if (this.gameDirector.GetComponent<GameDirector>().index == GameDirector.Index.PlayerSelect)
@@ -142,13 +147,33 @@ public class Boss : MonoBehaviour
             switch (Setting.Type)
             {
                 case BossSetting.BossType.BossSlime:
-                    GameObject BossAttack1 = Instantiate(BossAttack1Prefab);
-                    BossAttack1.transform.position = new Vector3(0, this.transform.position.y, Player.transform.position.z + 11);
+                    int num5 = Random.Range(1, 11);
+                    if (num5 <= 5)
+                    {
+                        GameObject BossAttack1 = Instantiate(BossAttack1Prefab);
+                        BossAttack1.transform.position = new Vector3(0, this.transform.position.y, Player.transform.position.z + 11);
+                    }
+                    else
+                    {
+                        GameObject BossAttack1 = Instantiate(BossAttack1Prefab);
+                        BossAttack1.transform.position = new Vector3(0, 1.8f, Player.transform.position.z + 11);
+                    }
+                    
                     break;
                 case BossSetting.BossType.BossTurtle:
-                    int offsetX = Random.Range(-1, 2);
+                    
+                    int num3 = Random.Range(1, 11);
                     GameObject BossAttack2 = Instantiate(BossAttack2Prefab);
-                    BossAttack2.transform.position = new Vector3(2 * offsetX, this.transform.position.y, Player.transform.position.z + 11);
+                    if (num3 <= 6)
+                    {
+                        BossAttack2.transform.position = new Vector3(Player.transform.position.x , this.transform.position.y, Player.transform.position.z + 11);
+                    }
+                    else
+                    {
+                        int offsetX = Random.Range(-1, 2);
+                        BossAttack2.transform.position = new Vector3(2 * offsetX, this.transform.position.y, Player.transform.position.z + 11);
+                    }
+                    
                     break;
                 case BossSetting.BossType.BossPurple:
                     int offsetX2 = Random.Range(-1, 2);
@@ -160,13 +185,30 @@ public class Boss : MonoBehaviour
                     switch (num2)
                     {
                         case 1:
-                            GameObject BossAttack4 = Instantiate(BossAttack1Prefab);
-                            BossAttack4.transform.position = new Vector3(0, this.transform.position.y, Player.transform.position.z + 11);
+                            int num6 = Random.Range(1, 11);
+                            if (num6 <= 5)
+                            {
+                                GameObject BossAttack4 = Instantiate(BossAttack1Prefab);
+                                BossAttack4.transform.position = new Vector3(0, this.transform.position.y, Player.transform.position.z + 11);
+                            }
+                            else
+                            {
+                                GameObject BossAttack4 = Instantiate(BossAttack1Prefab);
+                                BossAttack4.transform.position = new Vector3(0, 1.8f, Player.transform.position.z + 11);
+                            }
                             break;
                         case 2:
-                            int offsetX3 = Random.Range(-1, 2);
+                            int num4 = Random.Range(1, 11);
                             GameObject BossAttack5 = Instantiate(BossAttack2Prefab);
-                            BossAttack5.transform.position = new Vector3(2 * offsetX3, this.transform.position.y, Player.transform.position.z + 11);
+                            if (num4 <= 6)
+                            {
+                                BossAttack5.transform.position = new Vector3(Player.transform.position.x, this.transform.position.y, Player.transform.position.z + 11);
+                            }
+                            else
+                            {
+                                int offsetX = Random.Range(-1, 2);
+                                BossAttack5.transform.position = new Vector3(2 * offsetX, this.transform.position.y, Player.transform.position.z + 11);
+                            }
                             break;
                         case 3:
                             int offsetX4 = Random.Range(-1, 2);
@@ -181,6 +223,20 @@ public class Boss : MonoBehaviour
 
         this.isAttack = false;
 
+    }
+
+    private void Defeat()
+    {
+        if (Setting.Type == BossSetting.BossType.BossDragon)
+        {
+            this.Score.GetComponent<ScoreController>().defeatCount += 20;
+        }
+        else
+        {
+            this.Score.GetComponent<ScoreController>().defeatCount += 10;
+        }
+        this.gameDirector.GetComponent<GameDirector>().isStageClear = true;
+        Destroy(this.gameObject);
     }
 
 }
