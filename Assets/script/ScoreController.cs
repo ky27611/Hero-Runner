@@ -14,6 +14,7 @@ public class ScoreController : MonoBehaviour
     private int score = 0;
     public int defeatCount = 0;
     public bool isTimeScore;
+    //public static int highscore = 0;
     private GameObject gamedirector;
 
     // Start is called before the first frame update

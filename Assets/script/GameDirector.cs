@@ -61,6 +61,7 @@ public class GameDirector : MonoBehaviour
     public bool isFadeIn;
     public bool isFadeOut;
     public bool isBossDefeat;
+    public bool isHighScore;
     private float waittime = 0;
     private int waitcount = 0;
     private float countdowntime = 4;
@@ -69,6 +70,7 @@ public class GameDirector : MonoBehaviour
     private int generationCount = 1;
     //private static bool isHeroSelect;
 
+    public static int highscore = 0;
     public float HeroPoint;
     public float HeroPointMAX;
     public float HeroPointRatio;
@@ -146,6 +148,7 @@ public class GameDirector : MonoBehaviour
         this.isDeathatStage = false;
         this.isFadeIn = false;
         this.isFadeOut = false;
+        this.isHighScore = false;
 
         this.generationText.GetComponent<Text>().text = "勇者No：" + generationCount.ToString();
         //this.heroPointText.GetComponent<Text>().text = "HeroPoint:" + HeroPoint.ToString();
@@ -420,7 +423,7 @@ public class GameDirector : MonoBehaviour
 
                         if (this.PlayerNo == 0)
                         {
-                            this.underText.GetComponent<Text>().text = "騎士(スキル：スーパースラッシュ)";
+                            this.underText.GetComponent<Text>().text = "騎士(スキル：超スラッシュ)";
                         }
                         else if (this.PlayerNo == 1)
                         {
@@ -650,6 +653,7 @@ public class GameDirector : MonoBehaviour
                 BGM.GetComponent<AudioController>().AudioChange(11);
                 this.isDeathatStage = true;
                 this.isFadeOut = true;
+                this.isSeTiming = true;
                 break;
             case 2:
                 this.waittime += Time.deltaTime;
@@ -676,12 +680,51 @@ public class GameDirector : MonoBehaviour
                     }
                     else
                     {
+                        if (isSeTiming)
+                        {
+                            Seaudios.PlayOneShot(Seclips[0]);
+                            isSeTiming = false;
+                        }
                         this.centerText.GetComponent<Text>().text = "最終スコア：" + this.scoreDirector.GetComponent<ScoreController>().defeatCount.ToString();
                         this.centerBack.GetComponent<Image>().enabled = true;
                     }
                 }
 
-                if (this.waittime >= 10)
+                if (this.waittime >= 10 && this.waittime < 14)
+                {
+                    if (this.HeroPointRatio >= 1)
+                    {
+                        waittime = 14;
+                    }
+                    else
+                    {
+                        if (this.scoreDirector.GetComponent<ScoreController>().defeatCount > highscore)
+                        {
+                            if (highscore != 0)
+                            {
+                                Seaudios.PlayOneShot(Seclips[0]);
+                                this.centerText.GetComponent<Text>().text = "ハイスコア！！";
+                                this.centerBack.GetComponent<Image>().enabled = true;
+                                this.isHighScore = true;
+                            }
+
+                            highscore = this.scoreDirector.GetComponent<ScoreController>().defeatCount;
+
+                            if (isHighScore)
+                            {
+                                
+                            }
+                            else
+                            {
+                                this.waittime = 14;
+                            }
+                            
+                        }
+                        
+                    }
+                }
+
+                if (this.waittime >= 14)
                 {
                     FadeOut();
                     if (this.isFadeOut == false)

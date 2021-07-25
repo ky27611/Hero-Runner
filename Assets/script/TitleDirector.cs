@@ -18,6 +18,7 @@ public class TitleDirector : MonoBehaviour
     private GameObject Flower;
     private GameObject imageBack;
     private GameObject FadePanel;
+    private GameObject HighScoreText;
     private float waittime;
     private bool isGameStart;
     private bool isMethod;
@@ -29,6 +30,9 @@ public class TitleDirector : MonoBehaviour
     public int BGMNo;
     public int ModeNo;
     public float alfa;
+
+    //private GameDirector gameDirector;
+
 
     // Start is called before the first frame update
     void Start()
@@ -45,6 +49,7 @@ public class TitleDirector : MonoBehaviour
         this.Flower = GameObject.Find("Flower");
         this.imageBack = GameObject.Find("imageBack");
         this.FadePanel = GameObject.Find("FadePanel");
+        this.HighScoreText = GameObject.Find("HighScore");
         audios = GetComponent<AudioSource>();
         this.BGMNo = 0;
         this.waittime = 0;
@@ -70,6 +75,8 @@ public class TitleDirector : MonoBehaviour
         this.Crystal.gameObject.SetActive(false);
         this.Flower.gameObject.SetActive(false);
         this.imageBack.gameObject.SetActive(false);
+
+        this.HighScoreText.GetComponent<Text>().text = "ハイスコア：" + GameDirector.highscore.ToString();
 
     }
 

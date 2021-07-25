@@ -69,7 +69,9 @@ public class PlayerController : MonoBehaviour
 
     public bool isRunning;
     public bool isDebug;
+    //public bool isKill;
     private int Pcount;
+    private int Kcount;
     //public bool isDeath;
     //public bool isGround;
     //public bool isSESwitch;
@@ -251,6 +253,17 @@ public class PlayerController : MonoBehaviour
         if (this.isRunning == true)
         {
             Compo.myAnimator.SetFloat("Speed", 1);
+
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                Kcount++;
+
+                if (this.Kcount >= 3)
+                {
+                    Setting.PlayerHP = 0;
+                    Kcount = 0;
+                }
+            }
 
             if (Setting.isRocket)
             {
@@ -452,7 +465,7 @@ public class PlayerController : MonoBehaviour
                     Setting.isRocket = true;
                     Geometry.GetChild(Setting.PlayerNo).gameObject.GetComponent<Renderer>().enabled = false;
                     this.Sword.GetComponent<Renderer>().enabled = false;
-                    Setting.SkillTime = 5;
+                    Setting.SkillTime = 8;
                 }
                
                 Setting.SkillActivationTime = 0;
