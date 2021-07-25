@@ -11,6 +11,9 @@ public class StageController : MonoBehaviour
     public GameObject SlimePrefab;
     public GameObject TurtlePrefab;
     public GameObject PurplePrefab;
+    public GameObject Slime2Prefab;
+    public GameObject Turtle2Prefab;
+    public GameObject Purple2Prefab;
     public GameObject FlowerPrefab;
     public GameObject TreePrefab;
     public GameObject CrystalPrefab;
@@ -479,35 +482,35 @@ public class StageController : MonoBehaviour
         int offsetX = Random.Range(-1, 2);
 
 
-        if (num1 <= 2)
+        if (num1 <= 3)
         {
-            if (num2 <= 8)
+            if (num2 <= 9)
             {
                 GameObject Slime = Instantiate(SlimePrefab);
                 Slime.transform.position = new Vector3(PosRange * offsetX, Slime.transform.position.y, CreatePos + offsetZ);
             }
-            else if (9 <= num2 && num2 <= 9)
+            else if (10 <= num2 && num2 <= 10)
             {
                 GameObject Turtle = Instantiate(TurtlePrefab);
                 Turtle.transform.position = new Vector3(PosRange * offsetX, Turtle.transform.position.y, CreatePos + offsetZ);
             }
 
         }
-        else if (num1 >= 3 && num1 <= 4)
+        else if (num1 >= 4 && num1 <= 5)
         {
-            if (num2 <= 4)
+            if (num2 <= 5)
             {
                 GameObject Barricade = Instantiate(BarricadePrefab);
                 Barricade.transform.position = new Vector3(0, Barricade.transform.position.y, CreatePos + offsetZ);
             }
             //else if(num2 <= 7)
-            else if(num2 >= 5 && num2 <= 9) 
+            else if(num2 >= 6 && num2 <= 10) 
             {
                 GameObject Fence = Instantiate(FencePrefab);
                 Fence.transform.position = new Vector3(0, Fence.transform.position.y, CreatePos + offsetZ);
             }
         }
-        else if (num1 >=5  && num1 <= 7)
+        else if (num1 >=6  && num1 <= 8)
         {
             if (num2 <= 5)
             {
@@ -515,7 +518,7 @@ public class StageController : MonoBehaviour
                 GameObject Rock = Instantiate(RockPrefab);
                 Rock.transform.position = new Vector3(PosRange * offsetX, Rock.transform.position.y, CreatePos + offsetZ);
             }
-            else if (num2 >= 6 && num2 <= 9)
+            else if (num2 >= 6 && num2 <= 10)
             {
                 //を生成
                 GameObject Tree = Instantiate(TreePrefab);
@@ -546,34 +549,34 @@ public class StageController : MonoBehaviour
         int offsetZ = Random.Range(-5, 6);
         int offsetX = Random.Range(-1, 2);
 
-        if (num1 <= 1)
+        if (num1 <= 3)
         {
-            if (num2 <= 8)
+            if (num2 <= 9)
             {
-                GameObject Slime = Instantiate(SlimePrefab);
-                Slime.transform.position = new Vector3(PosRange * offsetX, Slime.transform.position.y, CreatePos + offsetZ);
+                GameObject Slime2 = Instantiate(Slime2Prefab);
+                Slime2.transform.position = new Vector3(PosRange * offsetX, Slime2.transform.position.y, CreatePos + offsetZ);
             }
-            else if (9 <= num2 && num2 <= 9)
+            else if (10 <= num2 && num2 <= 10)
             {
                 GameObject Turtle = Instantiate(TurtlePrefab);
                 Turtle.transform.position = new Vector3(PosRange * offsetX, Turtle.transform.position.y, CreatePos + offsetZ);
             }
         }
-        else if (num1 >= 2 && num1 <= 4)
+        else if (num1 >= 4 && num1 <= 5)
         {
-            if (num2 <= 4)
+            if (num2 <= 5)
             {
                 GameObject Barricade = Instantiate(BarricadePrefab);
                 Barricade.transform.position = new Vector3(0, Barricade.transform.position.y, CreatePos + offsetZ);
             }
             //else if(num2 <= 7)
-            else if (num2 >= 5 && num2 <= 9)
+            else if (num2 >= 6 && num2 <= 10)
             {
                 GameObject Fence = Instantiate(FencePrefab);
                 Fence.transform.position = new Vector3(0, Fence.transform.position.y, CreatePos + offsetZ);
             }
         }
-        else if (num1 >= 5 && num1 <= 7)
+        else if (num1 >= 6 && num1 <= 7)
         {
             if (num2 <= 5)
             {
@@ -581,7 +584,7 @@ public class StageController : MonoBehaviour
                 GameObject Rock = Instantiate(RockPrefab);
                 Rock.transform.position = new Vector3(PosRange * offsetX, Rock.transform.position.y, CreatePos + offsetZ);
             }
-            else if (num2 >= 6 && num2 <= 9)
+            else if (num2 >= 6 && num2 <= 10)
             {
                 //を生成
                 GameObject Tree = Instantiate(TreePrefab);
@@ -614,12 +617,17 @@ public class StageController : MonoBehaviour
 
         if (num1 <= 8)
         {
-            if (num2 <= 8)
+            if (num2 <= 4)
             {
                 GameObject Slime = Instantiate(SlimePrefab);
                 Slime.transform.position = new Vector3(PosRange * offsetX, Slime.transform.position.y, CreatePos + offsetZ);
             }
-            else if (9 <= num2 && num2 <= 9)
+            else if (5 <= num2 && num2 <= 8)
+            {
+                GameObject Slime2 = Instantiate(Slime2Prefab);
+                Slime2.transform.position = new Vector3(PosRange * offsetX, Slime2.transform.position.y, CreatePos + offsetZ);
+            }
+            else if (9 <= num2 && num2 <= 10)
             {
                 GameObject Turtle = Instantiate(TurtlePrefab);
                 Turtle.transform.position = new Vector3(PosRange * offsetX, Turtle.transform.position.y, CreatePos + offsetZ);
@@ -634,7 +642,7 @@ public class StageController : MonoBehaviour
         int offsetZ = Random.Range(-5, 6);
         int offsetX = Random.Range(-1, 2);
 
-        if (num1 <= 5)
+        if (num1 <= 6)
         {
             if (num2 <= 8)
             {
@@ -672,7 +680,7 @@ public class StageController : MonoBehaviour
                 GameObject Slime = Instantiate(SlimePrefab);
                 Slime.transform.position = new Vector3(PosRange * offsetX, Slime.transform.position.y, CreatePos + offsetZ);
             }
-            else if (9 <= num2 && num2 <= 9)
+            else if (9 <= num2 && num2 <= 10)
             {
                 GameObject Turtle = Instantiate(TurtlePrefab);
                 Turtle.transform.position = new Vector3(PosRange * offsetX, Turtle.transform.position.y, CreatePos + offsetZ);
@@ -697,14 +705,14 @@ public class StageController : MonoBehaviour
         int offsetZ = Random.Range(-5, 6);
         int offsetX = Random.Range(-1, 2);
 
-        if(num1 <= 2)
+        if(num1 <= 3)
         {
-            if (num2 <= 4)
+            if (num2 <= 3)
             {
                 GameObject Slime = Instantiate(SlimePrefab);
                 Slime.transform.position = new Vector3(PosRange * offsetX, Slime.transform.position.y, CreatePos + offsetZ);
             }
-            else if (5 <= num2 && num2 <= 8)
+            else if (4 <= num2 && num2 <= 8)
             {
                 GameObject Turtle = Instantiate(TurtlePrefab);
                 Turtle.transform.position = new Vector3(PosRange * offsetX, Turtle.transform.position.y, CreatePos + offsetZ);
@@ -715,21 +723,21 @@ public class StageController : MonoBehaviour
                 Purple.transform.position = new Vector3(PosRange * offsetX, Purple.transform.position.y, CreatePos + offsetZ);
             }
         }
-        else if (num1 >= 3 && num1 <= 4)
+        else if (num1 >= 4 && num1 <= 5)
         {
-            if (num2 <= 4)
+            if (num2 <= 5)
             {
                 GameObject Barricade = Instantiate(BarricadePrefab);
                 Barricade.transform.position = new Vector3(0, Barricade.transform.position.y, CreatePos + offsetZ);
             }
             //else if(num2 <= 7)
-            else if (num2 >= 5 && num2 <= 9)
+            else if (num2 >= 6 && num2 <= 10)
             {
                 GameObject Fence = Instantiate(FencePrefab);
                 Fence.transform.position = new Vector3(0, Fence.transform.position.y, CreatePos + offsetZ);
             }
         }
-        else if (num1 >= 5 && num1 <= 7)
+        else if (num1 >= 6 && num1 <= 8)
         {
             if (num2 <= 5)
             {
@@ -737,7 +745,7 @@ public class StageController : MonoBehaviour
                 GameObject Rock = Instantiate(RockPrefab);
                 Rock.transform.position = new Vector3(PosRange * offsetX, Rock.transform.position.y, CreatePos + offsetZ);
             }
-            else if (num2 >= 6 && num2 <= 9)
+            else if (num2 >= 6 && num2 <= 10)
             {
                 //を生成
                 GameObject Tree = Instantiate(TreePrefab);
@@ -769,7 +777,7 @@ public class StageController : MonoBehaviour
         int offsetZ = Random.Range(-5, 6);
         int offsetX = Random.Range(-1, 2);
 
-        if (num1 <= 1)
+        if (num1 <= 3)
         {
             if (num2 <= 4)
             {
@@ -778,10 +786,10 @@ public class StageController : MonoBehaviour
             }
             else if (5 <= num2 && num2 <= 8)
             {
-                GameObject Turtle = Instantiate(TurtlePrefab);
-                Turtle.transform.position = new Vector3(PosRange * offsetX, Turtle.transform.position.y, CreatePos + offsetZ);
+                GameObject Turtle2 = Instantiate(Turtle2Prefab);
+                Turtle2.transform.position = new Vector3(PosRange * offsetX, Turtle2.transform.position.y, CreatePos + offsetZ);
             }
-            else if (9 <= num2 && num2 <= 9)
+            else if (9 <= num2 && num2 <= 10)
             {
                 GameObject Purple = Instantiate(PurplePrefab);
                 Purple.transform.position = new Vector3(PosRange * offsetX, Purple.transform.position.y, CreatePos + offsetZ);
@@ -789,13 +797,13 @@ public class StageController : MonoBehaviour
         }
         else if (num1 >= 2 && num1 <= 4)
         {
-            if (num2 <= 4)
+            if (num2 <= 5)
             {
                 GameObject Barricade = Instantiate(BarricadePrefab);
                 Barricade.transform.position = new Vector3(0, Barricade.transform.position.y, CreatePos + offsetZ);
             }
             //else if(num2 <= 7)
-            else if (num2 >= 5 && num2 <= 9)
+            else if (num2 >= 6 && num2 <= 10)
             {
                 GameObject Fence = Instantiate(FencePrefab);
                 Fence.transform.position = new Vector3(0, Fence.transform.position.y, CreatePos + offsetZ);
@@ -809,7 +817,7 @@ public class StageController : MonoBehaviour
                 GameObject Rock = Instantiate(RockPrefab);
                 Rock.transform.position = new Vector3(PosRange * offsetX, Rock.transform.position.y, CreatePos + offsetZ);
             }
-            else if (num2 >= 6 && num2 <= 9)
+            else if (num2 >= 6 && num2 <= 10)
             {
                 //を生成
                 GameObject Tree = Instantiate(TreePrefab);
@@ -853,7 +861,7 @@ public class StageController : MonoBehaviour
                 GameObject Turtle = Instantiate(TurtlePrefab);
                 Turtle.transform.position = new Vector3(PosRange * offsetX, Turtle.transform.position.y, CreatePos + offsetZ);
             }
-            else if (9 <= num2 && num2 <= 9)
+            else if (9 <= num2 && num2 <= 10)
             {
                 GameObject Purple = Instantiate(PurplePrefab);
                 Purple.transform.position = new Vector3(PosRange * offsetX, Purple.transform.position.y, CreatePos + offsetZ);
@@ -870,11 +878,12 @@ public class StageController : MonoBehaviour
 
         if (num1 <= 5)
         {
-            if (num2 <= 4)
+            if (num2 <= 8)
             {
-                GameObject Slime = Instantiate(SlimePrefab);
-                Slime.transform.position = new Vector3(PosRange * offsetX, Slime.transform.position.y, CreatePos + offsetZ);
+                GameObject Turtle2 = Instantiate(Turtle2Prefab);
+                Turtle2.transform.position = new Vector3(PosRange * offsetX, Turtle2.transform.position.y, CreatePos + offsetZ);
             }
+            /*
             else if (5 <= num2 && num2 <= 8)
             {
                 GameObject Turtle = Instantiate(TurtlePrefab);
@@ -885,10 +894,11 @@ public class StageController : MonoBehaviour
                 GameObject Purple = Instantiate(PurplePrefab);
                 Purple.transform.position = new Vector3(PosRange * offsetX, Purple.transform.position.y, CreatePos + offsetZ);
             }
+            */
         }
         else
         {
-            if (num2 <= 2)
+            if (num2 <= 3)
             {
                 //を生成
                 GameObject Crystal = Instantiate(CrystalPrefab);
@@ -917,7 +927,7 @@ public class StageController : MonoBehaviour
                 GameObject Turtle = Instantiate(TurtlePrefab);
                 Turtle.transform.position = new Vector3(PosRange * offsetX, Turtle.transform.position.y, CreatePos + offsetZ);
             }
-            else if (9 <= num2 && num2 <= 9)
+            else if (9 <= num2 && num2 <= 10)
             {
                 GameObject Purple = Instantiate(PurplePrefab);
                 Purple.transform.position = new Vector3(PosRange * offsetX, Purple.transform.position.y, CreatePos + offsetZ);
@@ -925,7 +935,7 @@ public class StageController : MonoBehaviour
         }
         else
         {
-            if (num2 <= 3)
+            if (num2 <= 5)
             {
                 //を生成
                 GameObject Flower = Instantiate(FlowerPrefab);
@@ -942,39 +952,39 @@ public class StageController : MonoBehaviour
         int offsetZ = Random.Range(-5, 6);
         int offsetX = Random.Range(-1, 2);
 
-        if (num1 <= 2)
+        if (num1 <= 3)
         {
-            if (num2 <= 3)
+            if (num2 <= 1)
             {
                 GameObject Slime = Instantiate(SlimePrefab);
                 Slime.transform.position = new Vector3(PosRange * offsetX, Slime.transform.position.y, CreatePos + offsetZ);
             }
-            else if (4 <= num2 && num2 <= 6)
+            else if (2 <= num2 && num2 <= 6)
             {
                 GameObject Turtle = Instantiate(TurtlePrefab);
                 Turtle.transform.position = new Vector3(PosRange * offsetX, Turtle.transform.position.y, CreatePos + offsetZ);
             }
-            else if (7 <= num2 && num2 <= 9)
+            else if (7 <= num2 && num2 <= 10)
             {
                 GameObject Purple = Instantiate(PurplePrefab);
                 Purple.transform.position = new Vector3(PosRange * offsetX, Purple.transform.position.y, CreatePos + offsetZ);
             }
         }
-        else if (num1 >= 3 && num1 <= 4)
+        else if (num1 >= 4 && num1 <= 5)
         {
-            if (num2 <= 4)
+            if (num2 <= 5)
             {
                 GameObject Barricade = Instantiate(BarricadePrefab);
                 Barricade.transform.position = new Vector3(0, Barricade.transform.position.y, CreatePos + offsetZ);
             }
             //else if(num2 <= 7)
-            else if (num2 >= 5 && num2 <= 9)
+            else if (num2 >= 6 && num2 <= 10)
             {
                 GameObject Fence = Instantiate(FencePrefab);
                 Fence.transform.position = new Vector3(0, Fence.transform.position.y, CreatePos + offsetZ);
             }
         }
-        else if (num1 >= 5 && num1 <= 7)
+        else if (num1 >= 6 && num1 <= 8)
         {
             if (num2 <= 5)
             {
@@ -982,7 +992,7 @@ public class StageController : MonoBehaviour
                 GameObject Rock = Instantiate(RockPrefab);
                 Rock.transform.position = new Vector3(PosRange * offsetX, Rock.transform.position.y, CreatePos + offsetZ);
             }
-            else if (num2 >= 6 && num2 <= 9)
+            else if (num2 >= 6 && num2 <= 10)
             {
                 //を生成
                 GameObject Tree = Instantiate(TreePrefab);
@@ -1015,39 +1025,49 @@ public class StageController : MonoBehaviour
         int offsetZ = Random.Range(-5, 6);
         int offsetX = Random.Range(-1, 2);
 
-        if (num1 <= 1)
+        if (num1 <= 3)
         {
-            if (num2 <= 3)
+            if (num2 <= 1)
             {
                 GameObject Slime = Instantiate(SlimePrefab);
                 Slime.transform.position = new Vector3(PosRange * offsetX, Slime.transform.position.y, CreatePos + offsetZ);
             }
-            else if (4 <= num2 && num2 <= 6)
+            else if (2 <= num2 && num2 <= 4)
             {
-                GameObject Turtle = Instantiate(TurtlePrefab);
-                Turtle.transform.position = new Vector3(PosRange * offsetX, Turtle.transform.position.y, CreatePos + offsetZ);
+                GameObject Turtle2 = Instantiate(Turtle2Prefab);
+                Turtle2.transform.position = new Vector3(PosRange * offsetX, Turtle2.transform.position.y, CreatePos + offsetZ);
+            }
+            else if (6 <= num2 && num2 <= 7)
+            {
+                GameObject Turtle2 = Instantiate(Turtle2Prefab);
+                Turtle2.transform.position = new Vector3(PosRange * offsetX, Turtle2.transform.position.y, CreatePos + offsetZ);
             }
             else if (7 <= num2 && num2 <= 9)
             {
                 GameObject Purple = Instantiate(PurplePrefab);
                 Purple.transform.position = new Vector3(PosRange * offsetX, Purple.transform.position.y, CreatePos + offsetZ);
             }
+            else if (10 <= num2 && num2 <= 10)
+            {
+                GameObject Purple2 = Instantiate(Purple2Prefab);
+                Purple2.transform.position = new Vector3(PosRange * offsetX, Purple2.transform.position.y, CreatePos + offsetZ);
+            }
         }
-        else if (num1 >= 2 && num1 <= 4)
+        else if (num1 >= 4 && num1 <= 5)
         {
-            if (num2 <= 4)
+            if (num2 <= 5)
             {
                 GameObject Barricade = Instantiate(BarricadePrefab);
                 Barricade.transform.position = new Vector3(0, Barricade.transform.position.y, CreatePos + offsetZ);
             }
             //else if(num2 <= 7)
-            else if (num2 >= 5 && num2 <= 9)
+            else if (num2 >= 6 && num2 <= 10)
             {
                 GameObject Fence = Instantiate(FencePrefab);
                 Fence.transform.position = new Vector3(0, Fence.transform.position.y, CreatePos + offsetZ);
             }
         }
-        else if (num1 >= 5 && num1 <= 7)
+        else if (num1 >= 6 && num1 <= 8)
         {
             if (num2 <= 5)
             {
@@ -1055,7 +1075,7 @@ public class StageController : MonoBehaviour
                 GameObject Rock = Instantiate(RockPrefab);
                 Rock.transform.position = new Vector3(PosRange * offsetX, Rock.transform.position.y, CreatePos + offsetZ);
             }
-            else if (num2 >= 6 && num2 <= 9)
+            else if (num2 >= 6 && num2 <= 10)
             {
                 //を生成
                 GameObject Tree = Instantiate(TreePrefab);
@@ -1089,20 +1109,35 @@ public class StageController : MonoBehaviour
 
         if (num1 <= 8)
         {
-            if (num2 <= 3)
+            if (num2 <= 1)
             {
                 GameObject Slime = Instantiate(SlimePrefab);
                 Slime.transform.position = new Vector3(PosRange * offsetX, Slime.transform.position.y, CreatePos + offsetZ);
             }
-            else if (4 <= num2 && num2 <= 6)
+            else if (2 <= num2 && num2 <= 2)
+            {
+                GameObject Slime2 = Instantiate(Slime2Prefab);
+                Slime2.transform.position = new Vector3(PosRange * offsetX, Slime2.transform.position.y, CreatePos + offsetZ);
+            }
+            else if (3 <= num2 && num2 <= 4)
             {
                 GameObject Turtle = Instantiate(TurtlePrefab);
                 Turtle.transform.position = new Vector3(PosRange * offsetX, Turtle.transform.position.y, CreatePos + offsetZ);
             }
-            else if (7 <= num2 && num2 <= 9)
+            else if (5 <= num2 && num2 <= 6)
+            {
+                GameObject Turtle2 = Instantiate(Turtle2Prefab);
+                Turtle2.transform.position = new Vector3(PosRange * offsetX, Turtle2.transform.position.y, CreatePos + offsetZ);
+            }
+            else if (8 <= num2 && num2 <= 9)
             {
                 GameObject Purple = Instantiate(PurplePrefab);
                 Purple.transform.position = new Vector3(PosRange * offsetX, Purple.transform.position.y, CreatePos + offsetZ);
+            }
+            else if (9 <= num2 && num2 <= 10)
+            {
+                GameObject Purple2 = Instantiate(PurplePrefab);
+                Purple2.transform.position = new Vector3(PosRange * offsetX, Purple2.transform.position.y, CreatePos + offsetZ);
             }
         }
 
@@ -1116,21 +1151,44 @@ public class StageController : MonoBehaviour
 
         if (num1 <= 5)
         {
-            if (num2 <= 3)
-            {
-                GameObject Slime = Instantiate(SlimePrefab);
-                Slime.transform.position = new Vector3(PosRange * offsetX, Slime.transform.position.y, CreatePos + offsetZ);
-            }
-            else if (4 <= num2 && num2 <= 6)
-            {
-                GameObject Turtle = Instantiate(TurtlePrefab);
-                Turtle.transform.position = new Vector3(PosRange * offsetX, Turtle.transform.position.y, CreatePos + offsetZ);
-            }
-            else if (7 <= num2 && num2 <= 9)
+
+            if (num2 <= 8)
             {
                 GameObject Purple = Instantiate(PurplePrefab);
                 Purple.transform.position = new Vector3(PosRange * offsetX, Purple.transform.position.y, CreatePos + offsetZ);
             }
+            /*
+            if (num2 <= 1)
+            {
+                GameObject Slime = Instantiate(SlimePrefab);
+                Slime.transform.position = new Vector3(PosRange * offsetX, Slime.transform.position.y, CreatePos + offsetZ);
+            }
+            else if (2 <= num2 && num2 <= 2)
+            {
+                GameObject Slime2 = Instantiate(Slime2Prefab);
+                Slime2.transform.position = new Vector3(PosRange * offsetX, Slime2.transform.position.y, CreatePos + offsetZ);
+            }
+            else if (3 <= num2 && num2 <= 4)
+            {
+                GameObject Turtle = Instantiate(TurtlePrefab);
+                Turtle.transform.position = new Vector3(PosRange * offsetX, Turtle.transform.position.y, CreatePos + offsetZ);
+            }
+            else if (5 <= num2 && num2 <= 6)
+            {
+                GameObject Turtle2 = Instantiate(Turtle2Prefab);
+                Turtle2.transform.position = new Vector3(PosRange * offsetX, Turtle2.transform.position.y, CreatePos + offsetZ);
+            }
+            else if (8 <= num2 && num2 <= 9)
+            {
+                GameObject Purple = Instantiate(PurplePrefab);
+                Purple.transform.position = new Vector3(PosRange * offsetX, Purple.transform.position.y, CreatePos + offsetZ);
+            }
+            else if (9 <= num2 && num2 <= 10)
+            {
+                GameObject Purple2 = Instantiate(PurplePrefab);
+                Purple2.transform.position = new Vector3(PosRange * offsetX, Purple2.transform.position.y, CreatePos + offsetZ);
+            }
+            */
         }
         else
         {
@@ -1153,17 +1211,17 @@ public class StageController : MonoBehaviour
 
         if (num1 <= 5)
         {
-            if (num2 <= 3)
+            if (num2 <= 1)
             {
                 GameObject Slime = Instantiate(SlimePrefab);
                 Slime.transform.position = new Vector3(PosRange * offsetX, Slime.transform.position.y, CreatePos + offsetZ);
             }
-            else if (4 <= num2 && num2 <= 6)
+            else if (2 <= num2 && num2 <= 6)
             {
                 GameObject Turtle = Instantiate(TurtlePrefab);
                 Turtle.transform.position = new Vector3(PosRange * offsetX, Turtle.transform.position.y, CreatePos + offsetZ);
             }
-            else if (7 <= num2 && num2 <= 9)
+            else if (7 <= num2 && num2 <= 10)
             {
                 GameObject Purple = Instantiate(PurplePrefab);
                 Purple.transform.position = new Vector3(PosRange * offsetX, Purple.transform.position.y, CreatePos + offsetZ);

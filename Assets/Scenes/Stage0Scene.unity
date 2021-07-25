@@ -1206,6 +1206,12 @@ MonoBehaviour:
     type: 3}
   PurplePrefab: {fileID: 419040331665436325, guid: 33e42a849842cb6458a445fb914f06ad,
     type: 3}
+  Slime2Prefab: {fileID: 1896391317434958680, guid: bb9ac681b78fe1c4b841b8e67ee8d17e,
+    type: 3}
+  Turtle2Prefab: {fileID: 712439904793778124, guid: 87810a6deab6e6e40ba80676e8f49524,
+    type: 3}
+  Purple2Prefab: {fileID: 419040331665436325, guid: 66938ca5a3af8bb40a4045a422940766,
+    type: 3}
   FlowerPrefab: {fileID: 3436861258487902557, guid: a8913cb3aef176740a37e97be0371180,
     type: 3}
   TreePrefab: {fileID: 5768162699808969385, guid: 28fcf5854701342479ba904d39caa2a6,

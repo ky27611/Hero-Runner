@@ -9,14 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 668054bd96ba2444f8fce10d5482b1e4, type: 3}
-  m_Name: BossTurtle
+  m_Script: {fileID: 11500000, guid: e2597549145559e4984512197dd0ccd4, type: 3}
+  m_Name: Purple2
   m_EditorClassIdentifier: 
-  Type: 1
-  Name: 
-  Hp: 15
+  Type: 5
+  Name: Purple2
+  Hp: 1
   Atk: 1
-  Spd: 1
-  Exp: 2000
-  Cooltime: 1
-  RandomNum: 75
+  Spd: 5
+  Exp: 200

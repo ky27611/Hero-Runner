@@ -333,7 +333,7 @@ public class PlayerController : MonoBehaviour
 
                 //スライディング
                 if ((Input.GetKeyDown(KeyCode.DownArrow)|| Input.GetKeyDown(KeyCode.S)) &&
-                    (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) && Setting.PlayerHP > 0)
+                    (Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Running") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle") || Compo.myAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) && Setting.PlayerHP > 0)
                 {
                     ChangeState(StateType.Sliding);
                     Compo.myAudio.PlayOneShot(SlidingSE);

@@ -67,9 +67,7 @@ public class Boss : MonoBehaviour
                 break;
         }
 
-        this.BossHP = Setting.Hp;
-        this.BossLastHP = this.BossHP;
-        this.BossAtk = Setting.Atk;
+        
 
         this.isDeath = false;
 
@@ -78,6 +76,10 @@ public class Boss : MonoBehaviour
         this.Player = GameObject.Find("Player");
         this.myAudio = GetComponent<AudioSource>();
         this.myAnimator = GetComponent<Animator>();
+
+        this.BossHP = Setting.Hp + (((this.gameDirector.GetComponent<GameDirector>().StageNo - 1) / 10) * 5);
+        this.BossLastHP = this.BossHP;
+        this.BossAtk = Setting.Atk;
 
         this.transform.position = new Vector3(0, this.transform.position.y, Player.transform.position.z + 12);
         this.myAudio.PlayOneShot(AppearSE);

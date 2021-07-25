@@ -41,15 +41,25 @@ public class Enemy : MonoBehaviour
             case EnemySetting.EnemyType.Slime:
                 ChangeMove(MoveType.Horizontal);
                 break;
-            
-            case EnemySetting.EnemyType.Turtle:
+            case EnemySetting.EnemyType.Slime2:
                 ChangeMove(MoveType.Depth);
                 break;
-            
-            case EnemySetting.EnemyType.Purple:
-                ChangeMove(MoveType.Vertical);
+
+            case EnemySetting.EnemyType.Turtle:
+                ChangeMove(MoveType.Idle);
                 break;
 
+            case EnemySetting.EnemyType.Turtle2:
+                ChangeMove(MoveType.Horizontal);
+                break;
+
+            case EnemySetting.EnemyType.Purple:
+                ChangeMove(MoveType.Idle);
+                break;
+
+            case EnemySetting.EnemyType.Purple2:
+                ChangeMove(MoveType.Depth);
+                break;
         }
 
         this.EnemyHP = Setting.Hp;

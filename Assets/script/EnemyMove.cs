@@ -194,49 +194,45 @@ public class VerticalMove : EnemyMove
 
 public class DepthMove : EnemyMove
 {
+    private float Direction;
+    private float Destination;
+    private float Move;
+
     public override void Initialize()
     {
-        
+        IdleTime = 0;
+        isMove = true;
+        this.Direction = Random.Range(0, 2);
+        this.Move = ((1 - this.Direction * 2)) * 0.1f;
     }
 
     public override void OnUpdate()
     {
-        /*
-        if (isMove == false)
+
+
+        this.IdleTime += Time.deltaTime;
+
+        if (isMove == true)
         {
-            this.IdleTime += Time.deltaTime;
-            if (IdleTime >= 5)
+
+            myTramsform.transform.position = new Vector3(myTramsform.position.x, myTramsform.position.y, myTramsform.position.z + this.Move);
+
+            if (IdleTime >= 1)
+            {
+                isMove = false;
+                IdleTime = 0;
+                this.Move *= -1;
+            }
+
+        }
+        else
+        {
+            if (IdleTime >= 1)
             {
                 isMove = true;
                 IdleTime = 0;
             }
         }
-        else if (isMove == true)
-        {
-            if (isMoveZ == true)
-            {
-                velocityZ = 1 * m_Setting.Spd;
-                isMove = false;
-            }
-            else if (isMoveZ == false)
-            {
-                velocityZ = -1 * m_Setting.Spd;
-                isMove = false;
-            }
-
-            if (isMoveZ == true)
-            {
-                isMoveZ = false;
-            }
-            else if (isMoveZ == false)
-            {
-                isMoveZ = true;
-            }
-
-            myRigidbody.velocity = new Vector3(0, 0, velocityZ);
-            velocityZ = 0;
-        }
-        */
     }
 
     public override void Release()

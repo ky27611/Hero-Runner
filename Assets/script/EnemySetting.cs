@@ -9,8 +9,11 @@ public class EnemySetting : ScriptableObject
     public enum EnemyType
     {
         Slime,
+        Slime2,
         Turtle,
-        Purple
+        Turtle2,
+        Purple,
+        Purple2,
     }
 
     public EnemyType Type;
