@@ -6,6 +6,7 @@ public class BossAttack3Controller : MonoBehaviour
 {
     private GameObject Player;
     private Transform myTransform;
+    private GameObject gameDirector;
     private float Direction;
     private float Move;
 
@@ -13,6 +14,7 @@ public class BossAttack3Controller : MonoBehaviour
     void Start()
     {
         this.Player = GameObject.Find("Player");
+        this.gameDirector = GameObject.Find("GameDirector");
         this.myTransform = this.transform;
         this.transform.position = new Vector3(this.transform.position.x, 1, Player.transform.position.z + 11);
         this.Direction = Random.Range(0,2);
@@ -33,6 +35,12 @@ public class BossAttack3Controller : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        if (this.gameDirector.GetComponent<GameDirector>().index == GameDirector.Index.GameOver)
+        {
+            Destroy(this.gameObject);
+        }
+
     }
 
     /*

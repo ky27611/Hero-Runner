@@ -17,14 +17,18 @@ public class TitleDirector : MonoBehaviour
     private GameObject Crystal;
     private GameObject Flower;
     private GameObject imageBack;
+    private GameObject FadePanel;
     private float waittime;
     private bool isGameStart;
     private bool isMethod;
     private bool isSe;
+    public bool isFadeIn;
+    public bool isFadeOut;
     public AudioClip[] clips;
     AudioSource audios;
     public int BGMNo;
     public int ModeNo;
+    public float alfa;
 
     // Start is called before the first frame update
     void Start()
@@ -40,10 +44,11 @@ public class TitleDirector : MonoBehaviour
         this.Crystal = GameObject.Find("Crystal");
         this.Flower = GameObject.Find("Flower");
         this.imageBack = GameObject.Find("imageBack");
+        this.FadePanel = GameObject.Find("FadePanel");
         audios = GetComponent<AudioSource>();
         this.BGMNo = 0;
         this.waittime = 0;
-        this.ModeNo = 1;
+        this.ModeNo = 0;
         this.isGameStart = false;
         this.isMethod = false;
         this.isSe = true;
@@ -51,6 +56,9 @@ public class TitleDirector : MonoBehaviour
         audios.loop = true;
         audios.clip = clips[1];
         audios.Play();
+        this.alfa = 1f;
+        this.isFadeIn = true;
+        this.isFadeOut = false;
 
         this.Story1.gameObject.SetActive(false);
         this.Story2.gameObject.SetActive(false);
@@ -71,6 +79,14 @@ public class TitleDirector : MonoBehaviour
 
         switch (ModeNo)
         {
+            case 0:
+                FadeIn();
+                if (isFadeIn == false)
+                {
+                    ModeNo = 1;
+                    isFadeOut = true;
+                }
+                break;
             case 1:
                 this.waittime += Time.deltaTime;
                 this.OperationText.GetComponent<Text>().text = "";
@@ -138,13 +154,18 @@ public class TitleDirector : MonoBehaviour
                     {
                         this.isSe = false;
                         audios.PlayOneShot(clips[2]);
+                        this.FadePanel.GetComponent<Image>().enabled = true;
                     }
                 }
                 else if (this.waittime >= 7)
                 {
-                    SceneManager.LoadScene("Stage0Scene");
-                    this.waittime = 0;
-                    this.isSe = false;
+                    FadeOut();
+                    if (isFadeOut == false)
+                    {
+                        SceneManager.LoadScene("Stage0Scene");
+                        this.waittime = 0;
+                        this.isSe = false;
+                    }
                 }
                 break;
             case 11:
@@ -354,5 +375,37 @@ public class TitleDirector : MonoBehaviour
     {
         this.isMethod = true;
         audios.PlayOneShot(clips[2]);
+    }
+
+    public void FadeIn()
+    {
+        if (isFadeIn)
+        {
+            this.FadePanel.GetComponent<Image>().color = new Color(0f, 0f, 0f, alfa);
+            alfa -= 0.02f;
+
+            if (alfa <= 0)
+            {
+                alfa = 0;
+                isFadeIn = false;
+                this.FadePanel.GetComponent<Image>().enabled = false;
+            }
+
+        }
+    }
+
+    public void FadeOut()
+    {
+        if (isFadeOut)
+        {
+            this.FadePanel.GetComponent<Image>().color = new Color(0f, 0f, 0f, alfa);
+            alfa += 0.02f;
+
+            if (alfa >= 1)
+            {
+                alfa = 1;
+                isFadeOut = false;
+            }
+        }
     }
 }

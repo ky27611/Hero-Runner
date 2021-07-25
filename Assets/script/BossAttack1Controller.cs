@@ -21,7 +21,7 @@ public class BossAttack1Controller : MonoBehaviour
     void Update()
     {
         Vector3 localPos = myTransform.localPosition;
-        localPos.z += 0.2f;
+        localPos.z += 0.3f;
         myTransform.localPosition = localPos;
 
         if (this.gameDirector.GetComponent<GameDirector>().index == GameDirector.Index.GameOver)

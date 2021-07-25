@@ -44,6 +44,7 @@ public class GameDirector : MonoBehaviour
     private GameObject Sword;
     private GameObject SwordDummy;
     private GameObject scoreDirector;
+    private GameObject FadePanel;
     private Transform Geometry;
     private Transform GeometryDummy;
     private GameObject bossSlime;
@@ -57,6 +58,8 @@ public class GameDirector : MonoBehaviour
     public bool isPlayerOrigin;
     public bool isDebug;
     public bool isDeathatStage;
+    public bool isFadeIn;
+    public bool isFadeOut;
     private float waittime = 0;
     private int waitcount = 0;
     private float countdowntime = 4;
@@ -75,6 +78,7 @@ public class GameDirector : MonoBehaviour
     //public int ProcessNo;
 
     public float RestartPos;
+    public float alfa;
 
     public bool isChangeIndex;
 
@@ -113,6 +117,7 @@ public class GameDirector : MonoBehaviour
         this.BGM = GameObject.Find("BGM");
         this.Stage = GameObject.Find("StageDirector");
         this.scoreDirector = GameObject.Find("ScoreDirector");
+        this.FadePanel = GameObject.Find("FadePanel");
         this.BGM.GetComponent<AudioController>();
 
         Seaudios = GetComponent<AudioSource>();
@@ -131,11 +136,15 @@ public class GameDirector : MonoBehaviour
 
         this.RestartPos = 0;
 
+        this.alfa = 1f;
+
         this.isPlayerOrigin = false;
         this.isHeroDecision = false;
         this.isSeTiming = false;
         this.isDebug = false;
         this.isDeathatStage = false;
+        this.isFadeIn = false;
+        this.isFadeOut = false;
 
         this.generationText.GetComponent<Text>().text = "勇者No：" + generationCount.ToString();
         //this.heroPointText.GetComponent<Text>().text = "HeroPoint:" + HeroPoint.ToString();
@@ -217,6 +226,7 @@ public class GameDirector : MonoBehaviour
     {
         switch (selectindex)
         {
+      
             case Index.PlayerSelect:     //キャラクター選択
                 PlayerSelect(ProcessNo);
                 break;
@@ -254,6 +264,40 @@ public class GameDirector : MonoBehaviour
         }
     }
 
+    public void FadeIn()
+    {
+        if (isFadeIn)
+        {
+            this.FadePanel.GetComponent<Image>().color = new Color(0f, 0f, 0f, alfa);
+            alfa -= 0.02f;
+
+            if (alfa <= 0)
+            {
+                alfa = 0;
+                isFadeIn = false;
+            }
+
+        }
+        
+        
+    }
+
+    public void FadeOut()
+    {
+        if (isFadeOut)
+        {
+            this.FadePanel.GetComponent<Image>().color = new Color(0f, 0f, 0f, alfa);
+            alfa += 0.02f;
+
+            if (alfa >= 1)
+            {
+                alfa = 1;
+                isFadeOut = false;
+            }
+
+        }
+    }
+
     public void PlayerSelect(int ProcessNo)
     {
         switch (ProcessNo)
@@ -265,10 +309,11 @@ public class GameDirector : MonoBehaviour
                 this.Sword.GetComponent<Renderer>().enabled = false;
                 this.SwordDummy.GetComponent<Renderer>().enabled = false;
                 Player.transform.position = new Vector3(0, 0.1f, RestartPos);
-                this.centerText.GetComponent<Text>().text = "Hero Select";
-                Seaudios.PlayOneShot(Seclips[0]);
+                
+                
                 this.isSeTiming = true;
-                ModeNo = 1;
+                ModeNo = 0;
+                this.isFadeIn = true;
                 break;
             case 2:
 
@@ -276,14 +321,30 @@ public class GameDirector : MonoBehaviour
 
                 switch (ModeNo)
                 {
+                    case 0:
+                        FadeIn();
+                        if (isFadeIn == false)
+                        {
+                            ModeNo++;
+                            waittime = 0;
+                        }
+                        break;
                     case 1:
                         this.centerText.GetComponent<Text>().text = "次の勇者は…";
                         this.centerBack.GetComponent<Image>().enabled = true;
+
+                        if (this.isSeTiming)
+                        {
+                            Seaudios.PlayOneShot(Seclips[0]);
+                            isSeTiming = false;
+                        }
+                       
 
                         if (this.waittime >= 2)
                         {
                             this.waittime = 0;
                             ModeNo++;
+                            isSeTiming = true;
                         }
 
                         break;
@@ -422,6 +483,7 @@ public class GameDirector : MonoBehaviour
                 this.Player.GetComponent<PlayerController>().Setting.velocityX = 12;
                 this.Player.GetComponent<PlayerController>().Setting.velocityY = 4;
                 this.Player.GetComponent<PlayerController>().Setting.PlayerHP = 3;
+                this.Player.GetComponent<PlayerController>().Setting.nowpositionX = 0;
                 this.centerText.GetComponent<Text>().text = "ステージ" + StageNo.ToString();
                 this.centerBack.GetComponent<Image>().enabled = true;
                 break;
@@ -527,7 +589,7 @@ public class GameDirector : MonoBehaviour
                             
                             if (isDeathatStage == false)
                             {
-                                this.centerText.GetComponent<Text>().text = "倒れなかった！\nスコアボーナス！";
+                                this.centerText.GetComponent<Text>().text = "駆け抜けボーナス！";
 
                                 if (this.isSeTiming)
                                 {
@@ -588,6 +650,7 @@ public class GameDirector : MonoBehaviour
                 this.Stage.GetComponent<StageController>().isCreate = false;
                 BGM.GetComponent<AudioController>().AudioChange(11);
                 this.isDeathatStage = true;
+                this.isFadeOut = true;
                 break;
             case 2:
                 this.waittime += Time.deltaTime;
@@ -596,7 +659,7 @@ public class GameDirector : MonoBehaviour
                 {
                     if (this.HeroPointRatio >= 1)
                     {
-                        this.centerText.GetComponent<Text>().text = "次の勇者へ...";
+                        this.centerText.GetComponent<Text>().text = "バトンタッチ！";
                         this.centerBack.GetComponent<Image>().enabled = true;
                     }
                     else
@@ -618,28 +681,31 @@ public class GameDirector : MonoBehaviour
                         this.centerBack.GetComponent<Image>().enabled = true;
                     }
                 }
-                
 
                 if (this.waittime >= 10)
                 {
-                    this.waittime = 0;
-                    generationCount++;
-                    this.generationText.GetComponent<Text>().text = "勇者No：" + generationCount.ToString();
-                    this.centerText.GetComponent<Text>().text = "";
-                    this.centerBack.GetComponent<Image>().enabled = false;
-
-                    if (this.HeroPointRatio >= 1)
+                    FadeOut();
+                    if (this.isFadeOut == false)
                     {
-                        this.preindex = this.index;
-                        this.index = Index.PlayerSelect;
-                        this.isChangeIndex = true;
-                    }
-                    else
-                    {
-                        SceneManager.LoadScene("TitleScene");
-                    }
+                        this.waittime = 0;
+                        generationCount++;
+                        this.generationText.GetComponent<Text>().text = "勇者No：" + generationCount.ToString();
+                        this.centerText.GetComponent<Text>().text = "";
+                        this.centerBack.GetComponent<Image>().enabled = false;
 
+                        if (this.HeroPointRatio >= 1)
+                        {
+                            this.preindex = this.index;
+                            this.index = Index.PlayerSelect;
+                            this.isChangeIndex = true;
+                        }
+                        else
+                        {
+                            SceneManager.LoadScene("TitleScene");
+                        }
+                    }
                 }
+
                 break;
             case 3:
                 this.HeroPoint = 0;
